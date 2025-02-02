@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Users, Target, Zap, Gift, CheckCircle2, Moon, Sun } from "lucide-react";
+import { ArrowRight, Star, Users, Target, Zap, Gift, CheckCircle2, Moon, Sun, Sparkles } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
 export default function Index() {
@@ -46,7 +46,7 @@ export default function Index() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
               Boost Your Business Growth with{" "}
               <span className="text-brand-yellow inline-flex items-center">
-                5⭐
+                5⭐ <Sparkles className="w-8 h-8 ml-2 text-brand-yellow animate-pulse" />
               </span>{" "}
               <span className="text-primary">
                 Google Reviews
@@ -166,7 +166,7 @@ export default function Index() {
             ].map((user, index) => (
               <div 
                 key={index} 
-                className="rounded-xl bg-white dark:bg-gray-700 p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-primary/5 hover:to-brand-yellow/5"
+                className="rounded-xl bg-white dark:bg-gray-700 p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <p className="font-medium text-gray-900 dark:text-white">{user}</p>
               </div>
@@ -193,7 +193,7 @@ export default function Index() {
       {/* Call to Action */}
       <section className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-3xl bg-gradient-to-r from-primary to-brand-yellow px-6 py-16 text-center sm:px-12 relative overflow-hidden shadow-2xl">
+          <div className="rounded-3xl bg-primary px-6 py-16 text-center sm:px-12 relative overflow-hidden shadow-2xl">
             <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
             <div className="relative">
               <h2 className="mb-6 text-4xl font-bold text-white">Ready to Grow Your Business?</h2>
