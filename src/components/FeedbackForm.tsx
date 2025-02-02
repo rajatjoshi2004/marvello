@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
 interface FeedbackFormProps {
-  onSubmit: (feedback: string) => void;
+  onSubmit: (feedback: { name: string; message: string }) => void;
 }
 
 export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
@@ -32,7 +32,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       });
       return;
     }
-    onSubmit(`${name}: ${feedback}`);
+    onSubmit({ name: name.trim(), message: feedback.trim() });
   };
 
   return (
