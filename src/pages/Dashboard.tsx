@@ -5,11 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { Link2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import type { Database } from "@/integrations/supabase/types";
-
-type Business = Database["public"]["Tables"]["businesses"]["Row"] & {
-  reviews: Database["public"]["Tables"]["reviews"]["Row"][];
-};
+import type { Business } from "@/types/business";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -66,22 +62,22 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="container py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+    <div className="container px-4 py-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
         <Button variant="outline" onClick={handleSignOut}>Sign Out</Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {businesses.map((business) => (
           <Card key={business.id} className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle>{business.name}</CardTitle>
+              <CardTitle className="text-xl">{business.name}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Total Reviews:</span>
-                <span className="font-medium">{business.reviews.length}</span>
+                <span className="font-medium">{business.reviews?.length || 0}</span>
               </div>
               <div className="flex flex-col gap-2">
                 <Button 

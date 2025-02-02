@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Link } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import type { Database } from "@/integrations/supabase/types";
-import { Pencil, Trash2, Link, Upload } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-type Business = Database["public"]["Tables"]["businesses"]["Row"];
-type Review = Database["public"]["Tables"]["reviews"]["Row"];
+import type { Business, Review } from "@/types/business";
+import { BusinessHeader } from "@/components/business/BusinessHeader";
+import { ReviewsTable } from "@/components/business/ReviewsTable";
+import { UrlDialog } from "@/components/business/UrlDialog";
 
 export default function BusinessDetails() {
   const { id } = useParams();
@@ -21,8 +17,6 @@ export default function BusinessDetails() {
   const [business, setBusiness] = useState<Business | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [newName, setNewName] = useState("");
   const [showUrlDialog, setShowUrlDialog] = useState(false);
   const [newUrl, setNewUrl] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -51,7 +45,6 @@ export default function BusinessDetails() {
 
       setBusiness(businessData);
       setReviews(reviewsData || []);
-      setNewName(businessData.name);
       setNewUrl(businessData.google_review_url);
     } catch (error: any) {
       console.error("Error fetching data:", error.message);
@@ -81,7 +74,6 @@ export default function BusinessDetails() {
       });
 
       fetchBusinessAndReviews();
-      if (field === 'name') setIsEditingName(false);
       if (field === 'google_review_url') setShowUrlDialog(false);
     } catch (error: any) {
       console.error(`Error updating business ${field}:`, error.message);
@@ -165,61 +157,18 @@ export default function BusinessDetails() {
   }
 
   return (
-    <div className="container py-8">
+    <div className="container px-4 py-8">
       <Button variant="outline" onClick={() => navigate("/dashboard")} className="mb-6">
         Back to Dashboard
       </Button>
 
       <Card className="mb-8">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={business.logo_url || ''} alt={business.name} />
-                  <AvatarFallback>{business.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <label 
-                  className="absolute bottom-0 right-0 p-1 bg-primary rounded-full cursor-pointer hover:bg-primary/90"
-                  htmlFor="logo-upload"
-                >
-                  <Upload className="h-4 w-4 text-primary-foreground" />
-                  <input
-                    id="logo-upload"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleLogoUpload}
-                    disabled={uploading}
-                  />
-                </label>
-              </div>
-              {isEditingName ? (
-                <div className="flex items-center gap-2">
-                  <Input
-                    value={newName}
-                    onChange={(e) => setNewName(e.target.value)}
-                    className="max-w-xs"
-                  />
-                  <Button onClick={() => handleUpdateBusiness('name', newName)}>Save</Button>
-                  <Button variant="outline" onClick={() => setIsEditingName(false)}>Cancel</Button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <CardTitle>{business.name}</CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsEditingName(true)}
-                    className="h-8 w-8"
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        </CardHeader>
+        <BusinessHeader
+          business={business}
+          onUpdateBusiness={handleUpdateBusiness}
+          onLogoUpload={handleLogoUpload}
+          uploading={uploading}
+        />
         <CardContent>
           <Button
             variant="outline"
@@ -232,67 +181,22 @@ export default function BusinessDetails() {
         </CardContent>
       </Card>
 
-      <Dialog open={showUrlDialog} onOpenChange={setShowUrlDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Google Review URL</DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col gap-4">
-            <Input
-              value={newUrl}
-              onChange={(e) => setNewUrl(e.target.value)}
-              placeholder="Enter Google Review URL"
-            />
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setShowUrlDialog(false)}>
-                Cancel
-              </Button>
-              <Button onClick={() => handleUpdateBusiness('google_review_url', newUrl)}>
-                Save
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
       <Card>
-        <CardHeader>
-          <CardTitle>Reviews</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[200px]">Reviewer</TableHead>
-                <TableHead className="w-[100px] text-center">Rating</TableHead>
-                <TableHead className="min-w-[300px]">Feedback</TableHead>
-                <TableHead className="w-[150px]">Date</TableHead>
-                <TableHead className="w-[100px] text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {reviews.map((review) => (
-                <TableRow key={review.id}>
-                  <TableCell className="font-medium">{review.reviewer_name}</TableCell>
-                  <TableCell className="text-center">{review.rating} ★</TableCell>
-                  <TableCell>{review.feedback || "-"}</TableCell>
-                  <TableCell>{new Date(review.created_at).toLocaleDateString()}</TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleDeleteReview(review.id)}
-                      className="h-8 w-8 text-destructive hover:text-destructive/90"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <CardContent className="pt-6">
+          <ReviewsTable
+            reviews={reviews}
+            onDeleteReview={handleDeleteReview}
+          />
         </CardContent>
       </Card>
+
+      <UrlDialog
+        open={showUrlDialog}
+        onOpenChange={setShowUrlDialog}
+        url={newUrl}
+        onUrlChange={setNewUrl}
+        onSave={() => handleUpdateBusiness('google_review_url', newUrl)}
+      />
     </div>
   );
 }
