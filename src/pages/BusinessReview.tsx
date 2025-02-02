@@ -30,6 +30,11 @@ export default function BusinessReview() {
 
       if (error) {
         console.error("Error fetching business:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Could not load business details. Please try again.",
+        });
         setLoading(false);
         return;
       }
@@ -39,10 +44,12 @@ export default function BusinessReview() {
     };
 
     fetchBusiness();
-  }, [id]);
+  }, [id, toast]);
 
-  const handleRating = async (rating: number) => {
+  const handleRating = (rating: number) => {
+    console.log("Rating selected:", rating);
     if (!business) return;
+    
     setSelectedRating(rating);
 
     if (rating >= 4) {
@@ -53,7 +60,18 @@ export default function BusinessReview() {
   };
 
   const handleFeedbackSubmit = async (feedback: { name: string; message: string }) => {
-    if (!business || selectedRating === 0) {
+    console.log("Submitting feedback:", { feedback, selectedRating, businessId: business?.id });
+    
+    if (!business) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Business information is missing. Please try again.",
+      });
+      return;
+    }
+
+    if (selectedRating === 0) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -61,16 +79,26 @@ export default function BusinessReview() {
       });
       return;
     }
-    
-    try {
-      const { error } = await supabase.from("reviews").insert({
-        business_id: business.id,
-        reviewer_name: feedback.name,
-        rating: selectedRating,
-        feedback: feedback.message,
-      });
 
-      if (error) throw error;
+    try {
+      const { error } = await supabase
+        .from("reviews")
+        .insert({
+          business_id: business.id,
+          reviewer_name: feedback.name,
+          rating: selectedRating,
+          feedback: feedback.message,
+        });
+
+      if (error) {
+        console.error("Error submitting review:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to submit review. Please try again.",
+        });
+        return;
+      }
 
       toast({
         title: "Success",
@@ -78,7 +106,7 @@ export default function BusinessReview() {
       });
       setShowFeedbackForm(false);
       setSubmitted(true);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error submitting review:", error);
       toast({
         variant: "destructive",
