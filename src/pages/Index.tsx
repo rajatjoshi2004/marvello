@@ -133,7 +133,7 @@ export default function Index() {
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {[
               "Small Business Owners",
-              "Professionals (Doctors, Dentists, Lawyers)",
+              "Professionals like Doctors, Lawyers",
               "Hotel and Restaurant Owners",
               "Coaches & Consultants",
               "E-commerce Owners",
