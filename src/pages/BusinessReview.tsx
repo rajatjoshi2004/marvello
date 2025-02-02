@@ -48,9 +48,12 @@ export default function BusinessReview() {
 
   const handleRating = (rating: number) => {
     console.log("Rating selected:", rating);
-    if (!business) return;
-    
     setSelectedRating(rating);
+    
+    if (!business) {
+      console.error("No business found");
+      return;
+    }
 
     if (rating >= 4) {
       window.location.href = business.google_review_url;
