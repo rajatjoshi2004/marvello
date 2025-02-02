@@ -38,12 +38,16 @@ export default function Index() {
       <section className="px-4 py-20 text-center sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl space-y-8">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-            Boost Your Business Growth with <span className="text-primary">5⭐ Google Reviews</span>
+            Boost Your Business Growth with{" "}
+            <span className="text-brand-yellow">5⭐</span>{" "}
+            <span className="text-primary">Google Reviews</span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">Say Goodbye to Negative Reviews Forever!</p>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Say Goodbye to Negative Reviews Forever!
+          </p>
           <div className="flex justify-center gap-4">
             <Link to="/auth">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90">
                 Get Started <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -51,6 +55,7 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Rest of the sections */}
       {/* Key Benefits */}
       <section className="bg-white dark:bg-gray-800 px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
