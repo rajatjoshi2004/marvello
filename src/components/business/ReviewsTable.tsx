@@ -22,6 +22,7 @@ export function ReviewsTable({ reviews, onDeleteReview }: ReviewsTableProps) {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[200px]">Reviewer</TableHead>
+            <TableHead className="w-[150px]">Mobile</TableHead>
             <TableHead className="w-[100px] text-center">Rating</TableHead>
             <TableHead className="max-w-[400px]">Feedback</TableHead>
             <TableHead className="w-[150px]">Date</TableHead>
@@ -32,6 +33,7 @@ export function ReviewsTable({ reviews, onDeleteReview }: ReviewsTableProps) {
           {reviews.map((review) => (
             <TableRow key={review.id}>
               <TableCell className="font-medium align-top">{review.reviewer_name}</TableCell>
+              <TableCell className="align-top">{review.mobile_number}</TableCell>
               <TableCell className="text-center align-top">{review.rating} ★</TableCell>
               <TableCell className="align-top">
                 <div className="max-w-[400px] break-words whitespace-pre-wrap">
