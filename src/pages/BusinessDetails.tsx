@@ -8,7 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import { Pencil, Trash2, Link } from "lucide-react";
+import { Pencil, Trash2, Link, Upload } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
 type Review = Database["public"]["Tables"]["reviews"]["Row"];
@@ -21,10 +22,10 @@ export default function BusinessDetails() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingUrl, setIsEditingUrl] = useState(false);
   const [newName, setNewName] = useState("");
-  const [newUrl, setNewUrl] = useState("");
   const [showUrlDialog, setShowUrlDialog] = useState(false);
+  const [newUrl, setNewUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchBusinessAndReviews();
@@ -65,7 +66,7 @@ export default function BusinessDetails() {
     }
   };
 
-  const handleUpdateBusiness = async (field: 'name' | 'google_review_url', value: string) => {
+  const handleUpdateBusiness = async (field: 'name' | 'google_review_url' | 'logo_url', value: string) => {
     try {
       const { error } = await supabase
         .from("businesses")
@@ -81,10 +82,7 @@ export default function BusinessDetails() {
 
       fetchBusinessAndReviews();
       if (field === 'name') setIsEditingName(false);
-      if (field === 'google_review_url') {
-        setIsEditingUrl(false);
-        setShowUrlDialog(false);
-      }
+      if (field === 'google_review_url') setShowUrlDialog(false);
     } catch (error: any) {
       console.error(`Error updating business ${field}:`, error.message);
       toast({
@@ -100,8 +98,7 @@ export default function BusinessDetails() {
       const { error } = await supabase
         .from("reviews")
         .delete()
-        .eq("id", reviewId)
-        .eq("business_id", id);
+        .eq("id", reviewId);
 
       if (error) throw error;
 
@@ -118,6 +115,44 @@ export default function BusinessDetails() {
         title: "Error",
         description: "Could not delete review.",
       });
+    }
+  };
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!event.target.files || event.target.files.length === 0) {
+        return;
+      }
+      setUploading(true);
+      const file = event.target.files[0];
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${id}/${crypto.randomUUID()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('business_logos')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('business_logos')
+        .getPublicUrl(filePath);
+
+      await handleUpdateBusiness('logo_url', publicUrl);
+
+      toast({
+        title: "Success",
+        description: "Logo uploaded successfully!",
+      });
+    } catch (error: any) {
+      console.error("Error uploading logo:", error.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not upload logo.",
+      });
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -138,52 +173,62 @@ export default function BusinessDetails() {
       <Card className="mb-8">
         <CardHeader>
           <div className="flex items-center justify-between">
-            {isEditingName ? (
-              <div className="flex items-center gap-2 w-full">
-                <Input
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  className="max-w-xs"
-                />
-                <Button onClick={() => handleUpdateBusiness('name', newName)}>Save</Button>
-                <Button variant="outline" onClick={() => setIsEditingName(false)}>Cancel</Button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <CardTitle>{business.name}</CardTitle>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsEditingName(true)}
-                  className="h-8 w-8"
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <Avatar className="h-20 w-20">
+                  <AvatarImage src={business.logo_url || ''} alt={business.name} />
+                  <AvatarFallback>{business.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <label 
+                  className="absolute bottom-0 right-0 p-1 bg-primary rounded-full cursor-pointer hover:bg-primary/90"
+                  htmlFor="logo-upload"
                 >
-                  <Pencil className="h-4 w-4" />
-                </Button>
+                  <Upload className="h-4 w-4 text-primary-foreground" />
+                  <input
+                    id="logo-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleLogoUpload}
+                    disabled={uploading}
+                  />
+                </label>
               </div>
-            )}
+              {isEditingName ? (
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    className="max-w-xs"
+                  />
+                  <Button onClick={() => handleUpdateBusiness('name', newName)}>Save</Button>
+                  <Button variant="outline" onClick={() => setIsEditingName(false)}>Cancel</Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <CardTitle>{business.name}</CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setIsEditingName(true)}
+                    className="h-8 w-8"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 w-full">
-              <Button
-                variant="outline"
-                className="flex items-center gap-2"
-                onClick={() => setShowUrlDialog(true)}
-              >
-                <Link className="h-4 w-4" />
-                Edit Review URL
-              </Button>
-              <a
-                href={business.google_review_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline text-sm truncate max-w-md"
-              >
-                {business.google_review_url}
-              </a>
-            </div>
-          </div>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2"
+            onClick={() => setShowUrlDialog(true)}
+          >
+            <Link className="h-4 w-4" />
+            Edit Review URL
+          </Button>
         </CardContent>
       </Card>
 
@@ -228,12 +273,10 @@ export default function BusinessDetails() {
             <TableBody>
               {reviews.map((review) => (
                 <TableRow key={review.id}>
-                  <TableCell className="font-medium text-left">{review.reviewer_name}</TableCell>
+                  <TableCell className="font-medium">{review.reviewer_name}</TableCell>
                   <TableCell className="text-center">{review.rating} ★</TableCell>
-                  <TableCell className="text-left">{review.feedback || "-"}</TableCell>
-                  <TableCell className="text-left">
-                    {new Date(review.created_at).toLocaleDateString()}
-                  </TableCell>
+                  <TableCell>{review.feedback || "-"}</TableCell>
+                  <TableCell>{new Date(review.created_at).toLocaleDateString()}</TableCell>
                   <TableCell className="text-right">
                     <Button
                       variant="ghost"
