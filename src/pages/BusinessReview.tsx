@@ -4,7 +4,7 @@ import { StarRating } from "@/components/StarRating";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
@@ -53,27 +53,29 @@ export default function BusinessReview() {
   const handleFeedbackSubmit = async (feedback: { name: string; message: string }) => {
     if (!business) return;
     
-    const { error } = await supabase.from("reviews").insert({
-      business_id: business.id,
-      reviewer_name: feedback.name,
-      rating: 3,
-      feedback: feedback.message,
-    });
-
-    if (error) {
-      console.error("Error submitting review:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "There was an error submitting your review. Please try again.",
+    try {
+      const { error } = await supabase.from("reviews").insert({
+        business_id: business.id,
+        reviewer_name: feedback.name,
+        rating: 3,
+        feedback: feedback.message,
       });
-    } else {
+
+      if (error) throw error;
+
       toast({
         title: "Success",
         description: "Thank you for your feedback!",
       });
       setShowFeedbackForm(false);
       setSubmitted(true);
+    } catch (error: any) {
+      console.error("Error submitting review:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "There was an error submitting your review. Please try again.",
+      });
     }
   };
 
@@ -126,17 +128,9 @@ export default function BusinessReview() {
             <div className="flex justify-center mb-6">
               <StarRating onRate={handleRating} />
             </div>
-            <div className="text-center text-sm text-gray-500">
-              © {new Date().getFullYear()} {business.name}. All rights reserved.
-            </div>
           </>
         ) : (
-          <>
-            <FeedbackForm onSubmit={handleFeedbackSubmit} />
-            <div className="text-center text-sm text-gray-500 mt-6">
-              © {new Date().getFullYear()} {business.name}. All rights reserved.
-            </div>
-          </>
+          <FeedbackForm onSubmit={handleFeedbackSubmit} />
         )}
       </div>
     </div>
