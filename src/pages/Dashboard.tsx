@@ -25,6 +25,8 @@ export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [newName, setNewName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const { theme, setTheme } = useTheme();
 
   const checkUser = async () => {
@@ -33,6 +35,7 @@ export default function Dashboard() {
       navigate("/auth");
     } else {
       setUser(session.user);
+      setNewEmail(session.user.email || "");
       const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
@@ -70,12 +73,29 @@ export default function Dashboard() {
 
   const handleUpdateProfile = async () => {
     try {
-      const { error } = await supabase
+      // Update profile name
+      const { error: profileError } = await supabase
         .from('profiles')
         .update({ full_name: newName })
         .eq('id', user.id);
 
-      if (error) throw error;
+      if (profileError) throw profileError;
+
+      // Update email if changed
+      if (newEmail !== user.email) {
+        const { error: emailError } = await supabase.auth.updateUser({
+          email: newEmail,
+        });
+        if (emailError) throw emailError;
+      }
+
+      // Update password if provided
+      if (newPassword) {
+        const { error: passwordError } = await supabase.auth.updateUser({
+          password: newPassword,
+        });
+        if (passwordError) throw passwordError;
+      }
 
       toast({
         description: "Profile updated successfully!",
@@ -83,6 +103,7 @@ export default function Dashboard() {
       });
       
       setProfile({ ...profile, full_name: newName });
+      setNewPassword(""); // Clear password field after update
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -133,7 +154,7 @@ export default function Dashboard() {
               <DialogTrigger asChild>
                 <Button variant="outline">Profile</Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                   <DialogTitle>Profile Settings</DialogTitle>
                 </DialogHeader>
@@ -149,9 +170,19 @@ export default function Dashboard() {
                   <div className="space-y-2">
                     <Label>Email</Label>
                     <Input
-                      value={user?.email}
-                      disabled
-                      className="bg-muted"
+                      type="email"
+                      value={newEmail}
+                      onChange={(e) => setNewEmail(e.target.value)}
+                      placeholder="Your email"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>New Password</Label>
+                    <Input
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Enter new password"
                     />
                   </div>
                   <Button
@@ -162,7 +193,7 @@ export default function Dashboard() {
                   </Button>
                   <Button
                     className="w-full"
-                    variant="outline"
+                    variant="destructive"
                     onClick={handleSignOut}
                   >
                     Sign Out
