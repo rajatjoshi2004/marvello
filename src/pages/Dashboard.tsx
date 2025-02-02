@@ -5,6 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { Link2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { StarRating } from "@/components/StarRating";
 import type { Database } from "@/integrations/supabase/types";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"] & {
@@ -16,11 +23,8 @@ export default function Dashboard() {
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-
-  useEffect(() => {
-    checkUser();
-    fetchBusinesses();
-  }, []);
+  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
 
   const checkUser = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -52,14 +56,32 @@ export default function Dashboard() {
     navigate("/auth");
   };
 
-  const copyShareableLink = (businessId: string) => {
-    const link = `${window.location.origin}/business/${businessId}`;
-    navigator.clipboard.writeText(link);
-    toast({
-      description: "Link copied to clipboard!",
-      duration: 3000,
-    });
+  const handleRatingSubmit = async (rating: number) => {
+    if (!selectedBusiness) return;
+
+    if (rating >= 4) {
+      window.open(selectedBusiness.google_review_url, '_blank');
+    } else {
+      const link = `${window.location.origin}/business/${selectedBusiness.id}`;
+      navigator.clipboard.writeText(link);
+      toast({
+        description: "Link copied to clipboard!",
+        duration: 3000,
+      });
+    }
+    setIsRatingModalOpen(false);
+    setSelectedBusiness(null);
   };
+
+  const openRatingModal = (business: Business) => {
+    setSelectedBusiness(business);
+    setIsRatingModalOpen(true);
+  };
+
+  useEffect(() => {
+    checkUser();
+    fetchBusinesses();
+  }, []);
 
   if (loading) {
     return <div className="container py-8">Loading...</div>;
@@ -102,7 +124,7 @@ export default function Dashboard() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => copyShareableLink(business.id)}
+                    onClick={() => openRatingModal(business)}
                   >
                     <Link2 className="w-4 h-4 mr-2" />
                     Copy Shareable Link
@@ -119,6 +141,17 @@ export default function Dashboard() {
           </Button>
         </Card>
       </div>
+
+      <Dialog open={isRatingModalOpen} onOpenChange={setIsRatingModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>How would you rate your experience?</DialogTitle>
+          </DialogHeader>
+          <div className="py-6">
+            <StarRating onRatingChange={handleRatingSubmit} />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
