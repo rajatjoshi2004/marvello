@@ -79,7 +79,7 @@ export default function BusinessReview() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Loading...</h1>
         </div>
@@ -89,7 +89,7 @@ export default function BusinessReview() {
 
   if (!business) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Business not found</h1>
         </div>
@@ -98,8 +98,8 @@ export default function BusinessReview() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-8">
-      <div className="mb-8 text-center">
+    <div className="flex flex-col items-center justify-center h-screen bg-background">
+      <div className="mb-6 text-center">
         <Avatar className="w-24 h-24 mx-auto mb-4">
           <AvatarImage src={business.logo_url || ''} alt={business.name} />
           <AvatarFallback>{business.name[0]}</AvatarFallback>
@@ -107,7 +107,7 @@ export default function BusinessReview() {
         <h1 className="text-3xl font-bold">{business.name}</h1>
       </div>
 
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-md px-6">
         {submitted ? (
           <div className="text-center">
             <h2 className="text-xl font-semibold text-green-600 mb-4">Thank You!</h2>
@@ -132,7 +132,7 @@ export default function BusinessReview() {
         )}
       </div>
 
-      <div className="mt-8 text-center text-sm text-gray-500">
+      <div className="mt-6 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} {business.name}. All rights reserved.
       </div>
     </div>
