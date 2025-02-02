@@ -5,6 +5,7 @@ import { FeedbackForm } from "@/components/FeedbackForm";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
 
@@ -97,9 +98,16 @@ export default function BusinessReview() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-8">
+      <div className="mb-8 text-center">
+        <Avatar className="w-24 h-24 mx-auto mb-4">
+          <AvatarImage src={business.logo_url || ''} alt={business.name} />
+          <AvatarFallback>{business.name[0]}</AvatarFallback>
+        </Avatar>
+        <h1 className="text-3xl font-bold">{business.name}</h1>
+      </div>
+
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">{business.name}</h1>
         {submitted ? (
           <div className="text-center">
             <h2 className="text-xl font-semibold text-green-600 mb-4">Thank You!</h2>
@@ -122,6 +130,10 @@ export default function BusinessReview() {
         ) : (
           <FeedbackForm onSubmit={handleFeedbackSubmit} />
         )}
+      </div>
+
+      <div className="mt-8 text-center text-sm text-gray-500">
+        © {new Date().getFullYear()} {business.name}. All rights reserved.
       </div>
     </div>
   );
