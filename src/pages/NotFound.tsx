@@ -23,7 +23,7 @@ const NotFound = () => {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
             <img src="/logo-icon.svg" alt="Marvello Logo" className="w-8 h-8" />
-            <h1 className="text-2xl font-bold text-primary">Marvello</h1>
+            <h1 className="text-2xl font-bold text-black dark:text-white">Marvello</h1>
           </Link>
           <div className="flex items-center gap-4">
             <Button
