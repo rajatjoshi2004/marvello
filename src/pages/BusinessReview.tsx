@@ -62,7 +62,7 @@ export default function BusinessReview() {
     }
   };
 
-  const handleFeedbackSubmit = async (feedback: { name: string; message: string }) => {
+  const handleFeedbackSubmit = async (feedback: { name: string; mobile: string; message: string }) => {
     console.log("Submitting feedback:", { feedback, selectedRating, businessId: business?.id });
     
     if (!business) {
@@ -89,6 +89,7 @@ export default function BusinessReview() {
         .insert({
           business_id: business.id,
           reviewer_name: feedback.name,
+          mobile_number: feedback.mobile,
           rating: selectedRating,
           feedback: feedback.message,
         });
@@ -103,10 +104,6 @@ export default function BusinessReview() {
         return;
       }
 
-      toast({
-        title: "Success",
-        description: "Thank you for your feedback!",
-      });
       setShowFeedbackForm(false);
       setSubmitted(true);
     } catch (error) {

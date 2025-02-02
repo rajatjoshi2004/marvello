@@ -67,11 +67,11 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
 
     onSubmit({ name: name.trim(), mobile: mobile.trim(), message: feedback.trim() });
     
-    if (isMobile) {
-      setName("");
-      setMobile("");
-      setFeedback("");
-    } else {
+    setName("");
+    setMobile("");
+    setFeedback("");
+    
+    if (!isMobile) {
       toast({
         title: "Success",
         description: "Thank you for your feedback!",
