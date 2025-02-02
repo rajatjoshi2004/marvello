@@ -7,7 +7,7 @@ export default function Index() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50/30 to-yellow-50/30 dark:from-gray-900 dark:via-indigo-950/10 dark:to-yellow-900/10">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
       <header className="border-b dark:border-gray-700 bg-white/80 backdrop-blur-sm dark:bg-gray-900/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -42,8 +42,13 @@ export default function Index() {
       {/* Hero Section */}
       <section className="px-4 py-24 text-center sm:px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(79,70,229,0.1),transparent_40%)]"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(252,211,77,0.1),transparent_40%)]"></div>
+</lov-replace>
+
+<lov-search>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.1),transparent_40%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(252,211,77,0.1),transparent_40%)]"></div>
+</lov-search>
+<lov-replace>
         </div>
         <div className="mx-auto max-w-4xl space-y-8 relative">
           <div className="space-y-4 animate-fade-in">
@@ -101,7 +106,7 @@ export default function Index() {
         </div>
         <div className="mx-auto max-w-7xl relative">
           <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
-            Why Magic QR Codes?
+            Why Marvello QR Codes?
           </h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
@@ -127,7 +132,7 @@ export default function Index() {
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
-            What Are Magic QR Codes?
+            What Are Marvello QR Codes?
           </h2>
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-12 text-lg text-gray-600 dark:text-gray-300">
@@ -162,7 +167,7 @@ export default function Index() {
         </div>
         <div className="mx-auto max-w-7xl relative">
           <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
-            Who Can Use Magic QR Codes?
+            Who Can Use Marvello QR Codes?
           </h2>
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {[
@@ -190,7 +195,7 @@ export default function Index() {
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
-            How Do Magic QR Codes Work?
+            How Do Marvello QR Codes Work?
           </h2>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-xl text-gray-600 dark:text-gray-300">
