@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -101,60 +102,75 @@ export default function NewBusiness() {
     }
   }
 
-  return (
-    <div className="container max-w-2xl py-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Create New Business</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Business Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter business name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="google_review_url"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Google Review URL</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="https://g.page/r/..." 
-                        {...field} 
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
 
-              <div className="flex justify-end gap-4">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={() => navigate("/dashboard")}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">Create Business</Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+  return (
+    <div className="min-h-screen flex flex-col">
+      <DashboardHeader onSignOut={handleSignOut} />
+
+      <div className="container max-w-2xl py-8 flex-1">
+        <Card>
+          <CardHeader>
+            <CardTitle>Create New Business</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Business Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter business name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="google_review_url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Google Review URL</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="https://g.page/r/..." 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex justify-end gap-4">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit">Create Business</Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
+
+      <footer className="border-t py-4">
+        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Marvello. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 }
