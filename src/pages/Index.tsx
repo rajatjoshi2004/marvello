@@ -12,8 +12,8 @@ export default function Index() {
       <header className="border-b dark:border-gray-700 bg-white/80 backdrop-blur-sm dark:bg-gray-900/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="/logo-icon.svg" alt="Marvello Logo" className="w-8 h-8 animate-pulse" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+            <img src="/logo-icon.svg" alt="Marvello Logo" className="w-8 h-8" />
+            <h1 className="text-2xl font-bold text-primary">
               Marvello
             </h1>
           </div>
@@ -52,7 +52,7 @@ export default function Index() {
               <span className="text-brand-yellow inline-flex items-center">
                 5⭐ <Sparkles className="w-8 h-8 ml-2 text-brand-yellow animate-pulse" />
               </span>{" "}
-              <span className="bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+              <span className="text-primary">
                 Google Reviews
               </span>
             </h1>
@@ -73,7 +73,7 @@ export default function Index() {
       {/* Key Benefits */}
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
             Key Benefits
           </h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -100,7 +100,7 @@ export default function Index() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(252,211,77,0.1),transparent_40%)]"></div>
         </div>
         <div className="mx-auto max-w-7xl relative">
-          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
             Why Marvello QR Codes?
           </h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -126,7 +126,7 @@ export default function Index() {
       {/* What Are Magic QR Codes */}
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
             What Are Marvello QR Codes?
           </h2>
           <div className="mx-auto max-w-3xl text-center">
@@ -161,7 +161,7 @@ export default function Index() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.1),transparent_40%)]"></div>
         </div>
         <div className="mx-auto max-w-7xl relative">
-          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
             Who Can Use Marvello QR Codes?
           </h2>
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -189,7 +189,7 @@ export default function Index() {
       {/* How It Works */}
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
             How Do Marvello QR Codes Work?
           </h2>
           <div className="mx-auto max-w-3xl text-center">
@@ -226,7 +226,7 @@ export default function Index() {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <img src="/logo-icon.svg" alt="Marvello Logo" className="w-6 h-6" />
-            <span className="text-lg font-semibold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
+            <span className="text-lg font-semibold text-primary">
               Marvello
             </span>
           </div>
