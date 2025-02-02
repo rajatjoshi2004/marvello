@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { Link2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import type { Database } from "@/integrations/supabase/types";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"] & {
@@ -84,7 +84,8 @@ export default function Dashboard() {
                 <CardTitle>{business.name}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex justify-end items-center">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Average Rating:</span>
                   <span className="font-medium">{averageRating} ★</span>
                 </div>
                 <div className="flex justify-between items-center">
