@@ -9,6 +9,7 @@ import type { Business, Review } from "@/types/business";
 import { BusinessHeader } from "@/components/business/BusinessHeader";
 import { ReviewsTable } from "@/components/business/ReviewsTable";
 import { UrlDialog } from "@/components/business/UrlDialog";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function BusinessDetails() {
   const { id } = useParams();
@@ -148,6 +149,11 @@ export default function BusinessDetails() {
     }
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
+
   if (loading) {
     return <div className="container py-8">Loading...</div>;
   }
@@ -157,46 +163,56 @@ export default function BusinessDetails() {
   }
 
   return (
-    <div className="container px-4 py-8">
-      <Button variant="outline" onClick={() => navigate("/dashboard")} className="mb-6">
-        Back to Dashboard
-      </Button>
+    <div className="min-h-screen flex flex-col">
+      <DashboardHeader onSignOut={handleSignOut} />
 
-      <Card className="mb-8">
-        <BusinessHeader
-          business={business}
-          onUpdateBusiness={handleUpdateBusiness}
-          onLogoUpload={handleLogoUpload}
-          uploading={uploading}
-        />
-        <CardContent>
-          <Button
-            variant="outline"
-            className="flex items-center gap-2"
-            onClick={() => setShowUrlDialog(true)}
-          >
-            <Link className="h-4 w-4" />
-            Edit Review URL
-          </Button>
-        </CardContent>
-      </Card>
+      <main className="flex-1 container px-4 py-8">
+        <Button variant="outline" onClick={() => navigate("/dashboard")} className="mb-6">
+          Back to Dashboard
+        </Button>
 
-      <Card>
-        <CardContent className="pt-6">
-          <ReviewsTable
-            reviews={reviews}
-            onDeleteReview={handleDeleteReview}
+        <Card className="mb-8">
+          <BusinessHeader
+            business={business}
+            onUpdateBusiness={handleUpdateBusiness}
+            onLogoUpload={handleLogoUpload}
+            uploading={uploading}
           />
-        </CardContent>
-      </Card>
+          <CardContent>
+            <Button
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={() => setShowUrlDialog(true)}
+            >
+              <Link className="h-4 w-4" />
+              Edit Review URL
+            </Button>
+          </CardContent>
+        </Card>
 
-      <UrlDialog
-        open={showUrlDialog}
-        onOpenChange={setShowUrlDialog}
-        url={newUrl}
-        onUrlChange={setNewUrl}
-        onSave={() => handleUpdateBusiness('google_review_url', newUrl)}
-      />
+        <Card>
+          <CardContent className="pt-6">
+            <ReviewsTable
+              reviews={reviews}
+              onDeleteReview={handleDeleteReview}
+            />
+          </CardContent>
+        </Card>
+
+        <UrlDialog
+          open={showUrlDialog}
+          onOpenChange={setShowUrlDialog}
+          url={newUrl}
+          onUrlChange={setNewUrl}
+          onSave={() => handleUpdateBusiness('google_review_url', newUrl)}
+        />
+      </main>
+
+      <footer className="border-t py-4">
+        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Marvello. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 }
