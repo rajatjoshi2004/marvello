@@ -7,13 +7,15 @@ import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FeedbackFormProps {
-  onSubmit: (feedback: { name: string; message: string }) => void;
+  onSubmit: (feedback: { name: string; mobile: string; message: string }) => void;
 }
 
 export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
   const [feedback, setFeedback] = useState("");
   const [name, setName] = useState("");
+  const [mobile, setMobile] = useState("");
   const [nameError, setNameError] = useState("");
+  const [mobileError, setMobileError] = useState("");
   const [feedbackError, setFeedbackError] = useState("");
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -21,6 +23,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setNameError("");
+    setMobileError("");
     setFeedbackError("");
 
     if (!name.trim()) {
@@ -30,6 +33,19 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
         toast({
           title: "Name is required",
           description: "Please enter your name.",
+          variant: "destructive",
+        });
+      }
+      return;
+    }
+
+    if (!mobile.trim() || !/^\d{10}$/.test(mobile)) {
+      if (isMobile) {
+        setMobileError("Please enter a valid 10-digit mobile number.");
+      } else {
+        toast({
+          title: "Invalid mobile number",
+          description: "Please enter a valid 10-digit mobile number.",
           variant: "destructive",
         });
       }
@@ -49,11 +65,17 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       return;
     }
 
-    onSubmit({ name: name.trim(), message: feedback.trim() });
+    onSubmit({ name: name.trim(), mobile: mobile.trim(), message: feedback.trim() });
     
     if (isMobile) {
       setName("");
+      setMobile("");
       setFeedback("");
+    } else {
+      toast({
+        title: "Success",
+        description: "Thank you for your feedback!",
+      });
     }
   };
 
@@ -77,6 +99,23 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
         />
         {nameError && (
           <p className="text-sm text-red-500">{nameError}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Input
+          placeholder="Mobile number (10 digits)"
+          value={mobile}
+          onChange={(e) => {
+            setMobile(e.target.value.replace(/\D/g, '').slice(0, 10));
+            setMobileError("");
+          }}
+          className={`w-full ${mobileError ? "border-red-500" : ""}`}
+          type="tel"
+          maxLength={10}
+        />
+        {mobileError && (
+          <p className="text-sm text-red-500">{mobileError}</p>
         )}
       </div>
 
