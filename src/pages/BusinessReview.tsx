@@ -172,6 +172,10 @@ export default function BusinessReview() {
         ) : (
           <FeedbackForm onSubmit={handleFeedbackSubmit} />
         )}
+
+        <div className="text-center text-sm text-muted-foreground mt-8">
+          © {new Date().getFullYear()} {business.name}. All rights reserved.
+        </div>
       </div>
     </div>
   );
