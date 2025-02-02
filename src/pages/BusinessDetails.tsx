@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
 type Review = Database["public"]["Tables"]["reviews"]["Row"];
@@ -90,6 +90,31 @@ export default function BusinessDetails() {
     }
   };
 
+  const handleDeleteReview = async (reviewId: string) => {
+    try {
+      const { error } = await supabase
+        .from("reviews")
+        .delete()
+        .eq("id", reviewId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Review deleted successfully!",
+      });
+
+      fetchBusinessAndReviews();
+    } catch (error: any) {
+      console.error("Error deleting review:", error.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not delete review.",
+      });
+    }
+  };
+
   if (loading) {
     return <div className="container py-8">Loading...</div>;
   }
@@ -97,10 +122,6 @@ export default function BusinessDetails() {
   if (!business) {
     return <div className="container py-8">Business not found.</div>;
   }
-
-  const averageRating = reviews.length
-    ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
-    : null;
 
   return (
     <div className="container py-8">
@@ -137,9 +158,6 @@ export default function BusinessDetails() {
           </div>
         </CardHeader>
         <CardContent>
-          {averageRating && (
-            <p className="text-lg mb-4">Average Rating: {averageRating} ★</p>
-          )}
           <div className="flex items-center gap-2">
             {isEditingUrl ? (
               <div className="flex items-center gap-2 w-full">
@@ -187,6 +205,7 @@ export default function BusinessDetails() {
                 <TableHead>Rating</TableHead>
                 <TableHead>Feedback</TableHead>
                 <TableHead>Date</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -197,6 +216,16 @@ export default function BusinessDetails() {
                   <TableCell>{review.feedback || "-"}</TableCell>
                   <TableCell>
                     {new Date(review.created_at).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDeleteReview(review.id)}
+                      className="h-8 w-8 text-destructive hover:text-destructive/90"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

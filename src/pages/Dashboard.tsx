@@ -73,45 +73,35 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {businesses.map((business) => {
-          const averageRating = business.reviews.length
-            ? (business.reviews.reduce((sum, review) => sum + review.rating, 0) / business.reviews.length).toFixed(1)
-            : "No ratings";
-
-          return (
-            <Card key={business.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>{business.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Average Rating:</span>
-                  <span className="font-medium">{averageRating} ★</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Total Reviews:</span>
-                  <span className="font-medium">{business.reviews.length}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Button 
-                    className="w-full"
-                    onClick={() => navigate(`/business/${business.id}`)}
-                  >
-                    Manage Business
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handleCopyLink(business)}
-                  >
-                    <Link2 className="w-4 h-4 mr-2" />
-                    Copy Shareable Link
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+        {businesses.map((business) => (
+          <Card key={business.id} className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle>{business.name}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Total Reviews:</span>
+                <span className="font-medium">{business.reviews.length}</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Button 
+                  className="w-full"
+                  onClick={() => navigate(`/business/${business.id}`)}
+                >
+                  Manage Business
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleCopyLink(business)}
+                >
+                  <Link2 className="w-4 h-4 mr-2" />
+                  Copy Shareable Link
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
 
         <Card className="flex items-center justify-center min-h-[200px] hover:shadow-lg transition-shadow">
           <Button variant="ghost" onClick={() => navigate("/business/new")}>
