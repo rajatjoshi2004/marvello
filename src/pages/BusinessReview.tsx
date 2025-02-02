@@ -98,7 +98,7 @@ export default function BusinessReview() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-background">
+    <div className="flex flex-col items-center justify-center h-screen">
       <div className="mb-6 text-center">
         <Avatar className="w-24 h-24 mx-auto mb-4">
           <AvatarImage src={business.logo_url || ''} alt={business.name} />
