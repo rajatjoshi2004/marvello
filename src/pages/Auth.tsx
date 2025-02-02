@@ -7,8 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/components/ThemeProvider";
+import BaseHeader from "@/components/shared/BaseHeader";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -19,7 +18,6 @@ export default function Auth() {
     password: "",
     fullName: "",
   });
-  const { theme, setTheme } = useTheme();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,28 +75,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-      {/* Header */}
-      <header className="border-b dark:border-gray-700">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/logo-icon.svg" alt="Marvello Logo" className="w-8 h-8" />
-            <h1 className="text-2xl font-bold text-black dark:text-white">Marvello</h1>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button>
-          </div>
-        </div>
-      </header>
+      <BaseHeader />
 
       <div className="container flex items-center justify-center min-h-[calc(100vh-136px)] py-8">
         <Card className="w-full max-w-md">
