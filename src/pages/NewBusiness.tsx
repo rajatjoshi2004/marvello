@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -38,41 +38,67 @@ export default function NewBusiness() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session?.user) {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session?.user) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "You must be logged in to create a business.",
+        });
+        navigate("/auth");
+        return;
+      }
+
+      // Get the user's profile first
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", session.user.id)
+        .single();
+
+      if (profileError || !profile) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Could not find your profile. Please try logging in again.",
+        });
+        console.error("Error fetching profile:", profileError);
+        return;
+      }
+
+      const { error } = await supabase
+        .from("businesses")
+        .insert({
+          name: values.name,
+          google_review_url: values.google_review_url,
+          owner_id: profile.id,
+        });
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Could not create business. Please try again.",
+        });
+        console.error("Error creating business:", error);
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "Business created successfully!",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Unexpected error:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "You must be logged in to create a business.",
+        description: "An unexpected error occurred. Please try again.",
       });
-      navigate("/auth");
-      return;
     }
-
-    const { error } = await supabase
-      .from("businesses")
-      .insert({
-        name: values.name,
-        google_review_url: values.google_review_url,
-        owner_id: session.user.id,
-      });
-
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Could not create business. Please try again.",
-      });
-      console.error("Error creating business:", error);
-      return;
-    }
-
-    toast({
-      title: "Success",
-      description: "Business created successfully!",
-    });
-    navigate("/dashboard");
   }
 
   return (
