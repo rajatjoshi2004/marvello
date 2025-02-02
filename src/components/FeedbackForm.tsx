@@ -36,13 +36,13 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       return;
     }
 
-    if (feedback.trim().length < 10) {
+    if (!feedback.trim()) {
       if (isMobile) {
-        setFeedbackError("Your feedback should be at least 10 characters long.");
+        setFeedbackError("Please provide your feedback.");
       } else {
         toast({
-          title: "Please provide more detail",
-          description: "Your feedback should be at least 10 characters long.",
+          title: "Feedback is required",
+          description: "Please provide your feedback.",
           variant: "destructive",
         });
       }
