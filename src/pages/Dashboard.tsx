@@ -5,13 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { Link2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { StarRating } from "@/components/StarRating";
 import type { Database } from "@/integrations/supabase/types";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"] & {
@@ -23,8 +16,6 @@ export default function Dashboard() {
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
-  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
 
   const checkUser = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -56,26 +47,13 @@ export default function Dashboard() {
     navigate("/auth");
   };
 
-  const handleRatingSubmit = async (rating: number) => {
-    if (!selectedBusiness) return;
-
-    if (rating >= 4) {
-      window.open(selectedBusiness.google_review_url, '_blank');
-    } else {
-      const link = `${window.location.origin}/business/${selectedBusiness.id}`;
-      navigator.clipboard.writeText(link);
-      toast({
-        description: "Link copied to clipboard!",
-        duration: 3000,
-      });
-    }
-    setIsRatingModalOpen(false);
-    setSelectedBusiness(null);
-  };
-
-  const openRatingModal = (business: Business) => {
-    setSelectedBusiness(business);
-    setIsRatingModalOpen(true);
+  const handleCopyLink = async (business: Business) => {
+    const link = `${window.location.origin}/review/${business.id}`;
+    await navigator.clipboard.writeText(link);
+    toast({
+      description: "Review link copied to clipboard!",
+      duration: 3000,
+    });
   };
 
   useEffect(() => {
@@ -124,7 +102,7 @@ export default function Dashboard() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => openRatingModal(business)}
+                    onClick={() => handleCopyLink(business)}
                   >
                     <Link2 className="w-4 h-4 mr-2" />
                     Copy Shareable Link
@@ -132,7 +110,7 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-          )
+          );
         })}
 
         <Card className="flex items-center justify-center min-h-[200px] hover:shadow-lg transition-shadow">
@@ -141,17 +119,6 @@ export default function Dashboard() {
           </Button>
         </Card>
       </div>
-
-      <Dialog open={isRatingModalOpen} onOpenChange={setIsRatingModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>How would you rate your experience?</DialogTitle>
-          </DialogHeader>
-          <div className="py-6">
-            <StarRating onRate={handleRatingSubmit} />
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
