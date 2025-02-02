@@ -13,7 +13,7 @@ export default function Index() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <img src="/logo-icon.svg" alt="Marvello Logo" className="w-8 h-8 animate-pulse" />
-            <h1 className="text-2xl font-bold text-primary">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
               Marvello
             </h1>
           </div>
@@ -41,6 +41,10 @@ export default function Index() {
 
       {/* Hero Section */}
       <section className="px-4 py-24 text-center sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.1),transparent_40%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(252,211,77,0.1),transparent_40%)]"></div>
+        </div>
         <div className="mx-auto max-w-4xl space-y-8 relative">
           <div className="space-y-4 animate-fade-in">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
@@ -48,7 +52,7 @@ export default function Index() {
               <span className="text-brand-yellow inline-flex items-center">
                 5⭐ <Sparkles className="w-8 h-8 ml-2 text-brand-yellow animate-pulse" />
               </span>{" "}
-              <span className="text-primary">
+              <span className="bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
                 Google Reviews
               </span>
             </h1>
@@ -69,7 +73,7 @@ export default function Index() {
       {/* Key Benefits */}
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
+          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
             Key Benefits
           </h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -91,8 +95,12 @@ export default function Index() {
 
       {/* Why Marvello QR Codes */}
       <section className="px-4 py-20 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.1),transparent_40%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(252,211,77,0.1),transparent_40%)]"></div>
+        </div>
         <div className="mx-auto max-w-7xl relative">
-          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
+          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
             Why Marvello QR Codes?
           </h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -115,10 +123,10 @@ export default function Index() {
         </div>
       </section>
 
-      {/* What Are Marvello QR Codes */}
+      {/* What Are Magic QR Codes */}
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
+          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
             What Are Marvello QR Codes?
           </h2>
           <div className="mx-auto max-w-3xl text-center">
@@ -149,8 +157,11 @@ export default function Index() {
 
       {/* Who Can Use */}
       <section className="px-4 py-20 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.1),transparent_40%)]"></div>
+        </div>
         <div className="mx-auto max-w-7xl relative">
-          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
+          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
             Who Can Use Marvello QR Codes?
           </h2>
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -166,7 +177,7 @@ export default function Index() {
             ].map((user, index) => (
               <div 
                 key={index} 
-                className="rounded-xl bg-white dark:bg-gray-700 p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="rounded-xl bg-white dark:bg-gray-700 p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-primary/5 hover:to-brand-yellow/5"
               >
                 <p className="font-medium text-gray-900 dark:text-white">{user}</p>
               </div>
@@ -178,7 +189,7 @@ export default function Index() {
       {/* How It Works */}
       <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-12 text-center text-3xl font-bold text-primary">
+          <h2 className="mb-12 text-center text-3xl font-bold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
             How Do Marvello QR Codes Work?
           </h2>
           <div className="mx-auto max-w-3xl text-center">
@@ -193,7 +204,7 @@ export default function Index() {
       {/* Call to Action */}
       <section className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-3xl bg-primary px-6 py-16 text-center sm:px-12 relative overflow-hidden shadow-2xl">
+          <div className="rounded-3xl bg-gradient-to-r from-primary to-brand-yellow px-6 py-16 text-center sm:px-12 relative overflow-hidden shadow-2xl">
             <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
             <div className="relative">
               <h2 className="mb-6 text-4xl font-bold text-white">Ready to Grow Your Business?</h2>
@@ -215,7 +226,7 @@ export default function Index() {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <img src="/logo-icon.svg" alt="Marvello Logo" className="w-6 h-6" />
-            <span className="text-lg font-semibold text-primary">
+            <span className="text-lg font-semibold bg-gradient-to-r from-primary to-brand-yellow bg-clip-text text-transparent">
               Marvello
             </span>
           </div>
