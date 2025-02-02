@@ -64,7 +64,7 @@ export default function Dashboard() {
   return (
     <div className="container px-4 py-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-left">Dashboard</h1>
         <Button variant="outline" onClick={handleSignOut}>Sign Out</Button>
       </div>
 
@@ -72,7 +72,7 @@ export default function Dashboard() {
         {businesses.map((business) => (
           <Card key={business.id} className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="text-xl">{business.name}</CardTitle>
+              <CardTitle className="text-left text-xl">{business.name}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center">
