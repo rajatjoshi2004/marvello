@@ -16,16 +16,21 @@ export default function Dashboard() {
     if (!session) {
       navigate("/auth");
     }
+    return session;
   };
 
   const fetchBusinesses = async () => {
     try {
+      const session = await checkUser();
+      if (!session) return;
+
       const { data: businessesData, error: businessesError } = await supabase
         .from("businesses")
         .select(`
           *,
           reviews (*)
-        `);
+        `)
+        .eq('owner_id', session.user.id);
 
       if (businessesError) throw businessesError;
       setBusinesses(businessesData || []);
@@ -42,7 +47,6 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    checkUser();
     fetchBusinesses();
   }, []);
 
