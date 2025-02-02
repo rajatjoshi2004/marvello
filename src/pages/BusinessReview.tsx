@@ -53,11 +53,13 @@ export default function BusinessReview() {
   const handleFeedbackSubmit = async (feedback: string) => {
     if (!business) return;
 
+    const [name, message] = feedback.split(":");
+    
     const { error } = await supabase.from("reviews").insert({
       business_id: business.id,
-      reviewer_name: feedback.split(":")[0],
+      reviewer_name: name.trim(),
       rating: 3,
-      feedback: feedback.split(":")[1].trim(),
+      feedback: message.trim(),
     });
 
     if (error) {
@@ -126,15 +128,19 @@ export default function BusinessReview() {
             <div className="flex justify-center mb-6">
               <StarRating onRate={handleRating} />
             </div>
+            <div className="text-center text-sm text-gray-500">
+              © {new Date().getFullYear()} {business.name}. All rights reserved.
+            </div>
           </>
         ) : (
-          <FeedbackForm onSubmit={handleFeedbackSubmit} />
+          <>
+            <FeedbackForm onSubmit={handleFeedbackSubmit} />
+            <div className="text-center text-sm text-gray-500 mt-6">
+              © {new Date().getFullYear()} {business.name}. All rights reserved.
+            </div>
+          </>
         )}
-      </div>
-
-      <div className="mt-auto py-4 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} {business.name}. All rights reserved.
       </div>
     </div>
   );
-}
+};
