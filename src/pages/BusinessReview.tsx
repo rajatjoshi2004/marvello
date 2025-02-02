@@ -153,7 +153,7 @@ export default function BusinessReview() {
         </div>
       </div>
 
-      <div className="flex-1 container max-w-md mx-auto px-4 py-8">
+      <div className="flex-1 container max-w-md mx-auto px-4 md:py-8">
         {submitted ? (
           <div className="text-center px-4">
             <h2 className="text-xl font-semibold text-green-600 mb-4">Thank You!</h2>
