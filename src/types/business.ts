@@ -6,6 +6,7 @@ export interface Business {
   created_at: string;
   updated_at: string;
   logo_url: string | null;
+  reviews?: Review[];
 }
 
 export interface Review {
