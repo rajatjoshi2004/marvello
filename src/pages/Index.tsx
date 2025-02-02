@@ -177,17 +177,9 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-800 border-t dark:border-gray-700">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Marvello</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Boost Your Business Growth with 5⭐ Google Reviews
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
-              © {new Date().getFullYear()} Marvello. All rights reserved.
-            </p>
-          </div>
+      <footer className="border-t py-4">
+        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Business Reviews. All rights reserved.
         </div>
       </footer>
     </div>
