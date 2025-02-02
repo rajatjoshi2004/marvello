@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { Link2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 import type { Database } from "@/integrations/supabase/types";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"] & {
@@ -13,6 +15,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     checkUser();
@@ -49,6 +52,15 @@ export default function Dashboard() {
     navigate("/auth");
   };
 
+  const copyShareableLink = (businessId: string) => {
+    const link = `${window.location.origin}/business/${businessId}`;
+    navigator.clipboard.writeText(link);
+    toast({
+      description: "Link copied to clipboard!",
+      duration: 3000,
+    });
+  };
+
   if (loading) {
     return <div className="container py-8">Loading...</div>;
   }
@@ -80,12 +92,22 @@ export default function Dashboard() {
                   <span className="text-sm text-muted-foreground">Total Reviews:</span>
                   <span className="font-medium">{business.reviews.length}</span>
                 </div>
-                <Button 
-                  className="w-full"
-                  onClick={() => navigate(`/business/${business.id}`)}
-                >
-                  Manage Business
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button 
+                    className="w-full"
+                    onClick={() => navigate(`/business/${business.id}`)}
+                  >
+                    Manage Business
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => copyShareableLink(business.id)}
+                  >
+                    <Link2 className="w-4 h-4 mr-2" />
+                    Copy Shareable Link
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           )
