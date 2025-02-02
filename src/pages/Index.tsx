@@ -1,28 +1,154 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { ArrowRight, Star, Users, Target, Zap, Gift, CheckCircle2 } from "lucide-react";
 
 export default function Index() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    checkUser();
-  }, []);
-
-  const checkUser = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      navigate("/dashboard");
-    } else {
-      navigate("/auth");
-    }
-  };
-
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold">Loading...</h1>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+      {/* Hero Section */}
+      <section className="px-4 py-20 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl space-y-8 animate-fade-in">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+            Boost Your Business Growth with <span className="text-primary">5⭐ Google Reviews</span>
+          </h1>
+          <p className="text-xl text-gray-600">Say Goodbye to Negative Reviews Forever!</p>
+          <div className="flex justify-center gap-4">
+            <Link to="/auth">
+              <Button size="lg" className="gap-2">
+                Get Started <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Benefits */}
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Key Benefits</h2>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col items-center p-6 text-center hover:scale-105 transition-transform">
+              <Star className="mb-4 h-12 w-12 text-yellow-500" />
+              <h3 className="mb-2 text-xl font-semibold">1000X Frequency of Positive Reviews</h3>
+            </div>
+            <div className="flex flex-col items-center p-6 text-center hover:scale-105 transition-transform">
+              <CheckCircle2 className="mb-4 h-12 w-12 text-green-500" />
+              <h3 className="mb-2 text-xl font-semibold">Reduce 98% of Negative Reviews</h3>
+            </div>
+            <div className="flex flex-col items-center p-6 text-center hover:scale-105 transition-transform">
+              <Gift className="mb-4 h-12 w-12 text-blue-500" />
+              <h3 className="mb-2 text-xl font-semibold">Lifetime Deal</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Magic QR Codes */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Why Magic QR Codes?</h2>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <Zap className="mb-4 h-8 w-8 text-primary" />
+              <h3 className="mb-2 text-lg font-semibold">More Effective than Paid Ads</h3>
+              <p className="text-gray-600">Get better results without expensive advertising costs</p>
+            </div>
+            <div className="rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <Users className="mb-4 h-8 w-8 text-primary" />
+              <h3 className="mb-2 text-lg font-semibold">Get New Customers Every Day</h3>
+              <p className="text-gray-600">Consistently grow your customer base</p>
+            </div>
+            <div className="rounded-lg bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <Target className="mb-4 h-8 w-8 text-primary" />
+              <h3 className="mb-2 text-lg font-semibold">100% Automate Your Marketing</h3>
+              <p className="text-gray-600">Set it and forget it - we handle everything</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What Are Magic QR Codes */}
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">What Are Magic QR Codes?</h2>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="mb-8 text-lg text-gray-600">
+              MBG is an automation system that helps all types of businesses achieve success through automated marketing and customer engagement.
+            </p>
+            <div className="grid gap-4 text-left sm:grid-cols-2">
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-1" />
+                <span>Get new customers every day</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-1" />
+                <span>Retain customers & get repeat purchases</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-1" />
+                <span>Convert leads to sales faster</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-1" />
+                <span>Build a great customer experience</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Who Can Use */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Who Can Use Magic QR Codes?</h2>
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {[
+              "Small Business Owners",
+              "Professionals (Doctors, Dentists, Lawyers)",
+              "Hotel and Restaurant Owners",
+              "Coaches & Consultants",
+              "E-commerce Owners",
+              "Solopreneurs / Self-Employed",
+              "Makeup Artists & Bakers",
+              "Real Estate Owners & Agents"
+            ].map((user, index) => (
+              <div key={index} className="rounded-lg bg-white p-4 text-center shadow-sm">
+                <p className="font-medium text-gray-900">{user}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">How Do Magic QR Codes Work?</h2>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xl text-gray-600">
+              Simply present these 2 QR codes to your customers—that's it!
+              We'll take care of the rest to help your business grow rapidly.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-2xl bg-primary px-6 py-12 text-center sm:px-12">
+            <h2 className="mb-6 text-3xl font-bold text-white">Ready to Grow Your Business?</h2>
+            <p className="mb-8 text-lg text-white/90">
+              Zero Computer Skills Needed • Works for Every Type of Business
+            </p>
+            <Link to="/auth">
+              <Button size="lg" variant="secondary" className="gap-2">
+                Get Started Now <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
