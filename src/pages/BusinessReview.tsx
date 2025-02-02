@@ -15,6 +15,7 @@ export default function BusinessReview() {
   const [loading, setLoading] = useState(true);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [selectedRating, setSelectedRating] = useState<number>(0);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -42,6 +43,7 @@ export default function BusinessReview() {
 
   const handleRating = async (rating: number) => {
     if (!business) return;
+    setSelectedRating(rating);
 
     if (rating >= 4) {
       window.location.href = business.google_review_url;
@@ -51,13 +53,20 @@ export default function BusinessReview() {
   };
 
   const handleFeedbackSubmit = async (feedback: { name: string; message: string }) => {
-    if (!business) return;
+    if (!business || selectedRating === 0) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please provide a rating before submitting your feedback.",
+      });
+      return;
+    }
     
     try {
       const { error } = await supabase.from("reviews").insert({
         business_id: business.id,
         reviewer_name: feedback.name,
-        rating: 3,
+        rating: selectedRating,
         feedback: feedback.message,
       });
 
