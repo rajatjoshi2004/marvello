@@ -148,7 +148,7 @@ export default function Dashboard() {
             <DialogTitle>How would you rate your experience?</DialogTitle>
           </DialogHeader>
           <div className="py-6">
-            <StarRating onRatingChange={handleRatingSubmit} />
+            <StarRating onRate={handleRatingSubmit} />
           </div>
         </DialogContent>
       </Dialog>
