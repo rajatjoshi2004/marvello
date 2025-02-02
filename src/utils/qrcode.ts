@@ -15,10 +15,10 @@ const mergeImages = async (qrDataUrl: string): Promise<string> => {
       ctx?.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
       
       qrImage.onload = () => {
-        // Position QR code in the center of the template
+        // Position QR code in the center of the template but shifted down
         const qrSize = 400;
         const x = (canvas.width - qrSize) / 2;
-        const y = (canvas.height - qrSize) / 2;
+        const y = ((canvas.height - qrSize) / 2) + 100; // Shifted down by 100px
         
         ctx?.drawImage(qrImage, x, y, qrSize, qrSize);
         resolve(canvas.toDataURL('image/png'));
