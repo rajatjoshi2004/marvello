@@ -5,9 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Link } from "lucide-react";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
 type Review = Database["public"]["Tables"]["reviews"]["Row"];
@@ -23,6 +24,7 @@ export default function BusinessDetails() {
   const [isEditingUrl, setIsEditingUrl] = useState(false);
   const [newName, setNewName] = useState("");
   const [newUrl, setNewUrl] = useState("");
+  const [showUrlDialog, setShowUrlDialog] = useState(false);
 
   useEffect(() => {
     fetchBusinessAndReviews();
@@ -79,7 +81,10 @@ export default function BusinessDetails() {
 
       fetchBusinessAndReviews();
       if (field === 'name') setIsEditingName(false);
-      if (field === 'google_review_url') setIsEditingUrl(false);
+      if (field === 'google_review_url') {
+        setIsEditingUrl(false);
+        setShowUrlDialog(false);
+      }
     } catch (error: any) {
       console.error(`Error updating business ${field}:`, error.message);
       toast({
@@ -96,7 +101,7 @@ export default function BusinessDetails() {
         .from("reviews")
         .delete()
         .eq("id", reviewId)
-        .eq("business_id", id); // Added this line to ensure the review belongs to this business
+        .eq("business_id", id);
 
       if (error) throw error;
 
@@ -160,39 +165,50 @@ export default function BusinessDetails() {
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-2">
-            {isEditingUrl ? (
-              <div className="flex items-center gap-2 w-full">
-                <Input
-                  value={newUrl}
-                  onChange={(e) => setNewUrl(e.target.value)}
-                  className="flex-1"
-                />
-                <Button onClick={() => handleUpdateBusiness('google_review_url', newUrl)}>Save</Button>
-                <Button variant="outline" onClick={() => setIsEditingUrl(false)}>Cancel</Button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 w-full">
-                <a
-                  href={business.google_review_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline break-all"
-                >
-                  {business.google_review_url}
-                </a>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsEditingUrl(true)}
-                  className="h-8 w-8 flex-shrink-0"
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
-              </div>
-            )}
+            <div className="flex items-center gap-2 w-full">
+              <Button
+                variant="outline"
+                className="flex items-center gap-2"
+                onClick={() => setShowUrlDialog(true)}
+              >
+                <Link className="h-4 w-4" />
+                Edit Review URL
+              </Button>
+              <a
+                href={business.google_review_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline text-sm truncate max-w-md"
+              >
+                {business.google_review_url}
+              </a>
+            </div>
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={showUrlDialog} onOpenChange={setShowUrlDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Google Review URL</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-4">
+            <Input
+              value={newUrl}
+              onChange={(e) => setNewUrl(e.target.value)}
+              placeholder="Enter Google Review URL"
+            />
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setShowUrlDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => handleUpdateBusiness('google_review_url', newUrl)}>
+                Save
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Card>
         <CardHeader>
@@ -212,10 +228,10 @@ export default function BusinessDetails() {
             <TableBody>
               {reviews.map((review) => (
                 <TableRow key={review.id}>
-                  <TableCell className="font-medium">{review.reviewer_name}</TableCell>
+                  <TableCell className="font-medium text-left">{review.reviewer_name}</TableCell>
                   <TableCell className="text-center">{review.rating} ★</TableCell>
-                  <TableCell>{review.feedback || "-"}</TableCell>
-                  <TableCell>
+                  <TableCell className="text-left">{review.feedback || "-"}</TableCell>
+                  <TableCell className="text-left">
                     {new Date(review.created_at).toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right">
