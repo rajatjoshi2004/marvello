@@ -162,9 +162,9 @@ export default function Index() {
       {/* Call to Action */}
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-2xl bg-primary px-6 py-12 text-center sm:px-12">
-            <h2 className="mb-6 text-3xl font-bold text-white">Ready to Grow Your Business?</h2>
-            <p className="mb-8 text-lg text-white/90">
+          <div className="rounded-2xl bg-primary dark:bg-gray-800 px-6 py-12 text-center sm:px-12">
+            <h2 className="mb-6 text-3xl font-bold text-primary-foreground dark:text-white">Ready to Grow Your Business?</h2>
+            <p className="mb-8 text-lg text-primary-foreground/90 dark:text-gray-300">
               Zero Computer Skills Needed • Works for Every Type of Business
             </p>
             <Link to="/auth">
