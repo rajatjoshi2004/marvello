@@ -4,7 +4,7 @@ import { StarRating } from "@/components/StarRating";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
@@ -50,16 +50,14 @@ export default function BusinessReview() {
     }
   };
 
-  const handleFeedbackSubmit = async (feedback: string) => {
+  const handleFeedbackSubmit = async (feedback: { name: string; message: string }) => {
     if (!business) return;
-
-    const [name, message] = feedback.split(":");
     
     const { error } = await supabase.from("reviews").insert({
       business_id: business.id,
-      reviewer_name: name.trim(),
+      reviewer_name: feedback.name,
       rating: 3,
-      feedback: message.trim(),
+      feedback: feedback.message,
     });
 
     if (error) {
@@ -143,4 +141,4 @@ export default function BusinessReview() {
       </div>
     </div>
   );
-};
+}
