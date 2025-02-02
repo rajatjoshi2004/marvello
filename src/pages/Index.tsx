@@ -42,13 +42,8 @@ export default function Index() {
       {/* Hero Section */}
       <section className="px-4 py-24 text-center sm:px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-</lov-replace>
-
-<lov-search>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.1),transparent_40%)]"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(252,211,77,0.1),transparent_40%)]"></div>
-</lov-search>
-<lov-replace>
         </div>
         <div className="mx-auto max-w-4xl space-y-8 relative">
           <div className="space-y-4 animate-fade-in">
@@ -98,7 +93,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Why Magic QR Codes */}
+      {/* Why Marvello QR Codes */}
       <section className="px-4 py-20 sm:px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(79,70,229,0.1),transparent_40%)]"></div>
