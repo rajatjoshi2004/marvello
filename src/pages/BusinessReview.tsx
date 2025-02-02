@@ -49,9 +49,9 @@ export default function BusinessReview() {
   // Update document title when business data is loaded
   useEffect(() => {
     if (business) {
-      document.title = `Review ${business.name} - Marvello`;
+      document.title = `Review ${business.name}`;
     } else {
-      document.title = "Business Review - Marvello";
+      document.title = "Business Review";
     }
   }, [business]);
 
