@@ -118,7 +118,7 @@ export default function BusinessReview() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center py-12">
         <div className="text-center">
           <h1 className="text-xl font-semibold">Loading...</h1>
         </div>
@@ -128,7 +128,7 @@ export default function BusinessReview() {
 
   if (!business) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center py-12">
         <div className="text-center">
           <h1 className="text-xl font-semibold">Business not found</h1>
         </div>
@@ -137,7 +137,7 @@ export default function BusinessReview() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center py-12 px-4">
       <div className="text-center mb-8">
         <Avatar className="w-20 h-20 mx-auto mb-4 md:w-24 md:h-24">
           <AvatarImage src={business.logo_url || ''} alt={business.name} />
