@@ -95,7 +95,8 @@ export default function BusinessDetails() {
       const { error } = await supabase
         .from("reviews")
         .delete()
-        .eq("id", reviewId);
+        .eq("id", reviewId)
+        .eq("business_id", id); // Added this line to ensure the review belongs to this business
 
       if (error) throw error;
 
@@ -104,7 +105,7 @@ export default function BusinessDetails() {
         description: "Review deleted successfully!",
       });
 
-      fetchBusinessAndReviews();
+      setReviews(reviews.filter(review => review.id !== reviewId));
     } catch (error: any) {
       console.error("Error deleting review:", error.message);
       toast({
@@ -133,7 +134,7 @@ export default function BusinessDetails() {
         <CardHeader>
           <div className="flex items-center justify-between">
             {isEditingName ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 w-full">
                 <Input
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
@@ -175,7 +176,7 @@ export default function BusinessDetails() {
                   href={business.google_review_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline flex-1"
+                  className="text-primary hover:underline break-all"
                 >
                   {business.google_review_url}
                 </a>
@@ -183,7 +184,7 @@ export default function BusinessDetails() {
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsEditingUrl(true)}
-                  className="h-8 w-8"
+                  className="h-8 w-8 flex-shrink-0"
                 >
                   <Pencil className="h-4 w-4" />
                 </Button>
@@ -201,23 +202,23 @@ export default function BusinessDetails() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Reviewer</TableHead>
-                <TableHead>Rating</TableHead>
-                <TableHead>Feedback</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead className="w-[200px]">Reviewer</TableHead>
+                <TableHead className="w-[100px] text-center">Rating</TableHead>
+                <TableHead className="min-w-[300px]">Feedback</TableHead>
+                <TableHead className="w-[150px]">Date</TableHead>
+                <TableHead className="w-[100px] text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {reviews.map((review) => (
                 <TableRow key={review.id}>
-                  <TableCell>{review.reviewer_name}</TableCell>
-                  <TableCell>{review.rating} ★</TableCell>
+                  <TableCell className="font-medium">{review.reviewer_name}</TableCell>
+                  <TableCell className="text-center">{review.rating} ★</TableCell>
                   <TableCell>{review.feedback || "-"}</TableCell>
                   <TableCell>
                     {new Date(review.created_at).toLocaleDateString()}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-right">
                     <Button
                       variant="ghost"
                       size="icon"
