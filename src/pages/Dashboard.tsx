@@ -3,48 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Link2, Moon, Sun } from "lucide-react";
+import { Link2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import type { Business } from "@/types/business";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useTheme } from "@/components/ThemeProvider";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const [user, setUser] = useState<any>(null);
-  const [profile, setProfile] = useState<any>(null);
-  const [newName, setNewName] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const { theme, setTheme } = useTheme();
 
   const checkUser = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       navigate("/auth");
-    } else {
-      setUser(session.user);
-      setNewEmail(session.user.email || "");
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
-      if (profileData) {
-        setProfile(profileData);
-        setNewName(profileData.full_name);
-      }
     }
   };
 
@@ -71,48 +44,6 @@ export default function Dashboard() {
     navigate("/auth");
   };
 
-  const handleUpdateProfile = async () => {
-    try {
-      // Update profile name
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({ full_name: newName })
-        .eq('id', user.id);
-
-      if (profileError) throw profileError;
-
-      // Update email if changed
-      if (newEmail !== user.email) {
-        const { error: emailError } = await supabase.auth.updateUser({
-          email: newEmail,
-        });
-        if (emailError) throw emailError;
-      }
-
-      // Update password if provided
-      if (newPassword) {
-        const { error: passwordError } = await supabase.auth.updateUser({
-          password: newPassword,
-        });
-        if (passwordError) throw passwordError;
-      }
-
-      toast({
-        description: "Profile updated successfully!",
-        duration: 3000,
-      });
-      
-      setProfile({ ...profile, full_name: newName });
-      setNewPassword(""); // Clear password field after update
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        description: error.message,
-        duration: 3000,
-      });
-    }
-  };
-
   const handleCopyLink = async (business: Business) => {
     const link = `${window.location.origin}/review/${business.id}`;
     await navigator.clipboard.writeText(link);
@@ -133,77 +64,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button>
-            
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline">Profile</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Profile Settings</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <Label>Name</Label>
-                    <Input
-                      value={newName}
-                      onChange={(e) => setNewName(e.target.value)}
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Email</Label>
-                    <Input
-                      type="email"
-                      value={newEmail}
-                      onChange={(e) => setNewEmail(e.target.value)}
-                      placeholder="Your email"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>New Password</Label>
-                    <Input
-                      type="password"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Enter new password"
-                    />
-                  </div>
-                  <Button
-                    className="w-full"
-                    onClick={handleUpdateProfile}
-                  >
-                    Update Profile
-                  </Button>
-                  <Button
-                    className="w-full"
-                    variant="destructive"
-                    onClick={handleSignOut}
-                  >
-                    Sign Out
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </div>
-      </header>
+      <DashboardHeader onSignOut={handleSignOut} />
 
       {/* Main Content */}
       <main className="flex-1 container px-4 py-8">
