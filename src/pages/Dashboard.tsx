@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Link2 } from "lucide-react";
+import { Link2, Download } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import type { Business } from "@/types/business";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import { generateQRCode } from "@/utils/qrcode";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -53,6 +54,32 @@ export default function Dashboard() {
     });
   };
 
+  const handleDownloadQR = async (business: Business) => {
+    try {
+      const link = `${window.location.origin}/review/${business.id}`;
+      const qrDataUrl = await generateQRCode(link);
+      
+      // Create a temporary link element to trigger the download
+      const a = document.createElement('a');
+      a.href = qrDataUrl;
+      a.download = `${business.name}-qr-code.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      toast({
+        description: "QR code downloaded successfully!",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Failed to generate QR code",
+        duration: 3000,
+      });
+    }
+  };
+
   useEffect(() => {
     checkUser();
     fetchBusinesses();
@@ -93,6 +120,14 @@ export default function Dashboard() {
                   >
                     <Link2 className="w-4 h-4 mr-2" />
                     Copy Shareable Link
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => handleDownloadQR(business)}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download QR Code
                   </Button>
                 </div>
               </CardContent>
