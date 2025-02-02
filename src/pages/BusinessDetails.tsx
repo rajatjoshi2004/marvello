@@ -3,12 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { StarRating } from "@/components/StarRating";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { Pencil } from "lucide-react";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
 type Review = Database["public"]["Tables"]["reviews"]["Row"];
@@ -20,9 +19,10 @@ export default function BusinessDetails() {
   const [business, setBusiness] = useState<Business | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [reviewerName, setReviewerName] = useState("");
-  const [feedback, setFeedback] = useState("");
-  const [rating, setRating] = useState(0);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingUrl, setIsEditingUrl] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newUrl, setNewUrl] = useState("");
 
   useEffect(() => {
     fetchBusinessAndReviews();
@@ -48,6 +48,8 @@ export default function BusinessDetails() {
 
       setBusiness(businessData);
       setReviews(reviewsData || []);
+      setNewName(businessData.name);
+      setNewUrl(businessData.google_review_url);
     } catch (error: any) {
       console.error("Error fetching data:", error.message);
       toast({
@@ -61,42 +63,29 @@ export default function BusinessDetails() {
     }
   };
 
-  const handleSubmitReview = async () => {
-    if (!rating || !reviewerName.trim()) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please provide both a rating and your name.",
-      });
-      return;
-    }
-
+  const handleUpdateBusiness = async (field: 'name' | 'google_review_url', value: string) => {
     try {
-      const { error } = await supabase.from("reviews").insert({
-        business_id: id!,
-        reviewer_name: reviewerName,
-        rating,
-        feedback: feedback.trim() || null,
-      });
+      const { error } = await supabase
+        .from("businesses")
+        .update({ [field]: value })
+        .eq("id", id!);
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "Review submitted successfully!",
+        description: `Business ${field.replace('_', ' ')} updated successfully!`,
       });
 
-      // Reset form and refresh reviews
-      setReviewerName("");
-      setFeedback("");
-      setRating(0);
       fetchBusinessAndReviews();
+      if (field === 'name') setIsEditingName(false);
+      if (field === 'google_review_url') setIsEditingUrl(false);
     } catch (error: any) {
-      console.error("Error submitting review:", error.message);
+      console.error(`Error updating business ${field}:`, error.message);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Could not submit review. Please try again.",
+        description: `Could not update business ${field.replace('_', ' ')}.`,
       });
     }
   };
@@ -111,7 +100,7 @@ export default function BusinessDetails() {
 
   const averageRating = reviews.length
     ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
-    : "No ratings yet";
+    : null;
 
   return (
     <div className="container py-8">
@@ -121,53 +110,67 @@ export default function BusinessDetails() {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>{business.name}</CardTitle>
+          <div className="flex items-center justify-between">
+            {isEditingName ? (
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="max-w-xs"
+                />
+                <Button onClick={() => handleUpdateBusiness('name', newName)}>Save</Button>
+                <Button variant="outline" onClick={() => setIsEditingName(false)}>Cancel</Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <CardTitle>{business.name}</CardTitle>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsEditingName(true)}
+                  className="h-8 w-8"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
-          <p className="text-lg mb-4">Average Rating: {averageRating}</p>
-          <p className="text-sm text-muted-foreground mb-4">
-            Google Review URL:{" "}
-            <a
-              href={business.google_review_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              {business.google_review_url}
-            </a>
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Submit a Review</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="reviewerName">Your Name</Label>
-              <Input
-                id="reviewerName"
-                value={reviewerName}
-                onChange={(e) => setReviewerName(e.target.value)}
-                placeholder="Enter your name"
-              />
-            </div>
-            <div>
-              <Label>Rating</Label>
-              <StarRating onRate={setRating} />
-            </div>
-            <div>
-              <Label htmlFor="feedback">Feedback (Optional)</Label>
-              <Input
-                id="feedback"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Share your experience"
-              />
-            </div>
-            <Button onClick={handleSubmitReview}>Submit Review</Button>
+          {averageRating && (
+            <p className="text-lg mb-4">Average Rating: {averageRating} ★</p>
+          )}
+          <div className="flex items-center gap-2">
+            {isEditingUrl ? (
+              <div className="flex items-center gap-2 w-full">
+                <Input
+                  value={newUrl}
+                  onChange={(e) => setNewUrl(e.target.value)}
+                  className="flex-1"
+                />
+                <Button onClick={() => handleUpdateBusiness('google_review_url', newUrl)}>Save</Button>
+                <Button variant="outline" onClick={() => setIsEditingUrl(false)}>Cancel</Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 w-full">
+                <a
+                  href={business.google_review_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline flex-1"
+                >
+                  {business.google_review_url}
+                </a>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsEditingUrl(true)}
+                  className="h-8 w-8"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
