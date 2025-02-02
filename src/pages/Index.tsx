@@ -11,7 +11,10 @@ export default function Index() {
       {/* Header */}
       <header className="border-b dark:border-gray-700">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary">Marvello</h1>
+          <div className="flex items-center gap-2">
+            <img src="/logo-icon.svg" alt="Marvello Logo" className="w-8 h-8" />
+            <h1 className="text-2xl font-bold text-primary">Marvello</h1>
+          </div>
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
