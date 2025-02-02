@@ -162,7 +162,7 @@ export default function Index() {
       {/* Call to Action */}
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-2xl bg-primary dark:bg-gray-800 px-6 py-12 text-center sm:px-12">
+          <div className="rounded-2xl bg-primary dark:bg-[#374151] px-6 py-12 text-center sm:px-12">
             <h2 className="mb-6 text-3xl font-bold text-primary-foreground dark:text-white">Ready to Grow Your Business?</h2>
             <p className="mb-8 text-lg text-primary-foreground/90 dark:text-gray-300">
               Zero Computer Skills Needed • Works for Every Type of Business
@@ -179,7 +179,7 @@ export default function Index() {
       {/* Footer */}
       <footer className="border-t py-4">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Business Reviews. All rights reserved.
+          © {new Date().getFullYear()} Marvello. All rights reserved.
         </div>
       </footer>
     </div>
