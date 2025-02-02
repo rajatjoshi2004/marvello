@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
 interface FeedbackFormProps {
@@ -10,10 +11,19 @@ interface FeedbackFormProps {
 
 export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
   const [feedback, setFeedback] = useState("");
+  const [name, setName] = useState("");
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim()) {
+      toast({
+        title: "Name is required",
+        description: "Please enter your name.",
+        variant: "destructive",
+      });
+      return;
+    }
     if (feedback.trim().length < 10) {
       toast({
         title: "Please provide more detail",
@@ -22,7 +32,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       });
       return;
     }
-    onSubmit(feedback);
+    onSubmit(`${name}: ${feedback}`);
   };
 
   return (
@@ -33,6 +43,12 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       className="space-y-4 w-full max-w-md"
       onSubmit={handleSubmit}
     >
+      <Input
+        placeholder="Your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="w-full"
+      />
       <Textarea
         placeholder="Please share your feedback with us..."
         className="min-h-[150px] resize-none"
