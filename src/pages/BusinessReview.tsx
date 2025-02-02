@@ -140,20 +140,16 @@ export default function BusinessReview() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="sticky top-0 bg-background border-b z-10 py-6">
-        <div className="container max-w-md mx-auto px-4">
-          <div className="text-center">
-            <Avatar className="w-20 h-20 mx-auto mb-4 md:w-24 md:h-24">
-              <AvatarImage src={business.logo_url || ''} alt={business.name} />
-              <AvatarFallback>{business.name[0]}</AvatarFallback>
-            </Avatar>
-            <h1 className="text-2xl font-bold md:text-3xl">{business.name}</h1>
-          </div>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center px-4">
+      <div className="text-center mb-8">
+        <Avatar className="w-20 h-20 mx-auto mb-4 md:w-24 md:h-24">
+          <AvatarImage src={business.logo_url || ''} alt={business.name} />
+          <AvatarFallback>{business.name[0]}</AvatarFallback>
+        </Avatar>
+        <h1 className="text-2xl font-bold md:text-3xl">{business.name}</h1>
       </div>
 
-      <div className="flex-1 container max-w-md mx-auto px-4 md:py-8">
+      <div className="w-full max-w-md">
         {submitted ? (
           <div className="text-center px-4">
             <h2 className="text-xl font-semibold text-green-600 mb-4">Thank You!</h2>
