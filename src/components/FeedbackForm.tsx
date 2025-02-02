@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useMediaQuery } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FeedbackFormProps {
   onSubmit: (feedback: { name: string; message: string }) => void;
@@ -16,7 +16,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
   const [nameError, setNameError] = useState("");
   const [feedbackError, setFeedbackError] = useState("");
   const { toast } = useToast();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useIsMobile();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
