@@ -46,6 +46,15 @@ export default function BusinessReview() {
     fetchBusiness();
   }, [id, toast]);
 
+  // Update document title when business data is loaded
+  useEffect(() => {
+    if (business) {
+      document.title = `Review ${business.name} - Marvello`;
+    } else {
+      document.title = "Business Review - Marvello";
+    }
+  }, [business]);
+
   const handleRating = (rating: number) => {
     console.log("Rating selected:", rating);
     setSelectedRating(rating);
