@@ -4,6 +4,7 @@ import { StarRating } from "@/components/StarRating";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { useToast } from "@/hooks/use-toast";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
 
@@ -12,6 +13,8 @@ export default function BusinessReview() {
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchBusiness = async () => {
@@ -58,8 +61,18 @@ export default function BusinessReview() {
 
     if (error) {
       console.error("Error submitting review:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "There was an error submitting your review. Please try again.",
+      });
     } else {
+      toast({
+        title: "Success",
+        description: "Thank you for your feedback!",
+      });
       setShowFeedbackForm(false);
+      setSubmitted(true);
     }
   };
 
@@ -87,7 +100,17 @@ export default function BusinessReview() {
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6">{business.name}</h1>
-        {!showFeedbackForm ? (
+        {submitted ? (
+          <div className="text-center">
+            <h2 className="text-xl font-semibold text-green-600 mb-4">Thank You!</h2>
+            <p className="text-gray-600 mb-4">
+              We appreciate you taking the time to share your feedback with us. Your input helps us improve our services.
+            </p>
+            <p className="text-gray-500">
+              Have a great day!
+            </p>
+          </div>
+        ) : !showFeedbackForm ? (
           <>
             <p className="text-center text-gray-600 mb-8">
               How would you rate your experience with {business.name}?
