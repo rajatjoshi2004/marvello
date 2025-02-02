@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
-type Business = Database["public"]["Tables"]["businesses"]["Row"];
+type Business = Database["public"]["Tables"]["businesses"]["Row"] & {
+  reviews: Database["public"]["Tables"]["reviews"]["Row"][];
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -26,12 +28,15 @@ export default function Dashboard() {
 
   const fetchBusinesses = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: businessesData, error: businessesError } = await supabase
         .from("businesses")
-        .select("*");
+        .select(`
+          *,
+          reviews (*)
+        `);
 
-      if (error) throw error;
-      setBusinesses(data || []);
+      if (businessesError) throw businessesError;
+      setBusinesses(businessesData || []);
     } catch (error: any) {
       console.error("Error fetching businesses:", error.message);
     } finally {
@@ -56,20 +61,37 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {businesses.map((business) => (
-          <Card key={business.id}>
-            <CardHeader>
-              <CardTitle>{business.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => navigate(`/business/${business.id}`)}>
-                Manage Business
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+        {businesses.map((business) => {
+          const averageRating = business.reviews.length
+            ? (business.reviews.reduce((sum, review) => sum + review.rating, 0) / business.reviews.length).toFixed(1)
+            : "No ratings";
 
-        <Card className="flex items-center justify-center min-h-[200px]">
+          return (
+            <Card key={business.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle>{business.name}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Average Rating:</span>
+                  <span className="font-medium">{averageRating} ★</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Total Reviews:</span>
+                  <span className="font-medium">{business.reviews.length}</span>
+                </div>
+                <Button 
+                  className="w-full"
+                  onClick={() => navigate(`/business/${business.id}`)}
+                >
+                  Manage Business
+                </Button>
+              </CardContent>
+            </Card>
+          )
+        })}
+
+        <Card className="flex items-center justify-center min-h-[200px] hover:shadow-lg transition-shadow">
           <Button variant="ghost" onClick={() => navigate("/business/new")}>
             + Add New Business
           </Button>
