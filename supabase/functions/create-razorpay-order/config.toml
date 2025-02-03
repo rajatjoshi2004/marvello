@@ -1,0 +1,6 @@
+project_id = "joxolpszmnvzflwdcfxy"
+[functions.create-razorpay-order]
+verify_jwt = false
+import_map = [
+  "import_map.json"
+]

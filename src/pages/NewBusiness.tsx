@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,7 +17,10 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import { Building2, Link } from "lucide-react";
+import { Building2, Link, Lock } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+
+declare const Razorpay: any;
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -31,6 +34,8 @@ const formSchema = z.object({
 export default function NewBusiness() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'processing' | 'completed'>('pending');
+  const [paymentProgress, setPaymentProgress] = useState(0);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -60,7 +65,52 @@ export default function NewBusiness() {
     navigate("/auth");
   };
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const handlePayment = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setPaymentStatus('processing');
+      setPaymentProgress(33);
+
+      const response = await supabase.functions.invoke('create-razorpay-order');
+      if (response.error) throw new Error(response.error.message);
+      
+      const { orderId, amount, currency, keyId } = response.data;
+      setPaymentProgress(66);
+
+      const options = {
+        key: keyId,
+        amount: amount,
+        currency: currency,
+        name: "Marvello",
+        description: "Business Registration Fee",
+        order_id: orderId,
+        handler: async function (response: any) {
+          setPaymentProgress(100);
+          setPaymentStatus('completed');
+          await createBusiness(values, response.razorpay_payment_id);
+        },
+        prefill: {
+          name: values.name,
+        },
+        theme: {
+          color: "#0f172a",
+        },
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      toast({
+        variant: "destructive",
+        title: "Payment Error",
+        description: "Failed to initialize payment. Please try again.",
+      });
+      setPaymentStatus('pending');
+      setPaymentProgress(0);
+    }
+  };
+
+  const createBusiness = async (values: z.infer<typeof formSchema>, paymentId: string) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
@@ -121,7 +171,7 @@ export default function NewBusiness() {
         description: "An unexpected error occurred. Please try again.",
       });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -139,10 +189,19 @@ export default function NewBusiness() {
         <Card className="shadow-lg border-border">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight">Create New Business</CardTitle>
+            {paymentStatus !== 'completed' && (
+              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                <Lock className="h-4 w-4" />
+                Complete payment to unlock (₹999)
+              </div>
+            )}
+            {paymentStatus === 'processing' && (
+              <Progress value={paymentProgress} className="w-full" />
+            )}
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="name"
@@ -198,7 +257,7 @@ export default function NewBusiness() {
                     type="submit"
                     className="px-8"
                   >
-                    Create Business
+                    {paymentStatus === 'pending' ? 'Proceed to Payment' : 'Processing...'}
                   </Button>
                 </div>
               </form>
