@@ -31,6 +31,7 @@ export default function ProfileDialog() {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -120,9 +121,14 @@ export default function ProfileDialog() {
     }
   };
 
+  const handleCloseDialog = () => {
+    setIsEditingProfile(false);
+    setNewPassword("");
+  };
+
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon">
             {user?.user_metadata?.avatar_url ? (
@@ -149,7 +155,10 @@ export default function ProfileDialog() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setIsEditingProfile(true)}>
+          <DropdownMenuItem onClick={() => {
+            setIsEditingProfile(true);
+            setIsDropdownOpen(false);
+          }}>
             <UserIcon className="mr-2 h-4 w-4" />
             <span>Edit Profile</span>
           </DropdownMenuItem>
@@ -160,7 +169,15 @@ export default function ProfileDialog() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={isEditingProfile} onOpenChange={setIsEditingProfile}>
+      <Dialog 
+        open={isEditingProfile} 
+        onOpenChange={(open) => {
+          if (!open) {
+            handleCloseDialog();
+          }
+          setIsEditingProfile(open);
+        }}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
@@ -218,7 +235,7 @@ export default function ProfileDialog() {
               </Button>
             )}
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setIsEditingProfile(false)}>
+              <Button variant="outline" onClick={handleCloseDialog}>
                 Cancel
               </Button>
               <Button onClick={handleUpdateProfile} disabled={loading}>
