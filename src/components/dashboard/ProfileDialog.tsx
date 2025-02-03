@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { User } from "lucide-react";
+import { User, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function ProfileDialog() {
@@ -20,6 +22,7 @@ export default function ProfileDialog() {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -83,11 +86,23 @@ export default function ProfileDialog() {
     }
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon">
-          <User className="h-5 w-5" />
+          {user?.user_metadata?.avatar_url ? (
+            <Avatar>
+              <AvatarImage src={user.user_metadata.avatar_url} alt={user.user_metadata.full_name || "User"} />
+              <AvatarFallback><User className="h-5 w-5" /></AvatarFallback>
+            </Avatar>
+          ) : (
+            <User className="h-5 w-5" />
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -95,6 +110,17 @@ export default function ProfileDialog() {
           <DialogTitle>Profile Settings</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
+          <div className="flex items-center justify-center mb-6">
+            <Avatar className="h-20 w-20">
+              <AvatarImage 
+                src={user?.user_metadata?.avatar_url} 
+                alt={profile?.full_name || "User"} 
+              />
+              <AvatarFallback>
+                <User className="h-10 w-10" />
+              </AvatarFallback>
+            </Avatar>
+          </div>
           <div className="space-y-2">
             <Label>Name</Label>
             <Input
@@ -126,6 +152,14 @@ export default function ProfileDialog() {
             onClick={handleUpdateProfile}
           >
             Update Profile
+          </Button>
+          <Button
+            variant="destructive"
+            className="w-full"
+            onClick={handleSignOut}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign Out
           </Button>
         </div>
       </DialogContent>
