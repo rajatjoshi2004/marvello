@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -22,14 +22,32 @@ export const useRazorpayPayment = () => {
   const [paymentStatus, setPaymentStatus] = useState<'pending' | 'processing' | 'completed'>('pending');
   const [paymentProgress, setPaymentProgress] = useState(0);
 
+  useEffect(() => {
+    // Load Razorpay script if not already loaded
+    if (!document.getElementById('razorpay-script')) {
+      const script = document.createElement('script');
+      script.id = 'razorpay-script';
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.head.appendChild(script);
+    }
+  }, []);
+
   const initializePayment = async (
     businessName: string, 
     onSuccess: (paymentId: string) => void,
     options?: PaymentOptions
   ) => {
     try {
+      // Wait for Razorpay to load
+      let attempts = 0;
+      while (typeof window.Razorpay === 'undefined' && attempts < 10) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        attempts++;
+      }
+
       if (typeof window.Razorpay === 'undefined') {
-        throw new Error('Razorpay SDK not loaded');
+        throw new Error('Razorpay SDK failed to load. Please refresh the page and try again.');
       }
 
       setPaymentStatus('processing');
@@ -64,6 +82,12 @@ export const useRazorpayPayment = () => {
         theme: {
           color: "#0f172a",
         },
+        modal: {
+          ondismiss: function() {
+            setPaymentStatus('pending');
+            setPaymentProgress(0);
+          }
+        }
       };
 
       const rzp = new window.Razorpay(razorpayOptions);
