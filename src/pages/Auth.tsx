@@ -77,6 +77,15 @@ export default function Auth() {
       });
       if (error) throw error;
     } catch (error: any) {
+      // Clear local session if we get a user_not_found error
+      if (error.message?.includes('user_not_found')) {
+        await supabase.auth.clearSession();
+        toast({
+          title: "Session Expired",
+          description: "Your session has expired. Please sign in again.",
+        });
+        return;
+      }
       toast({
         variant: "destructive",
         title: "Error",
