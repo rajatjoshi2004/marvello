@@ -96,7 +96,7 @@ export default function BusinessDetails() {
     }
   };
 
-  const handleUpdateBusiness = async (field: 'name' | 'google_review_url' | 'logo_url', value: string) => {
+  const handleUpdateBusiness = async (field: 'name' | 'mobile_number' | 'logo_url', value: string) => {
     try {
       const { error } = await supabase
         .from("businesses")
@@ -111,13 +111,38 @@ export default function BusinessDetails() {
       });
 
       fetchBusinessAndReviews();
-      if (field === 'google_review_url') setShowUrlDialog(false);
     } catch (error: any) {
       console.error(`Error updating business ${field}:`, error.message);
       toast({
         variant: "destructive",
         title: "Error",
         description: `Could not update business ${field.replace('_', ' ')}.`,
+      });
+    }
+  };
+
+  const handleUpdateUrl = async (url: string) => {
+    try {
+      const { error } = await supabase
+        .from("businesses")
+        .update({ google_review_url: url })
+        .eq("id", id!);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Review URL updated successfully!",
+      });
+
+      fetchBusinessAndReviews();
+      setShowUrlDialog(false);
+    } catch (error: any) {
+      console.error("Error updating review URL:", error.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not update review URL.",
       });
     }
   };
@@ -255,7 +280,7 @@ export default function BusinessDetails() {
           onOpenChange={setShowUrlDialog}
           url={newUrl}
           onUrlChange={setNewUrl}
-          onSave={() => handleUpdateBusiness('google_review_url', newUrl)}
+          onSave={() => handleUpdateUrl(newUrl)}
         />
       </main>
 
