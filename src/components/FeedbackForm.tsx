@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { formatMobileNumber, isMobileValid } from "@/utils/validation";
 
 interface FeedbackFormProps {
   onSubmit: (feedback: { name: string; mobile: string; message: string }) => void;
@@ -39,7 +40,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       return;
     }
 
-    if (!mobile.trim() || !/^\d{10}$/.test(mobile)) {
+    if (!isMobileValid(mobile)) {
       if (isMobile) {
         setMobileError("Please enter a valid 10-digit mobile number.");
       } else {
@@ -107,7 +108,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
           placeholder="Mobile number (10 digits)"
           value={mobile}
           onChange={(e) => {
-            setMobile(e.target.value.replace(/\D/g, '').slice(0, 10));
+            setMobile(formatMobileNumber(e.target.value));
             setMobileError("");
           }}
           className={`w-full ${mobileError ? "border-red-500" : ""}`}

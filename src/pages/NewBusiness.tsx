@@ -18,6 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { Building2, Link, Phone } from "lucide-react";
+import { isMobileValid } from "@/utils/validation";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -26,8 +27,8 @@ const formSchema = z.object({
   google_review_url: z.string().url({
     message: "Please enter a valid URL.",
   }),
-  mobile_number: z.string().min(10, {
-    message: "Mobile number must be at least 10 digits.",
+  mobile_number: z.string().refine((val) => isMobileValid(val), {
+    message: "Mobile number must be exactly 10 digits.",
   }),
 });
 

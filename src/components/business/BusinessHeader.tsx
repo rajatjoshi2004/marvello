@@ -5,6 +5,7 @@ import { CardHeader, CardTitle } from "@/components/ui/card";
 import { Pencil, Phone } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Business } from "@/types/business";
+import { formatMobileNumber } from "@/utils/validation";
 
 interface BusinessHeaderProps {
   business: Business;
@@ -23,6 +24,22 @@ export function BusinessHeader({
   const [isEditingMobile, setIsEditingMobile] = useState(false);
   const [newName, setNewName] = useState(business.name);
   const [newMobile, setNewMobile] = useState(business.mobile_number || '');
+  const [mobileError, setMobileError] = useState('');
+
+  const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatMobileNumber(e.target.value);
+    setNewMobile(formatted);
+    setMobileError('');
+  };
+
+  const handleMobileSubmit = () => {
+    if (!/^\d{10}$/.test(newMobile)) {
+      setMobileError('Mobile number must be exactly 10 digits');
+      return;
+    }
+    onUpdateBusiness('mobile_number', newMobile);
+    setIsEditingMobile(false);
+  };
 
   return (
     <CardHeader>
@@ -77,21 +94,27 @@ export function BusinessHeader({
             )}
             
             {isEditingMobile ? (
-              <div className="flex items-center gap-2">
-                <div className="relative">
-                  <Phone className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    value={newMobile}
-                    onChange={(e) => setNewMobile(e.target.value)}
-                    className="pl-9 max-w-xs"
-                    placeholder="Enter mobile number"
-                  />
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      value={newMobile}
+                      onChange={handleMobileChange}
+                      className="pl-9 max-w-xs"
+                      placeholder="Enter 10-digit mobile number"
+                      maxLength={10}
+                    />
+                  </div>
+                  <Button onClick={handleMobileSubmit}>Save</Button>
+                  <Button variant="outline" onClick={() => {
+                    setIsEditingMobile(false);
+                    setMobileError('');
+                  }}>Cancel</Button>
                 </div>
-                <Button onClick={() => {
-                  onUpdateBusiness('mobile_number', newMobile);
-                  setIsEditingMobile(false);
-                }}>Save</Button>
-                <Button variant="outline" onClick={() => setIsEditingMobile(false)}>Cancel</Button>
+                {mobileError && (
+                  <p className="text-sm text-destructive">{mobileError}</p>
+                )}
               </div>
             ) : (
               <div className="flex items-center gap-2 text-muted-foreground">
