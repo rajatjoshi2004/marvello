@@ -9,6 +9,9 @@ interface PaymentOptions {
     email?: string;
     contact?: string;
   };
+  modal?: {
+    ondismiss?: () => void;
+  };
 }
 
 declare global {
@@ -35,6 +38,7 @@ export const useRazorpayPayment = () => {
   const initializePayment = async (
     businessName: string, 
     onSuccess: (paymentId: string) => void,
+    onError?: (error?: string) => void,
     options?: PaymentOptions
   ) => {
     try {
@@ -89,21 +93,30 @@ export const useRazorpayPayment = () => {
           ondismiss: function() {
             setPaymentStatus('pending');
             setPaymentProgress(0);
+            if (options?.modal?.ondismiss) {
+              options.modal.ondismiss();
+            }
           }
         }
       };
 
       const rzp = new window.Razorpay(razorpayOptions);
+      rzp.on('payment.failed', function (response: any) {
+        setPaymentStatus('pending');
+        setPaymentProgress(0);
+        if (onError) {
+          onError(response.error.description || 'Payment failed');
+        }
+      });
+      
       rzp.open();
     } catch (error: any) {
       console.error('Payment error:', error);
-      toast({
-        variant: "destructive",
-        title: "Payment Error",
-        description: error.message || "Failed to initialize payment. Please try again.",
-      });
       setPaymentStatus('pending');
       setPaymentProgress(0);
+      if (onError) {
+        onError(error.message || "Failed to initialize payment. Please try again.");
+      }
     }
   };
 

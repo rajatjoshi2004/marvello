@@ -17,21 +17,44 @@ export default function EmptyStateCard() {
       return;
     }
     
-    initializePayment("Business Registration", () => {
-      toast({
-        title: "Payment Successful",
-        description: "You can now add your business details.",
-      });
-      setTimeout(() => {
-        navigate("/business/new");
-      }, 1000);
-    }, {
-      amount: 99900, // ₹999
-      prefill: {
-        email: 'test@example.com',
-        contact: '9999999999'
+    initializePayment("Business Registration", 
+      // Success callback
+      () => {
+        toast({
+          title: "Payment Successful",
+          description: "You can now add your business details.",
+          variant: "default",
+        });
+        setTimeout(() => {
+          navigate("/business/new");
+        }, 2000); // Increased delay to ensure user sees the success message
+      }, 
+      // Failure callback
+      (error) => {
+        toast({
+          title: "Payment Failed",
+          description: error || "Please try again later.",
+          variant: "destructive",
+        });
+      },
+      {
+        amount: 99900, // ₹999
+        prefill: {
+          email: 'test@example.com',
+          contact: '9999999999'
+        },
+        // Add handler for modal close
+        modal: {
+          ondismiss: () => {
+            toast({
+              title: "Payment Cancelled",
+              description: "You can try again when you're ready.",
+              variant: "default",
+            });
+          }
+        }
       }
-    });
+    );
   };
 
   return (
