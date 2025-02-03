@@ -125,7 +125,16 @@ export default function ProfileDialog() {
 
   const handleUnlinkGoogle = async () => {
     try {
-      const { error } = await supabase.auth.unlinkIdentity('google');
+      const googleIdentity = user?.identities?.find((identity: any) => identity.provider === 'google');
+      if (!googleIdentity) {
+        throw new Error('No Google identity found');
+      }
+      
+      const { error } = await supabase.auth.unlinkIdentity({
+        id: googleIdentity.id,
+        provider: googleIdentity.provider,
+      });
+      
       if (error) throw error;
       toast({
         title: "Success",
