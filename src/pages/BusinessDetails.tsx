@@ -232,7 +232,7 @@ export default function BusinessDetails() {
           <CardContent className="border-t bg-background/50">
             <Button
               variant="outline"
-              className="flex items-center gap-2 hover:bg-secondary"
+              className="flex items-center gap-2 hover:bg-secondary mt-4"
               onClick={() => setShowUrlDialog(true)}
             >
               <Link className="h-4 w-4" />
