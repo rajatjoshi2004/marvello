@@ -4,12 +4,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { User, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -43,8 +44,8 @@ export default function ProfileDialog() {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
           {user?.user_metadata?.avatar_url ? (
             <Avatar>
@@ -55,37 +56,20 @@ export default function ProfileDialog() {
             <User className="h-5 w-5" />
           )}
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[325px]">
-        <DialogHeader>
-          <DialogTitle>Profile</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="flex flex-col items-center space-y-3">
-            <Avatar className="h-20 w-20">
-              <AvatarImage 
-                src={user?.user_metadata?.avatar_url} 
-                alt={profile?.full_name || "User"} 
-              />
-              <AvatarFallback>
-                <User className="h-10 w-10" />
-              </AvatarFallback>
-            </Avatar>
-            <div className="text-center">
-              <p className="font-medium">{user?.user_metadata?.full_name || "User"}</p>
-              <p className="text-sm text-muted-foreground">{user?.email}</p>
-            </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="end">
+        <DropdownMenuLabel>
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{user?.user_metadata?.full_name || "User"}</p>
+            <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
           </div>
-          <Button
-            variant="destructive"
-            className="w-full"
-            onClick={handleSignOut}
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleSignOut}>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Sign Out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
