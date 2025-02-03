@@ -39,6 +39,11 @@ export default function NewBusiness() {
     },
   });
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -104,7 +109,7 @@ export default function NewBusiness() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <DashboardHeader />
+      <DashboardHeader onSignOut={handleSignOut} />
 
       <div className="container max-w-2xl py-8 flex-1">
         <Button 
