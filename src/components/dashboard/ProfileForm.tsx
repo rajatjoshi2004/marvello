@@ -58,7 +58,7 @@ export default function ProfileForm({ user, profile, onClose, isGoogleUser }: Pr
           <Input
             value={user.user_metadata.full_name || ""}
             disabled
-            className="bg-gray-50"
+            className="bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
           />
         </div>
         <div className="space-y-2">
@@ -66,7 +66,7 @@ export default function ProfileForm({ user, profile, onClose, isGoogleUser }: Pr
           <Input
             value={user.email || ""}
             disabled
-            className="bg-gray-50"
+            className="bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
           />
         </div>
         <div className="flex justify-end space-x-2">
