@@ -15,10 +15,10 @@ const mergeImages = async (qrDataUrl: string): Promise<string> => {
       ctx?.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
       
       qrImage.onload = () => {
-        // Position QR code in the center of the template but shifted down
+        // Position QR code in the designated white space
         const qrSize = 400;
         const x = (canvas.width - qrSize) / 2;
-        const y = ((canvas.height - qrSize) / 2) + 100; // Shifted down by 100px
+        const y = ((canvas.height - qrSize) / 2) + 100; // Shifted down to align with the template
         
         ctx?.drawImage(qrImage, x, y, qrSize, qrSize);
         resolve(canvas.toDataURL('image/png'));
@@ -30,7 +30,7 @@ const mergeImages = async (qrDataUrl: string): Promise<string> => {
     bgImage.onerror = reject;
     qrImage.onerror = reject;
     
-    bgImage.src = '/lovable-uploads/0057af97-5d92-4f26-9535-e0105e11e4f0.png';
+    bgImage.src = '/lovable-uploads/e090eab3-bcc6-471a-b3c2-fa5df17472b7.png';
   });
 };
 
