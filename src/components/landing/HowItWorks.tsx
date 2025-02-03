@@ -7,8 +7,7 @@ export default function HowItWorks() {
         </h2>
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Simply present these 2 QR codes to your customers—that's it!
-            We'll take care of the rest to help your business grow rapidly.
+            Simply present these QR codes to your customers—that's it! We'll take care of the rest to help your business grow rapidly.
           </p>
         </div>
       </div>
