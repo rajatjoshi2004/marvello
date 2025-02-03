@@ -22,11 +22,11 @@ export default function Auth() {
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="signin">
+              <TabsContent value="signin" className="space-y-4">
                 <SignInForm />
               </TabsContent>
 
-              <TabsContent value="signup">
+              <TabsContent value="signup" className="space-y-4">
                 <SignUpForm />
               </TabsContent>
 
