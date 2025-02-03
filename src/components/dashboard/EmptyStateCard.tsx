@@ -14,8 +14,15 @@ export default function EmptyStateCard() {
       navigate("/business/new");
       return;
     }
-    initializePayment("New Business Registration", () => {
+    // Test mode configuration
+    initializePayment("Test Business Registration", () => {
       navigate("/business/new");
+    }, {
+      amount: 100, // ₹1 for testing
+      prefill: {
+        email: 'test@example.com',
+        contact: '9999999999'
+      }
     });
   };
 
@@ -31,7 +38,7 @@ export default function EmptyStateCard() {
           <div className="space-y-2">
             <div className="text-sm text-muted-foreground flex items-center gap-2">
               <Lock className="h-4 w-4" />
-              Complete payment to unlock (₹999)
+              Complete payment to unlock (₹1) - Test Mode
             </div>
             {paymentStatus === 'processing' && (
               <Progress value={paymentProgress} className="w-full" />
@@ -44,7 +51,7 @@ export default function EmptyStateCard() {
           disabled={paymentStatus === 'processing'}
         >
           <Plus className="w-4 h-4 mr-2" />
-          {paymentStatus === 'completed' ? 'Add Business' : 'Complete Payment'}
+          {paymentStatus === 'completed' ? 'Add Business' : 'Complete Test Payment'}
         </Button>
       </CardContent>
     </Card>

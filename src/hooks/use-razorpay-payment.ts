@@ -2,29 +2,46 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
+interface PaymentOptions {
+  amount?: number;
+  prefill?: {
+    name?: string;
+    email?: string;
+    contact?: string;
+  };
+}
+
 export const useRazorpayPayment = () => {
   const { toast } = useToast();
   const [paymentStatus, setPaymentStatus] = useState<'pending' | 'processing' | 'completed'>('pending');
   const [paymentProgress, setPaymentProgress] = useState(0);
 
-  const initializePayment = async (businessName: string, onSuccess: (paymentId: string) => void) => {
+  const initializePayment = async (
+    businessName: string, 
+    onSuccess: (paymentId: string) => void,
+    options?: PaymentOptions
+  ) => {
     try {
       setPaymentStatus('processing');
       setPaymentProgress(33);
 
-      const response = await supabase.functions.invoke('create-razorpay-order');
-      if (response.error) throw new Error(response.error.message);
-      
-      const { orderId, amount, currency, keyId } = response.data;
+      // For test mode, we'll use a mock order
+      const testOrder = {
+        orderId: 'order_' + Date.now(),
+        amount: options?.amount || 99900, // Default to ₹999 if not in test mode
+        currency: 'INR',
+        keyId: 'rzp_test_YOUR_TEST_KEY' // Replace with your test key
+      };
+
       setPaymentProgress(66);
 
-      const options = {
-        key: keyId,
-        amount: amount,
-        currency: currency,
+      const razorpayOptions = {
+        key: testOrder.keyId,
+        amount: testOrder.amount,
+        currency: testOrder.currency,
         name: "Marvello",
-        description: "Business Registration Fee",
-        order_id: orderId,
+        description: "Business Registration Fee (Test Mode)",
+        order_id: testOrder.orderId,
         handler: function (response: any) {
           setPaymentProgress(100);
           setPaymentStatus('completed');
@@ -32,13 +49,14 @@ export const useRazorpayPayment = () => {
         },
         prefill: {
           name: businessName,
+          ...options?.prefill
         },
         theme: {
           color: "#0f172a",
         },
       };
 
-      const rzp = new Razorpay(options);
+      const rzp = new Razorpay(razorpayOptions);
       rzp.open();
     } catch (error: any) {
       console.error('Payment error:', error);

@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { BusinessForm, type BusinessFormData } from "@/components/business/BusinessForm";
+import { useRazorpayPayment } from "@/hooks/use-razorpay-payment";
 
 export default function NewBusiness() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { paymentStatus } = useRazorpayPayment();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -25,6 +27,18 @@ export default function NewBusiness() {
     };
     checkAuth();
   }, [navigate, toast]);
+
+  // Add payment check
+  useEffect(() => {
+    if (paymentStatus !== 'completed') {
+      toast({
+        variant: "destructive",
+        title: "Payment Required",
+        description: "Please complete the payment before creating a business.",
+      });
+      navigate("/dashboard");
+    }
+  }, [paymentStatus, navigate, toast]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
