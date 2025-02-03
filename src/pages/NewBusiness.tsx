@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import { Building2, Link } from "lucide-react";
+import { Building2, Link, Phone } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -25,6 +25,9 @@ const formSchema = z.object({
   }),
   google_review_url: z.string().url({
     message: "Please enter a valid URL.",
+  }),
+  mobile_number: z.string().min(10, {
+    message: "Mobile number must be at least 10 digits.",
   }),
 });
 
@@ -52,6 +55,7 @@ export default function NewBusiness() {
     defaultValues: {
       name: "",
       google_review_url: "https://g.page/r/",
+      mobile_number: "",
     },
   });
 
@@ -95,6 +99,7 @@ export default function NewBusiness() {
         .insert({
           name: values.name,
           google_review_url: values.google_review_url,
+          mobile_number: values.mobile_number,
           owner_id: profile.id,
         });
 
@@ -164,6 +169,28 @@ export default function NewBusiness() {
                   )}
                 />
                 
+                <FormField
+                  control={form.control}
+                  name="mobile_number"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-base">Mobile Number</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Input 
+                            placeholder="Enter mobile number" 
+                            className="pl-10 bg-background"
+                            type="tel"
+                            {...field} 
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="google_review_url"

@@ -15,6 +15,7 @@ export type Database = {
           google_review_url: string
           id: string
           logo_url: string | null
+          mobile_number: string | null
           name: string
           owner_id: string
           updated_at: string
@@ -24,6 +25,7 @@ export type Database = {
           google_review_url?: string
           id?: string
           logo_url?: string | null
+          mobile_number?: string | null
           name: string
           owner_id: string
           updated_at?: string
@@ -33,6 +35,7 @@ export type Database = {
           google_review_url?: string
           id?: string
           logo_url?: string | null
+          mobile_number?: string | null
           name?: string
           owner_id?: string
           updated_at?: string
