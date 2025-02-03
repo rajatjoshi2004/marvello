@@ -12,7 +12,7 @@ import { UrlDialog } from "@/components/business/UrlDialog";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function BusinessDetails() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [business, setBusiness] = useState<Business | null>(null);
@@ -23,18 +23,54 @@ export default function BusinessDetails() {
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    fetchBusinessAndReviews();
+    if (!id) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Invalid business ID.",
+      });
+      navigate("/dashboard");
+      return;
+    }
+    
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please sign in to view business details.",
+        });
+        navigate("/auth");
+        return;
+      }
+      fetchBusinessAndReviews();
+    };
+
+    checkSession();
   }, [id]);
 
   const fetchBusinessAndReviews = async () => {
     try {
+      if (!id) return;
+
       const { data: businessData, error: businessError } = await supabase
         .from("businesses")
         .select("*")
         .eq("id", id)
-        .single();
+        .maybeSingle();
 
       if (businessError) throw businessError;
+      
+      if (!businessData) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Business not found.",
+        });
+        navigate("/dashboard");
+        return;
+      }
 
       const { data: reviewsData, error: reviewsError } = await supabase
         .from("reviews")
@@ -155,11 +191,21 @@ export default function BusinessDetails() {
   };
 
   if (loading) {
-    return <div className="container py-8">Loading...</div>;
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <DashboardHeader onSignOut={handleSignOut} />
+        <div className="container py-8">Loading...</div>
+      </div>
+    );
   }
 
   if (!business) {
-    return <div className="container py-8">Business not found.</div>;
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <DashboardHeader onSignOut={handleSignOut} />
+        <div className="container py-8">Business not found.</div>
+      </div>
+    );
   }
 
   return (
