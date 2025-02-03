@@ -28,7 +28,7 @@ export const useRazorpayPayment = () => {
       // For test mode, we'll use a mock order
       const testOrder = {
         orderId: 'order_' + Date.now(),
-        amount: options?.amount || 99900, // Default to ₹999 if not in test mode
+        amount: options?.amount || 99900, // ₹999
         currency: 'INR',
         keyId: 'rzp_test_YOUR_TEST_KEY' // Replace with your test key
       };
@@ -40,7 +40,7 @@ export const useRazorpayPayment = () => {
         amount: testOrder.amount,
         currency: testOrder.currency,
         name: "Marvello",
-        description: "Business Registration Fee (Test Mode)",
+        description: "Business Registration Fee",
         order_id: testOrder.orderId,
         handler: function (response: any) {
           setPaymentProgress(100);
@@ -56,7 +56,8 @@ export const useRazorpayPayment = () => {
         },
       };
 
-      const rzp = new Razorpay(razorpayOptions);
+      // @ts-ignore - Razorpay is loaded from CDN
+      const rzp = new window.Razorpay(razorpayOptions);
       rzp.open();
     } catch (error: any) {
       console.error('Payment error:', error);
