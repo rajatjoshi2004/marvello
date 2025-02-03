@@ -11,6 +11,12 @@ interface PaymentOptions {
   };
 }
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 export const useRazorpayPayment = () => {
   const { toast } = useToast();
   const [paymentStatus, setPaymentStatus] = useState<'pending' | 'processing' | 'completed'>('pending');
@@ -22,6 +28,10 @@ export const useRazorpayPayment = () => {
     options?: PaymentOptions
   ) => {
     try {
+      if (typeof window.Razorpay === 'undefined') {
+        throw new Error('Razorpay SDK not loaded');
+      }
+
       setPaymentStatus('processing');
       setPaymentProgress(33);
 
@@ -56,7 +66,6 @@ export const useRazorpayPayment = () => {
         },
       };
 
-      // @ts-ignore - Razorpay is loaded from CDN
       const rzp = new window.Razorpay(razorpayOptions);
       rzp.open();
     } catch (error: any) {
@@ -64,7 +73,7 @@ export const useRazorpayPayment = () => {
       toast({
         variant: "destructive",
         title: "Payment Error",
-        description: "Failed to initialize payment. Please try again.",
+        description: error.message || "Failed to initialize payment. Please try again.",
       });
       setPaymentStatus('pending');
       setPaymentProgress(0);
