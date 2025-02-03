@@ -192,7 +192,7 @@ export default function BusinessDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-background">
         <DashboardHeader onSignOut={handleSignOut} />
         <div className="container py-8">Loading...</div>
       </div>
@@ -201,7 +201,7 @@ export default function BusinessDetails() {
 
   if (!business) {
     return (
-      <div className="min-h-screen flex flex-col bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-background">
         <DashboardHeader onSignOut={handleSignOut} />
         <div className="container py-8">Business not found.</div>
       </div>
@@ -209,30 +209,30 @@ export default function BusinessDetails() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-background">
       <DashboardHeader onSignOut={handleSignOut} />
 
       <main className="flex-1 container px-4 py-8">
         <Button 
           variant="ghost" 
           onClick={() => navigate("/dashboard")} 
-          className="mb-6 flex items-center gap-2 hover:bg-white"
+          className="mb-6 flex items-center gap-2 hover:bg-secondary"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
         </Button>
 
-        <Card className="mb-8 shadow-lg border-0 hover:shadow-xl transition-shadow duration-200">
+        <Card className="mb-8 shadow-lg border-border hover:shadow-xl transition-shadow duration-200">
           <BusinessHeader
             business={business}
             onUpdateBusiness={handleUpdateBusiness}
             onLogoUpload={handleLogoUpload}
             uploading={uploading}
           />
-          <CardContent className="border-t bg-white/50">
+          <CardContent className="border-t bg-background/50">
             <Button
               variant="outline"
-              className="flex items-center gap-2 hover:bg-white"
+              className="flex items-center gap-2 hover:bg-secondary"
               onClick={() => setShowUrlDialog(true)}
             >
               <Link className="h-4 w-4" />
@@ -241,7 +241,7 @@ export default function BusinessDetails() {
           </CardContent>
         </Card>
 
-        <Card className="shadow-lg border-0">
+        <Card className="shadow-lg border-border">
           <CardContent className="pt-6">
             <ReviewsTable
               reviews={reviews}
@@ -259,7 +259,7 @@ export default function BusinessDetails() {
         />
       </main>
 
-      <footer className="border-t py-4 bg-white">
+      <footer className="border-t py-4 bg-background">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Marvello. All rights reserved.
         </div>
