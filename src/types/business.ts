@@ -1,20 +1,8 @@
-export interface Business {
-  id: string;
-  owner_id: string;
-  name: string;
-  google_review_url: string;
-  created_at: string;
-  updated_at: string;
-  logo_url: string | null;
-  reviews?: Review[];
-}
+import type { Database } from '@/integrations/supabase/types';
 
-export interface Review {
-  id: string;
-  business_id: string;
-  reviewer_name: string;
-  rating: number;
-  feedback: string | null;
-  created_at: string;
-  mobile_number: string;
-}
+type Tables = Database['public']['Tables'];
+
+export type Business = Tables['businesses']['Row'] & {
+  reviews?: Tables['reviews']['Row'][];
+};
+export type Review = Tables['reviews']['Row'];
