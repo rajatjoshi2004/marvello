@@ -40,31 +40,37 @@ export default function BusinessCard({ business }: BusinessCardProps) {
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
-      <CardHeader>
-        <CardTitle className="text-left text-xl">{business.name}</CardTitle>
+    <Card className="group hover:shadow-lg transition-all duration-300 border-2 border-border/50">
+      <CardHeader className="space-y-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-semibold text-primary">
+            {business.name}
+          </CardTitle>
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+            <span className="text-lg font-bold text-primary">
+              {business.reviews?.length || 0}
+            </span>
+          </div>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Total Reviews: {business.reviews?.length || 0}
+        </p>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-muted-foreground">Total Reviews:</span>
-          <span className="font-medium">{business.reviews?.length || 0}</span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Button 
-            className="w-full"
-            onClick={() => navigate(`/business/${business.id}`)}
-          >
-            Manage Business
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => handleDownloadQR(business)}
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Download QR Code
-          </Button>
-        </div>
+      <CardContent className="space-y-3">
+        <Button 
+          className="w-full bg-primary hover:bg-primary/90 transition-colors"
+          onClick={() => navigate(`/business/${business.id}`)}
+        >
+          Manage Business
+        </Button>
+        <Button
+          variant="outline"
+          className="w-full group-hover:border-primary/50 transition-colors"
+          onClick={() => handleDownloadQR(business)}
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Download QR Code
+        </Button>
       </CardContent>
     </Card>
   );
