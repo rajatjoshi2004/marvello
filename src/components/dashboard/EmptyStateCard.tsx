@@ -4,9 +4,11 @@ import { Plus, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useRazorpayPayment } from "@/hooks/use-razorpay-payment";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 
 export default function EmptyStateCard() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { paymentStatus, paymentProgress, initializePayment } = useRazorpayPayment();
 
   const handleAddBusiness = () => {
@@ -14,8 +16,15 @@ export default function EmptyStateCard() {
       navigate("/business/new");
       return;
     }
+    
     initializePayment("Business Registration", () => {
-      navigate("/business/new");
+      toast({
+        title: "Payment Successful",
+        description: "You can now add your business details.",
+      });
+      setTimeout(() => {
+        navigate("/business/new");
+      }, 1000);
     }, {
       amount: 99900, // ₹999
       prefill: {
