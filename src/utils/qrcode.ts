@@ -30,7 +30,7 @@ const mergeImages = async (qrDataUrl: string): Promise<string> => {
     bgImage.onerror = reject;
     qrImage.onerror = reject;
     
-    bgImage.src = '/lovable-uploads/e090eab3-bcc6-471a-b3c2-fa5df17472b7.png';
+    bgImage.src = '/lovable-uploads/51b9ca8b-21c5-4110-ba63-2481c2f1556b.png';
   });
 };
 
