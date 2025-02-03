@@ -33,7 +33,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      <Header />
+      <Header onGetStarted={handleGetStarted} />
       <Hero onGetStarted={handleGetStarted} />
       <Benefits />
       <Features />
