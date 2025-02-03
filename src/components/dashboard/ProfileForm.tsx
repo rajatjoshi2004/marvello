@@ -4,10 +4,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
+type ProfileUpdate = Database['public']['Tables']['profiles']['Update'];
 
 interface ProfileFormProps {
   user: any;
-  profile: any;
+  profile: Profile;
   onClose: () => void;
   isGoogleUser: boolean;
 }
@@ -23,9 +27,13 @@ export default function ProfileForm({ user, profile, onClose, isGoogleUser }: Pr
     setLoading(true);
     try {
       if (newName !== profile.full_name) {
+        const updates: ProfileUpdate = {
+          full_name: newName,
+        };
+        
         const { error: profileError } = await supabase
           .from('profiles')
-          .update({ full_name: newName })
+          .update(updates)
           .eq('id', user.id);
         
         if (profileError) throw profileError;

@@ -28,6 +28,15 @@ export default function Auth() {
       if (error) throw error;
       navigate("/dashboard");
     } catch (error: any) {
+      // Handle session expiration
+      if (error.message?.includes('user_not_found')) {
+        await supabase.auth.signOut();
+        toast({
+          title: "Session Expired",
+          description: "Your session has expired. Please sign in again.",
+        });
+        return;
+      }
       toast({
         variant: "destructive",
         title: "Error",
@@ -79,7 +88,7 @@ export default function Auth() {
     } catch (error: any) {
       // Clear local session if we get a user_not_found error
       if (error.message?.includes('user_not_found')) {
-        await supabase.auth.clearSession();
+        await supabase.auth.signOut();
         toast({
           title: "Session Expired",
           description: "Your session has expired. Please sign in again.",

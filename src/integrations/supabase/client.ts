@@ -10,11 +10,5 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     persistSession: true,
     detectSessionInUrl: true,
     storage: window.localStorage,
-    onError: async (error) => {
-      // If we get a user_not_found error, clear the session
-      if (error.message?.includes('user_not_found')) {
-        await supabase.auth.clearSession();
-      }
-    },
   },
 });
