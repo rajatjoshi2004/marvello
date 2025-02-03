@@ -2,7 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-export default function Hero() {
+interface HeroProps {
+  onGetStarted: () => void;
+}
+
+export default function Hero({ onGetStarted }: HeroProps) {
   return (
     <section className="px-4 py-24 text-center sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -25,11 +29,13 @@ export default function Hero() {
           </p>
         </div>
         <div className="flex justify-center gap-4 animate-fade-in" style={{ animationDelay: "200ms" }}>
-          <Link to="/auth">
-            <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90 transition-all duration-300 hover:scale-105 shadow-lg shadow-primary/20">
-              Get Started <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
+          <Button 
+            size="lg" 
+            className="gap-2 bg-primary hover:bg-primary/90 transition-all duration-300 hover:scale-105 shadow-lg shadow-primary/20"
+            onClick={onGetStarted}
+          >
+            Get Started <ArrowRight className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </section>

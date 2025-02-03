@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-export default function CallToAction() {
+interface CallToActionProps {
+  onGetStarted: () => void;
+}
+
+export default function CallToAction({ onGetStarted }: CallToActionProps) {
   return (
     <section className="px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -13,11 +16,14 @@ export default function CallToAction() {
             <p className="mb-8 text-lg text-white/90">
               Zero Computer Skills Needed • Works for Every Type of Business
             </p>
-            <Link to="/auth">
-              <Button size="lg" variant="secondary" className="gap-2 hover:scale-105 transition-all duration-300 shadow-xl">
-                Get Started Now <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              variant="secondary" 
+              className="gap-2 hover:scale-105 transition-all duration-300 shadow-xl"
+              onClick={onGetStarted}
+            >
+              Get Started Now <ArrowRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>
