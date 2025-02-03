@@ -23,7 +23,6 @@ export const useRazorpayPayment = () => {
   const [paymentProgress, setPaymentProgress] = useState(0);
 
   useEffect(() => {
-    // Load Razorpay script if not already loaded
     if (!document.getElementById('razorpay-script')) {
       const script = document.createElement('script');
       script.id = 'razorpay-script';
@@ -39,7 +38,6 @@ export const useRazorpayPayment = () => {
     options?: PaymentOptions
   ) => {
     try {
-      // Wait for Razorpay to load
       let attempts = 0;
       while (typeof window.Razorpay === 'undefined' && attempts < 10) {
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -53,23 +51,28 @@ export const useRazorpayPayment = () => {
       setPaymentStatus('processing');
       setPaymentProgress(33);
 
-      // For test mode, we'll use a mock order
-      const testOrder = {
-        orderId: 'order_' + Date.now(),
-        amount: options?.amount || 99900, // ₹999
-        currency: 'INR',
-        keyId: 'rzp_test_YOUR_TEST_KEY' // Replace with your test key
-      };
+      // Call the Edge Function to create order
+      const { data: orderData, error: orderError } = await supabase.functions.invoke('create-razorpay-order', {
+        body: {
+          amount: options?.amount || 99900,
+          currency: 'INR',
+          receipt: `rcpt_${Date.now()}`
+        }
+      });
+
+      if (orderError || !orderData) {
+        throw new Error('Failed to create payment order. Please try again.');
+      }
 
       setPaymentProgress(66);
 
       const razorpayOptions = {
-        key: testOrder.keyId,
-        amount: testOrder.amount,
-        currency: testOrder.currency,
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
         name: "Marvello",
         description: "Business Registration Fee",
-        order_id: testOrder.orderId,
+        order_id: orderData.orderId,
         handler: function (response: any) {
           setPaymentProgress(100);
           setPaymentStatus('completed');
