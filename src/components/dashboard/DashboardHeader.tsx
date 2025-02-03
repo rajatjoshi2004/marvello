@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, LogOut } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import ProfileDialog from "./ProfileDialog";
 import { Link } from "react-router-dom";
@@ -31,13 +31,6 @@ export default function DashboardHeader({ onSignOut }: DashboardHeaderProps) {
             )}
           </Button>
           <ProfileDialog />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onSignOut}
-          >
-            <LogOut className="h-5 w-5" />
-          </Button>
         </div>
       </div>
     </header>
