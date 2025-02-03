@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/landing/Header";
 import Hero from "@/components/landing/Hero";
 import Benefits from "@/components/landing/Benefits";
@@ -9,16 +12,35 @@ import CallToAction from "@/components/landing/CallToAction";
 import Footer from "@/components/landing/Footer";
 
 export default function Index() {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+    checkAuth();
+  }, []);
+
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      navigate('/auth');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <Header />
-      <Hero />
+      <Hero onGetStarted={handleGetStarted} />
       <Benefits />
       <Features />
       <About />
       <UseCases />
       <HowItWorks />
-      <CallToAction />
+      <CallToAction onGetStarted={handleGetStarted} />
       <Footer />
     </div>
   );

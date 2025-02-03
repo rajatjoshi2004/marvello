@@ -71,7 +71,7 @@ export default function Dashboard() {
       {/* Footer */}
       <footer className="border-t py-4">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Business Reviews. All rights reserved.
+          © {new Date().getFullYear()} Marvello. All rights reserved.
         </div>
       </footer>
     </div>
