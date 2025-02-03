@@ -6,13 +6,10 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { BusinessForm, type BusinessFormData } from "@/components/business/BusinessForm";
-import { PaymentProgress } from "@/components/business/PaymentProgress";
-import { useRazorpayPayment } from "@/hooks/use-razorpay-payment";
 
 export default function NewBusiness() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { paymentStatus, paymentProgress, initializePayment } = useRazorpayPayment();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -34,7 +31,7 @@ export default function NewBusiness() {
     navigate("/auth");
   };
 
-  const createBusiness = async (values: BusinessFormData, paymentId: string) => {
+  const createBusiness = async (values: BusinessFormData) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
@@ -97,10 +94,6 @@ export default function NewBusiness() {
     }
   };
 
-  const handleFormSubmit = (values: BusinessFormData) => {
-    initializePayment(values.name, (paymentId) => createBusiness(values, paymentId));
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <DashboardHeader onSignOut={handleSignOut} />
@@ -119,16 +112,11 @@ export default function NewBusiness() {
             <CardTitle className="text-2xl font-bold tracking-tight">
               Create New Business
             </CardTitle>
-            <PaymentProgress 
-              status={paymentStatus} 
-              progress={paymentProgress} 
-            />
           </CardHeader>
           <CardContent>
             <BusinessForm 
-              onSubmit={handleFormSubmit}
+              onSubmit={createBusiness}
               onCancel={() => navigate("/dashboard")}
-              isProcessing={paymentStatus === 'processing'}
             />
           </CardContent>
         </Card>

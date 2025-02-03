@@ -27,10 +27,9 @@ export type BusinessFormData = z.infer<typeof formSchema>;
 interface BusinessFormProps {
   onSubmit: (values: BusinessFormData) => void;
   onCancel: () => void;
-  isProcessing?: boolean;
 }
 
-export const BusinessForm = ({ onSubmit, onCancel, isProcessing }: BusinessFormProps) => {
+export const BusinessForm = ({ onSubmit, onCancel }: BusinessFormProps) => {
   const form = useForm<BusinessFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -96,9 +95,8 @@ export const BusinessForm = ({ onSubmit, onCancel, isProcessing }: BusinessFormP
           <Button 
             type="submit"
             className="px-8"
-            disabled={isProcessing}
           >
-            {isProcessing ? 'Processing...' : 'Proceed to Payment'}
+            Create Business
           </Button>
         </div>
       </form>
