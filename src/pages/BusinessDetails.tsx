@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "lucide-react";
+import { Link, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Business, Review } from "@/types/business";
 import { BusinessHeader } from "@/components/business/BusinessHeader";
@@ -163,25 +163,30 @@ export default function BusinessDetails() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <DashboardHeader onSignOut={handleSignOut} />
 
       <main className="flex-1 container px-4 py-8">
-        <Button variant="outline" onClick={() => navigate("/dashboard")} className="mb-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate("/dashboard")} 
+          className="mb-6 flex items-center gap-2 hover:bg-white"
+        >
+          <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
         </Button>
 
-        <Card className="mb-8">
+        <Card className="mb-8 shadow-lg border-0 hover:shadow-xl transition-shadow duration-200">
           <BusinessHeader
             business={business}
             onUpdateBusiness={handleUpdateBusiness}
             onLogoUpload={handleLogoUpload}
             uploading={uploading}
           />
-          <CardContent>
+          <CardContent className="border-t bg-white/50">
             <Button
               variant="outline"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:bg-white"
               onClick={() => setShowUrlDialog(true)}
             >
               <Link className="h-4 w-4" />
@@ -190,7 +195,7 @@ export default function BusinessDetails() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-lg border-0">
           <CardContent className="pt-6">
             <ReviewsTable
               reviews={reviews}
@@ -208,7 +213,7 @@ export default function BusinessDetails() {
         />
       </main>
 
-      <footer className="border-t py-4">
+      <footer className="border-t py-4 bg-white">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Marvello. All rights reserved.
         </div>

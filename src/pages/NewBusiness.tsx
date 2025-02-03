@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import { Building2, Link } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -52,7 +53,6 @@ export default function NewBusiness() {
         return;
       }
 
-      // Get the user's profile first
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("id")
@@ -102,31 +102,41 @@ export default function NewBusiness() {
     }
   }
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
-  };
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <DashboardHeader onSignOut={handleSignOut} />
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <DashboardHeader />
 
       <div className="container max-w-2xl py-8 flex-1">
-        <Card>
-          <CardHeader>
-            <CardTitle>Create New Business</CardTitle>
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate("/dashboard")} 
+          className="mb-6 hover:bg-white"
+        >
+          ← Back to Dashboard
+        </Button>
+
+        <Card className="shadow-lg border-0">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold tracking-tight">Create New Business</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Business Name</FormLabel>
+                      <FormLabel className="text-base">Business Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter business name" {...field} />
+                        <div className="relative">
+                          <Building2 className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Input 
+                            placeholder="Enter business name" 
+                            className="pl-10" 
+                            {...field} 
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -138,12 +148,16 @@ export default function NewBusiness() {
                   name="google_review_url"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Google Review URL</FormLabel>
+                      <FormLabel className="text-base">Google Review URL</FormLabel>
                       <FormControl>
-                        <Input 
-                          placeholder="https://g.page/r/..." 
-                          {...field} 
-                        />
+                        <div className="relative">
+                          <Link className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Input 
+                            placeholder="https://g.page/r/..." 
+                            className="pl-10"
+                            {...field} 
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -155,10 +169,16 @@ export default function NewBusiness() {
                     type="button" 
                     variant="outline" 
                     onClick={() => navigate("/dashboard")}
+                    className="hover:bg-gray-50"
                   >
                     Cancel
                   </Button>
-                  <Button type="submit">Create Business</Button>
+                  <Button 
+                    type="submit"
+                    className="px-8"
+                  >
+                    Create Business
+                  </Button>
                 </div>
               </form>
             </Form>
@@ -166,7 +186,7 @@ export default function NewBusiness() {
         </Card>
       </div>
 
-      <footer className="border-t py-4">
+      <footer className="border-t py-4 bg-white">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Marvello. All rights reserved.
         </div>
