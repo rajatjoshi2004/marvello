@@ -71,7 +71,7 @@ export default function Auth() {
 
               <Button
                 onClick={handleGoogleSignIn}
-                className="w-full bg-white text-gray-600 hover:bg-gray-50 border border-gray-300"
+                className="w-full bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600"
                 variant="outline"
               >
                 <div className="flex items-center justify-center gap-2">
