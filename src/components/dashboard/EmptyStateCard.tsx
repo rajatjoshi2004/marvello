@@ -25,9 +25,8 @@ export default function EmptyStateCard() {
           description: "You can now add your business details.",
           variant: "default",
         });
-        setTimeout(() => {
-          navigate("/business/new");
-        }, 2000); // Increased delay to ensure user sees the success message
+        // Navigate immediately after successful payment
+        navigate("/business/new");
       }, 
       // Failure callback
       (error) => {

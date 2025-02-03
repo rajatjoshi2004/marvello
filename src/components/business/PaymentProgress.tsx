@@ -7,6 +7,7 @@ interface PaymentProgressProps {
 }
 
 export const PaymentProgress = ({ status, progress }: PaymentProgressProps) => {
+  // Don't show anything if payment is completed
   if (status === 'completed') return null;
   
   return (
