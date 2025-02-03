@@ -8,9 +8,10 @@ import { generateQRCode } from "@/utils/qrcode";
 
 interface BusinessCardProps {
   business: Business;
+  businessCount: number;
 }
 
-export default function BusinessCard({ business }: BusinessCardProps) {
+export default function BusinessCard({ business, businessCount }: BusinessCardProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -48,7 +49,7 @@ export default function BusinessCard({ business }: BusinessCardProps) {
           </CardTitle>
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
             <span className="text-lg font-bold text-primary">
-              {business.reviews?.length || 0}
+              {businessCount}
             </span>
           </div>
         </div>
