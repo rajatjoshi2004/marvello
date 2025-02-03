@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useRazorpayPayment } from "@/hooks/use-razorpay-payment";
-import { Progress } from "@/components/ui/progress";
+import { PaymentProgress } from "@/components/business/PaymentProgress";
 import { useToast } from "@/hooks/use-toast";
 
 export default function EmptyStateCard() {
@@ -64,17 +64,7 @@ export default function EmptyStateCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {paymentStatus !== 'completed' && (
-          <div className="space-y-2">
-            <div className="text-sm text-muted-foreground flex items-center gap-2">
-              <Lock className="h-4 w-4" />
-              Complete payment to unlock (₹999)
-            </div>
-            {paymentStatus === 'processing' && (
-              <Progress value={paymentProgress} className="w-full" />
-            )}
-          </div>
-        )}
+        <PaymentProgress status={paymentStatus} progress={paymentProgress} />
         <Button 
           onClick={handleAddBusiness}
           className="w-full group-hover:bg-primary/90 transition-colors"
