@@ -55,6 +55,8 @@ export default function ProfileDialog() {
     loadProfile();
   }, []);
 
+  const isGoogleUser = user?.app_metadata?.provider === 'google';
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     navigate("/auth");
@@ -182,39 +184,45 @@ export default function ProfileDialog() {
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
+              {isGoogleUser 
+                ? "Your profile is managed through Google." 
+                : "Make changes to your profile here. Click save when you're done."}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="Enter your full name"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                placeholder="Enter your email"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">New Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
-              />
-            </div>
+            {!isGoogleUser && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    placeholder="Enter your email"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">New Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                  />
+                </div>
+              </>
+            )}
             {!user?.app_metadata?.provider && (
               <Button
                 onClick={handleLinkGoogle}
@@ -238,9 +246,11 @@ export default function ProfileDialog() {
               <Button variant="outline" onClick={handleCloseDialog}>
                 Cancel
               </Button>
-              <Button onClick={handleUpdateProfile} disabled={loading}>
-                {loading ? "Saving..." : "Save Changes"}
-              </Button>
+              {!isGoogleUser && (
+                <Button onClick={handleUpdateProfile} disabled={loading}>
+                  {loading ? "Saving..." : "Save Changes"}
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>
