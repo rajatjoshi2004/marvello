@@ -34,7 +34,7 @@ export default function Auth() {
 
       <div className="container flex items-center justify-center min-h-[calc(100vh-136px)] py-8">
         <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
+          <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl">Welcome to Marvello</CardTitle>
             <CardDescription>Sign in with your Google account to continue</CardDescription>
           </CardHeader>
