@@ -4,32 +4,33 @@ const mergeImages = async (qrDataUrl: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
+    const bgImage = new Image();
+    const qrImage = new Image();
 
-    // Set canvas size
+    // Set canvas size to match template
     canvas.width = 800;
     canvas.height = 1000;
 
-    if (ctx) {
-      // Fill background with vibrant purple color
-      ctx.fillStyle = '#4F46E5'; // Indigo/purple color that matches the design
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Add the QR code
-      const qrImage = new Image();
+    bgImage.onload = () => {
+      ctx?.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+      
       qrImage.onload = () => {
+        // Position QR code in the center of the template but shifted down
         const qrSize = 400;
         const x = (canvas.width - qrSize) / 2;
         const y = ((canvas.height - qrSize) / 2) + 100; // Shifted down by 100px
         
-        ctx.drawImage(qrImage, x, y, qrSize, qrSize);
+        ctx?.drawImage(qrImage, x, y, qrSize, qrSize);
         resolve(canvas.toDataURL('image/png'));
       };
       
-      qrImage.onerror = reject;
       qrImage.src = qrDataUrl;
-    } else {
-      reject(new Error('Could not get canvas context'));
-    }
+    };
+
+    bgImage.onerror = reject;
+    qrImage.onerror = reject;
+    
+    bgImage.src = '/lovable-uploads/0057af97-5d92-4f26-9535-e0105e11e4f0.png';
   });
 };
 
@@ -40,12 +41,12 @@ export const generateQRCode = async (text: string): Promise<string> => {
       width: 400,
       margin: 1,
       color: {
-        dark: '#FFFFFF', // White QR code
+        dark: '#000000',
         light: '#ffffff00' // Transparent background
       }
     });
     
-    // Merge QR code with colored background
+    // Merge QR code with template background
     return await mergeImages(qrDataUrl);
   } catch (err) {
     console.error('Error generating QR code:', err);
