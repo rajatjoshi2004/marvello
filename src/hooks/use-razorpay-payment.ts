@@ -80,6 +80,7 @@ export const useRazorpayPayment = () => {
         handler: function (response: any) {
           setPaymentProgress(100);
           setPaymentStatus('completed');
+          // Call onSuccess immediately after setting the status
           onSuccess(response.razorpay_payment_id);
         },
         prefill: {

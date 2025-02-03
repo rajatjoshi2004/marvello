@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Lock } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useRazorpayPayment } from "@/hooks/use-razorpay-payment";
 import { PaymentProgress } from "@/components/business/PaymentProgress";
