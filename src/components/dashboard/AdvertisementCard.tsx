@@ -19,13 +19,11 @@ interface Advertisement {
 export default function AdvertisementCard() {
   const [ads, setAds] = useState<Advertisement[]>([]);
   
-  // Initialize autoplay plugin with configuration
   const autoplayOptions = {
     delay: 4000,
     rootNode: (emblaRoot: HTMLElement) => emblaRoot.parentElement,
   };
   
-  // Initialize carousel with autoplay plugin
   const [emblaRef] = useEmblaCarousel(
     { loop: true, skipSnaps: false },
     [Autoplay(autoplayOptions)]
@@ -64,20 +62,28 @@ export default function AdvertisementCard() {
             href={ad.link_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full h-full"
+            className="block w-full h-full relative"
           >
             <img
               src={ad.image_url}
               alt="Advertisement"
               className="w-full h-full object-cover rounded-lg"
             />
+            <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+              Ad
+            </span>
           </a>
         ) : (
-          <img
-            src={ad.image_url}
-            alt="Advertisement"
-            className="w-full h-full object-cover rounded-lg"
-          />
+          <div className="relative">
+            <img
+              src={ad.image_url}
+              alt="Advertisement"
+              className="w-full h-full object-cover rounded-lg"
+            />
+            <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+              Ad
+            </span>
+          </div>
         )}
       </Card>
     );
@@ -97,20 +103,28 @@ export default function AdvertisementCard() {
                   href={ad.link_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full h-full"
+                  className="block w-full h-full relative"
                 >
                   <img
                     src={ad.image_url}
                     alt="Advertisement"
                     className="w-full h-[200px] object-cover rounded-lg"
                   />
+                  <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                    Ad
+                  </span>
                 </a>
               ) : (
-                <img
-                  src={ad.image_url}
-                  alt="Advertisement"
-                  className="w-full h-[200px] object-cover rounded-lg"
-                />
+                <div className="relative">
+                  <img
+                    src={ad.image_url}
+                    alt="Advertisement"
+                    className="w-full h-[200px] object-cover rounded-lg"
+                  />
+                  <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                    Ad
+                  </span>
+                </div>
               )}
             </CarouselItem>
           ))}
