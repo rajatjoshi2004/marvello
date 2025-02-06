@@ -80,6 +80,7 @@ export default function Dashboard() {
             © {new Date().getFullYear()} Marvello. All rights reserved.
           </div>
           <div className="flex gap-4 text-sm text-muted-foreground">
+            <Link to="/about" className="hover:text-foreground">About Us</Link>
             <Link to="/privacy" className="hover:text-foreground">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-foreground">Terms & Conditions</Link>
             <Link to="/refund" className="hover:text-foreground">Refund Policy</Link>
