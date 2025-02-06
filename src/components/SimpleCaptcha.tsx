@@ -11,6 +11,7 @@ export const SimpleCaptcha = ({ onVerify }: SimpleCaptchaProps) => {
   const [captchaText, setCaptchaText] = useState("");
   const [userInput, setUserInput] = useState("");
   const [error, setError] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const generateCaptcha = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -20,6 +21,8 @@ export const SimpleCaptcha = ({ onVerify }: SimpleCaptchaProps) => {
     }
     setCaptchaText(result);
     setUserInput("");
+    setError(false);
+    setIsVerified(false);
     onVerify(false);
   };
 
@@ -28,9 +31,35 @@ export const SimpleCaptcha = ({ onVerify }: SimpleCaptchaProps) => {
   }, []);
 
   const handleVerify = () => {
-    const isValid = userInput === captchaText;
-    setError(!isValid);
-    onVerify(isValid);
+    const valid = userInput === captchaText;
+    setError(!valid);
+    setIsVerified(valid);
+    onVerify(valid);
+    
+    if (!valid) {
+      setUserInput("");
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase();
+    setUserInput(value);
+    setError(false);
+    
+    // Auto-verify when input length matches captcha length
+    if (value.length === captchaText.length) {
+      const valid = value === captchaText;
+      setError(!valid);
+      setIsVerified(valid);
+      onVerify(valid);
+      
+      if (!valid) {
+        // Clear input after a short delay if incorrect
+        setTimeout(() => {
+          setUserInput("");
+        }, 500);
+      }
+    }
   };
 
   return (
@@ -53,15 +82,18 @@ export const SimpleCaptcha = ({ onVerify }: SimpleCaptchaProps) => {
           type="text"
           placeholder="Enter the code above"
           value={userInput}
-          onChange={(e) => {
-            setUserInput(e.target.value.toUpperCase());
-            setError(false);
-          }}
-          className={error ? "border-red-500" : ""}
+          onChange={handleInputChange}
+          maxLength={captchaText.length}
+          className={`${error ? "border-red-500" : ""} ${isVerified ? "border-green-500" : ""}`}
         />
         {error && (
           <p className="text-sm text-red-500">
             Incorrect code. Please try again.
+          </p>
+        )}
+        {isVerified && (
+          <p className="text-sm text-green-500">
+            Verification successful!
           </p>
         )}
       </div>
