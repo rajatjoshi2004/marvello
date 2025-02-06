@@ -6,10 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { FeedbackForm } from "@/components/FeedbackForm";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Contact() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     document.title = "Contact Us - Marvello";
@@ -28,6 +32,31 @@ export default function Contact() {
       navigate('/dashboard');
     } else {
       navigate('/auth');
+    }
+  };
+
+  const handleSubmit = async (feedback: { name: string; mobile: string; message: string }) => {
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase.functions.invoke('send-contact-email', {
+        body: feedback
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Message sent!",
+        description: "We'll get back to you as soon as possible.",
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again later or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -76,24 +105,17 @@ export default function Contact() {
                 <Clock className="w-6 h-6 text-primary mt-1" />
                 <div>
                   <h3 className="font-semibold mb-2">Business Hours</h3>
-                  <div className="space-y-2 text-gray-600 dark:text-gray-300">
-                    <p>Monday – Friday: 9:00 AM – 6:00 PM (IST)</p>
-                    <p>Saturday: 10:00 AM – 2:00 PM (IST)</p>
-                    <p>Sunday: Closed</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Closed on Public Holidays</p>
-                  </div>
+                  <p className="text-gray-600 dark:text-gray-300">Monday – Friday: 9:00 AM – 6:00 PM (IST)</p>
+                  <p className="text-gray-600 dark:text-gray-300">Saturday: 10:00 AM – 2:00 PM (IST)</p>
+                  <p className="text-gray-600 dark:text-gray-300">Sunday: Closed</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Closed on Public Holidays</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300 space-y-6">
-              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Need Help?</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Whether you're looking to upgrade your plan, troubleshoot an issue, or simply want to explore how Marvello can boost your business growth, we'd love to hear from you!
-              </p>
-              <p className="text-gray-600 dark:text-gray-300">
-                Our support team is available during business hours to assist you with any questions or concerns you may have.
-              </p>
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Send us a Message</h3>
+              <FeedbackForm onSubmit={handleSubmit} />
             </div>
           </div>
         </div>
