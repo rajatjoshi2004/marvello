@@ -156,7 +156,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      use_coupon: {
+        Args: {
+          coupon_code: string
+        }
+        Returns: {
+          valid: boolean
+          message: string
+          discount_value: number
+          discount_type: Database["public"]["Enums"]["coupon_type"]
+        }[]
+      }
     }
     Enums: {
       coupon_type: "percentage" | "fixed"
