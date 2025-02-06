@@ -59,7 +59,7 @@ export default function AdvertisementCard() {
   if (ads.length === 1) {
     const ad = ads[0];
     return (
-      <Card className="hover:shadow-lg transition-all duration-300 h-[200px] relative overflow-hidden">
+      <Card className="h-[200px] w-full relative">
         {ad.link_url ? (
           <a 
             href={ad.link_url}
@@ -70,14 +70,14 @@ export default function AdvertisementCard() {
             <img
               src={ad.image_url}
               alt="Advertisement"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </a>
         ) : (
           <img
             src={ad.image_url}
             alt="Advertisement"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         )}
       </Card>
@@ -85,7 +85,7 @@ export default function AdvertisementCard() {
   }
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 h-[200px] relative overflow-hidden">
+    <Card className="h-[200px] w-full relative">
       <Carousel
         ref={emblaRef}
         className="w-full h-full"
@@ -96,7 +96,7 @@ export default function AdvertisementCard() {
       >
         <CarouselContent>
           {ads.map((ad) => (
-            <CarouselItem key={ad.id} className="h-[200px]">
+            <CarouselItem key={ad.id} className="h-full">
               {ad.link_url ? (
                 <a
                   href={ad.link_url}
@@ -107,14 +107,14 @@ export default function AdvertisementCard() {
                   <img
                     src={ad.image_url}
                     alt="Advertisement"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </a>
               ) : (
                 <img
                   src={ad.image_url}
                   alt="Advertisement"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               )}
             </CarouselItem>
