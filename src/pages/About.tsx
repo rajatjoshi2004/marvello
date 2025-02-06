@@ -64,14 +64,14 @@ export default function About() {
           <section className="mb-12 text-center">
             <h2 className="text-3xl font-bold mb-6 text-primary">Our Story</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
-              We noticed a big gap in the market—collecting and managing customer reviews was time-consuming, often yielding limited results. Determined to provide a seamless, automated solution, our team at Marvello combined expertise in marketing, software development, and customer experience to create Marvello.
+              We founded Webbicles in 2019 with a passion for helping MSMEs grow into strong, recognizable brands. After working with numerous clients, we saw firsthand how time consuming it was to collect and manage customer reviews, and how vital those reviews were for business success. In 2022, we registered Webbicles as an LLP and, drawing on all the feedback and insights we'd gained, developed Marvello: a solution that streamlines review collection and makes it easy for every business to stand out online.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="text-3xl font-bold mb-6 text-center text-primary">Our Vision</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
-              We believe every business, whether it's a cozy café or a large enterprise, should have the tools needed to excel in today's digital age. Positive customer reviews are crucial for building trust and credibility, and Marvello is designed to simplify and accelerate that process.
+              We believe that any enterprise, be it a local café or a growing startup, deserves access to the tools needed to thrive in the digital age. Customer reviews have become essential to building trust and credibility, so we've made it our mission to simplify and speed up that process. At Webbicles, we're dedicated to continuous innovation and providing solutions that help our clients stay ahead in an ever-evolving marketplace.
             </p>
           </section>
 
