@@ -1,3 +1,4 @@
+
 export default function HowItWorks() {
   return (
     <section className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-20 sm:px-6 lg:px-8">
