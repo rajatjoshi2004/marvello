@@ -59,13 +59,28 @@ export default function NewBusiness() {
     checkAuth();
 
     // Load Razorpay script
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    document.body.appendChild(script);
+    const loadRazorpay = () => {
+      return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.async = true;
+        script.onload = () => {
+          resolve(true);
+        };
+        script.onerror = () => {
+          resolve(false);
+        };
+        document.body.appendChild(script);
+      });
+    };
+
+    loadRazorpay();
 
     return () => {
-      document.body.removeChild(script);
+      const script = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
+      if (script) {
+        document.body.removeChild(script);
+      }
     };
   }, [navigate, toast]);
 
@@ -116,9 +131,18 @@ export default function NewBusiness() {
 
       const order = await response.json();
 
+      if (!window.Razorpay) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Payment system is not ready. Please try again in a few moments.",
+        });
+        return;
+      }
+
       // Initialize Razorpay payment
       const options = {
-        key: "rzp_test_51Ix3kRujWtAGYz", // Replace with your Razorpay key ID
+        key: "rzp_test_51Ix3kRujWtAGYz", // Your test key
         amount: order.amount,
         currency: order.currency,
         name: "Marvello",
@@ -138,12 +162,12 @@ export default function NewBusiness() {
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Payment error:", error);
       toast({
         variant: "destructive",
         title: "Payment Error",
-        description: "Failed to process payment. Please try again.",
+        description: error.message || "Failed to process payment. Please try again.",
       });
     }
   };
