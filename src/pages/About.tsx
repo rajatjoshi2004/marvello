@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/shared/Footer";
@@ -61,8 +62,8 @@ export default function About() {
           </div>
 
           <section className="mb-12 text-center">
-            <h2 className="text-2xl font-bold mb-4">Our Story</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <h2 className="text-3xl font-bold mb-6 text-primary">Our Story</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
               We noticed a big gap in the market—collecting and managing customer reviews was time-consuming, often yielding limited results. Determined to provide a seamless, automated solution, our team at Webbicles LLP combined expertise in marketing, software development, and customer experience to create Marvello.
             </p>
           </section>
