@@ -16,10 +16,17 @@ serve(async (req) => {
     const { amount, currency = "INR", receipt } = await req.json()
     console.log("Creating Razorpay order with amount:", amount)
 
+    const key_id = Deno.env.get('RAZORPAY_KEY_ID')
+    const key_secret = Deno.env.get('RAZORPAY_KEY_SECRET')
+
+    if (!key_id || !key_secret) {
+      throw new Error("Razorpay keys are not configured")
+    }
+
     // Initialize Razorpay with proper authentication
     const razorpay = new Razorpay({
-      key_id: Deno.env.get('RAZORPAY_KEY_ID') || '',
-      key_secret: Deno.env.get('RAZORPAY_KEY_SECRET') || '',
+      key_id,
+      key_secret,
     })
 
     // Create order with proper parameters
@@ -32,10 +39,16 @@ serve(async (req) => {
       }
     })
 
-    console.log("Order created successfully:", order)
+    // Add the key_id to the response so frontend can use it
+    const response = {
+      ...order,
+      key_id,
+    }
+
+    console.log("Order created successfully:", response)
 
     return new Response(
-      JSON.stringify(order),
+      JSON.stringify(response),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
