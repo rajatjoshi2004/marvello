@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,7 +10,7 @@ import About from "@/components/landing/About";
 import UseCases from "@/components/landing/UseCases";
 import HowItWorks from "@/components/landing/HowItWorks";
 import CallToAction from "@/components/landing/CallToAction";
-import Footer from "@/components/landing/Footer";
+import Footer from "@/components/shared/Footer";
 
 export default function Index() {
   const navigate = useNavigate();

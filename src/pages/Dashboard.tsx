@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -5,6 +6,7 @@ import type { Business } from "@/types/business";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import BusinessCard from "@/components/dashboard/BusinessCard";
 import EmptyStateCard from "@/components/dashboard/EmptyStateCard";
+import Footer from "@/components/shared/Footer";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -72,12 +74,7 @@ export default function Dashboard() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t py-4">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Marvello. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

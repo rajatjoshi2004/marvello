@@ -1,9 +1,11 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import BaseHeader from "@/components/shared/BaseHeader";
+import Footer from "@/components/shared/Footer";
 import { SignInForm, SignUpForm } from "@/components/auth/AuthForms";
 
 export default function Auth() {
@@ -91,11 +93,7 @@ export default function Auth() {
         </Card>
       </div>
 
-      <footer className="border-t py-4">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Marvello. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
