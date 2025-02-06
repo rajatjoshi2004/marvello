@@ -1,14 +1,17 @@
 
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import BaseHeader from "@/components/shared/BaseHeader";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "@/components/landing/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { HomeIcon } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     console.error(
@@ -17,9 +20,25 @@ const NotFound = () => {
     );
   }, [location.pathname]);
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+    checkAuth();
+  }, []);
+
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      navigate('/auth');
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
-      <BaseHeader />
+      <Header onGetStarted={handleGetStarted} />
 
       <main className="flex-grow bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
         <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-[calc(100vh-136px)]">
