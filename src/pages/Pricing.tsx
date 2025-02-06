@@ -39,14 +39,12 @@ export default function Pricing() {
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-4 text-primary">Transparent. Flexible. Hassle-Free.</h1>
-          <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-4">
+          <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
+            Our dedicated support team is ready to help.<br />
+            Webbicles LLP<br />
+            Block C, Hari Mansion<br />
             All prices are inclusive, no hidden fees or surprises.
           </p>
-          <div className="text-center text-gray-600 dark:text-gray-300 mb-12">
-            <p>Our dedicated support team is ready to help.</p>
-            <p>Webbicles LLP</p>
-            <p>Block C, Hari Mansion</p>
-          </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Basic Plan */}
