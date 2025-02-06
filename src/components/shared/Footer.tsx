@@ -5,15 +5,15 @@ export default function Footer() {
   return (
     <footer className="border-t border-gray-200 dark:border-gray-700 py-8 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
-        {/* Mobile-first layout with stacked elements */}
-        <div className="flex flex-col space-y-6 md:flex-row md:space-y-0 md:justify-between md:items-center">
-          <div className="text-center md:text-left">
+        {/* Mobile-first layout with menu first, then copyright */}
+        <div className="flex flex-col-reverse space-y-6 space-y-reverse md:flex-row md:space-y-0 md:justify-between md:items-center">
+          <div className="text-center md:text-left mt-6 md:mt-0">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               © {new Date().getFullYear()} Marvello by Webbicles. All rights reserved.
             </p>
           </div>
           <nav className="w-full md:w-auto">
-            <ul className="grid grid-cols-2 gap-4 text-center md:flex md:flex-row md:gap-6 text-sm text-gray-600 dark:text-gray-400">
+            <ul className="grid grid-cols-2 gap-4 text-left md:flex md:flex-row md:gap-6 text-sm text-gray-600 dark:text-gray-400">
               <li>
                 <Link to="/about" className="hover:text-primary transition-colors">About Us</Link>
               </li>
