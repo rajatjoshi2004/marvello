@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Trash2 } from "lucide-react";
 import type { Review } from "@/types/business";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ReviewsTableProps {
   reviews: Review[];
@@ -16,6 +18,43 @@ interface ReviewsTableProps {
 }
 
 export function ReviewsTable({ reviews, onDeleteReview }: ReviewsTableProps) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div className="space-y-4">
+        {reviews.map((review) => (
+          <div 
+            key={review.id} 
+            className="p-4 border rounded-lg space-y-2 bg-white dark:bg-gray-800"
+          >
+            <div className="flex justify-between items-start">
+              <div className="font-medium">{review.reviewer_name}</div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => onDeleteReview(review.id)}
+                className="h-8 w-8 text-destructive hover:text-destructive/90"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              {review.mobile_number}
+            </div>
+            <div className="text-amber-500">{review.rating} ★</div>
+            <div className="text-sm whitespace-pre-wrap">
+              {review.feedback || "-"}
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              {new Date(review.created_at).toLocaleDateString()}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-x-auto">
       <Table>
