@@ -49,10 +49,10 @@ export default function AdvertisementCard() {
   }, []);
 
   useEffect(() => {
-    const autoplayStop = autoplay();
+    const cleanup = autoplay();
     return () => {
-      if (autoplayStop) {
-        autoplayStop();
+      if (cleanup) {
+        cleanup();
       }
     };
   }, [autoplay]);
