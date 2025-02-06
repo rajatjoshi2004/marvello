@@ -71,41 +71,30 @@ export default function Contact() {
                   </p>
                 </div>
               </div>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300">
+              
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <Clock className="w-6 h-6 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Business Hours</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                      <span className="text-gray-600 dark:text-gray-300">Monday – Friday</span>
-                      <span className="font-medium text-gray-900 dark:text-gray-100">9:00 AM – 6:00 PM (IST)</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                      <span className="text-gray-600 dark:text-gray-300">Saturday</span>
-                      <span className="font-medium text-gray-900 dark:text-gray-100">10:00 AM – 2:00 PM (IST)</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-gray-600 dark:text-gray-300">Sunday</span>
-                      <span className="font-medium text-gray-900 dark:text-gray-100">Closed</span>
-                    </div>
-                  </div>
-                  <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-                      Closed on Public Holidays
-                    </p>
+                <Clock className="w-6 h-6 text-primary mt-1" />
+                <div>
+                  <h3 className="font-semibold mb-2">Business Hours</h3>
+                  <div className="space-y-2 text-gray-600 dark:text-gray-300">
+                    <p>Monday – Friday: 9:00 AM – 6:00 PM (IST)</p>
+                    <p>Saturday: 10:00 AM – 2:00 PM (IST)</p>
+                    <p>Sunday: Closed</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Closed on Public Holidays</p>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="text-center text-gray-600 dark:text-gray-300">
-            <p>Whether you're looking to upgrade your plan, troubleshoot an issue, or simply want to explore how Marvello can boost your business growth, we'd love to hear from you!</p>
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300 space-y-6">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Need Help?</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Whether you're looking to upgrade your plan, troubleshoot an issue, or simply want to explore how Marvello can boost your business growth, we'd love to hear from you!
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Our support team is available during business hours to assist you with any questions or concerns you may have.
+              </p>
+            </div>
           </div>
         </div>
       </main>
