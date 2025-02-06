@@ -47,13 +47,12 @@ export default function Pricing() {
             {/* Basic Plan */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Digital Plan</h2>
+                <h2 className="text-2xl font-bold">Basic Plan</h2>
                 <div className="flex items-center">
                   <IndianRupee className="w-5 h-5" />
                   <span className="text-3xl font-bold">499</span>
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">Ideal for those who want a quick, budget-friendly way to start collecting and managing Google reviews.</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
@@ -71,16 +70,15 @@ export default function Pricing() {
               <Button className="w-full" onClick={handleGetStarted}>Get Started</Button>
             </div>
 
-            {/* Premium Plan */}
+            {/* Pro Plan */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border-2 border-primary">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Physical Plan</h2>
+                <h2 className="text-2xl font-bold">Pro Plan</h2>
                 <div className="flex items-center">
                   <IndianRupee className="w-5 h-5" />
                   <span className="text-3xl font-bold">999</span>
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">Perfect for businesses wanting a polished, hands-free way to invite reviews and elevate customer engagement.</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
