@@ -9,9 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Footer() {
   const [language, setLanguage] = useState<"en" | "hi">("en");
+  const isMobile = useIsMobile();
 
   const handleLanguageChange = (newLang: "en" | "hi") => {
     setLanguage(newLang);
@@ -21,15 +23,37 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-gray-200 dark:border-gray-700 py-8 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-        <div className="mb-4 md:mb-0">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            © {new Date().getFullYear()} Marvello by Webbicles. All rights reserved.
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-gray-600 dark:text-gray-400 text-center md:text-left">
+              © {new Date().getFullYear()} Marvello by Webbicles. All rights reserved.
+            </p>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="w-9 px-0">
+                  <Globe className="h-4 w-4" />
+                  <span className="sr-only">Switch language</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align={isMobile ? "center" : "end"}>
+                <DropdownMenuItem 
+                  onClick={() => handleLanguageChange("en")}
+                  className={language === "en" ? "bg-secondary" : ""}
+                >
+                  English
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => handleLanguageChange("hi")}
+                  className={language === "hi" ? "bg-secondary" : ""}
+                >
+                  भाषा
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
           <nav>
-            <ul className="flex flex-wrap justify-center md:justify-end gap-4 text-sm text-gray-600 dark:text-gray-400">
+            <ul className="flex flex-wrap justify-center gap-4 text-sm text-gray-600 dark:text-gray-400">
               <li>
                 <Link to="/about" className="hover:text-primary">About Us</Link>
               </li>
@@ -50,28 +74,6 @@ export default function Footer() {
               </li>
             </ul>
           </nav>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="w-9 px-0">
-                <Globe className="h-4 w-4" />
-                <span className="sr-only">Switch language</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem 
-                onClick={() => handleLanguageChange("en")}
-                className={language === "en" ? "bg-secondary" : ""}
-              >
-                English
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => handleLanguageChange("hi")}
-                className={language === "hi" ? "bg-secondary" : ""}
-              >
-                हिंदी
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
     </footer>
