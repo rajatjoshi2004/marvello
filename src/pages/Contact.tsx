@@ -68,7 +68,8 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-4 text-primary">We're Here to Help!</h1>
           <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
-            Have questions about Marvello or need assistance getting started? Our dedicated support team at Webbicles LLP is ready to help.
+            Have questions about Marvello or need assistance getting started?<br />
+            Our dedicated support team at Webbicles LLP is ready to help.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
