@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import Razorpay from "npm:razorpay"
 
 const corsHeaders = {
@@ -8,22 +7,32 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+    return new Response(null, { headers: corsHeaders })
   }
 
   try {
-    const { amount } = await req.json()
+    const { amount, currency = "INR", receipt } = await req.json()
+    console.log("Creating Razorpay order with amount:", amount)
 
+    // Initialize Razorpay with proper authentication
     const razorpay = new Razorpay({
       key_id: Deno.env.get('RAZORPAY_KEY_ID') || '',
       key_secret: Deno.env.get('RAZORPAY_KEY_SECRET') || '',
     })
 
+    // Create order with proper parameters
     const order = await razorpay.orders.create({
-      amount: amount * 100, // Convert to paise
-      currency: 'INR',
+      amount: amount * 100, // Convert to smallest currency unit (paise)
+      currency,
+      receipt,
+      notes: {
+        source: "Marvello Business Registration"
+      }
     })
+
+    console.log("Order created successfully:", order)
 
     return new Response(
       JSON.stringify(order),
@@ -33,6 +42,7 @@ serve(async (req) => {
       },
     )
   } catch (error) {
+    console.error("Error creating order:", error)
     return new Response(
       JSON.stringify({ error: error.message }),
       { 

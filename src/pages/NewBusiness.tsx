@@ -58,7 +58,7 @@ export default function NewBusiness() {
     };
     checkAuth();
 
-    // Load Razorpay script with improved error handling
+    // Load Razorpay script
     const loadRazorpay = async () => {
       try {
         if (window.Razorpay) {
@@ -87,13 +87,6 @@ export default function NewBusiness() {
     };
 
     loadRazorpay();
-
-    return () => {
-      const script = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
-      if (script) {
-        document.body.removeChild(script);
-      }
-    };
   }, [navigate, toast]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -126,38 +119,29 @@ export default function NewBusiness() {
 
       console.log("Creating Razorpay order...");
       
-      // Create Razorpay order with improved error handling
-      const response = await fetch(
-        "https://joxolpszmnvzflwdcfxy.supabase.co/functions/v1/create-razorpay-order",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session.access_token}`,
-          },
-          body: JSON.stringify({ 
-            amount: SUBSCRIPTION_AMOUNT,
-            currency: "INR",
-            receipt: `receipt_${Date.now()}`,
-          }),
-        }
-      );
+      // Create order using Edge Function
+      const { data: order, error } = await supabase.functions.invoke('create-razorpay-order', {
+        body: { 
+          amount: SUBSCRIPTION_AMOUNT,
+          currency: "INR",
+          receipt: `receipt_${Date.now()}`,
+        },
+      });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Failed to create order");
+      if (error || !order) {
+        console.error("Error creating order:", error);
+        throw new Error(error?.message || "Failed to create order");
       }
 
-      const order = await response.json();
       console.log("Order created successfully:", order);
 
       if (!window.Razorpay) {
         throw new Error("Payment system is not ready. Please refresh the page and try again.");
       }
 
-      // Initialize Razorpay payment with improved configuration
+      // Initialize Razorpay payment
       const options = {
-        key: "rzp_test_51Ix3kRujWtAGYz",
+        key: order.key_id || "rzp_test_51Ix3kRujWtAGYz", // Use key from order if available
         amount: order.amount,
         currency: order.currency,
         name: "Marvello",
