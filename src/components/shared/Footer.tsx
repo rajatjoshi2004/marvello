@@ -25,7 +25,7 @@ export default function Footer() {
               <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
             </li>
             <li>
-              <Link to="#" className="hover:text-primary">Terms & Conditions</Link>
+              <Link to="/terms-and-conditions" className="hover:text-primary">Terms & Conditions</Link>
             </li>
             <li>
               <Link to="#" className="hover:text-primary">Cancellation/Refund Policy</Link>
