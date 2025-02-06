@@ -60,7 +60,7 @@ export default function About() {
             </div>
           </div>
 
-          <section className="mb-12">
+          <section className="mb-12 text-center">
             <h2 className="text-2xl font-bold mb-4">Our Story</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               We noticed a big gap in the market—collecting and managing customer reviews was time-consuming, often yielding limited results. Determined to provide a seamless, automated solution, our team at Webbicles LLP combined expertise in marketing, software development, and customer experience to create Marvello.
@@ -69,7 +69,7 @@ export default function About() {
 
           <section className="mb-12">
             <h2 className="text-3xl font-bold mb-6 text-center text-primary">Our Vision</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
               We believe every business, whether it's a cozy café or a large enterprise, should have the tools needed to excel in today's digital age. Positive customer reviews are crucial for building trust and credibility, and Marvello is designed to simplify and accelerate that process.
             </p>
           </section>
