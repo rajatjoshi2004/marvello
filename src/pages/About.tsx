@@ -1,10 +1,11 @@
+
 import { useEffect } from "react";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/shared/Footer";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
-import { Rocket, Users, Heart, CheckCircle2, Star, Gauge } from "lucide-react";
+import { Rocket, Users, Heart } from "lucide-react";
 
 export default function About() {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ export default function About() {
           <div className="text-4xl font-bold text-center mb-8">
             <span className="text-primary">Welcome to Marvello</span>
             <br />
-            <span className="text-black">Your Ultimate Tool for Business Growth</span>
+            <span className="text-black dark:text-white">Your Ultimate Tool for Business Growth</span>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -72,60 +73,6 @@ export default function About() {
             <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
               We believe every business, whether it's a cozy café or a large enterprise, should have the tools needed to excel in today's digital age. Positive customer reviews are crucial for building trust and credibility, and Marvello is designed to simplify and accelerate that process.
             </p>
-          </section>
-
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-center text-primary">Why Marvello?</h2>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <Star className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Automated Customer Engagement</h3>
-                    <p className="text-gray-600 dark:text-gray-300">Our proprietary QR code system helps you gather reviews effortlessly and continuously, making customer feedback collection a breeze.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <CheckCircle2 className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Reputation Management</h3>
-                    <p className="text-gray-600 dark:text-gray-300">Funnel positive reviews directly to Google, while catching less-than-perfect feedback privately for immediate resolution.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <Gauge className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">User-Friendly Dashboard</h3>
-                    <p className="text-gray-600 dark:text-gray-300">Access all your reviews in one centralized location with our intuitive dashboard, making business management effortless.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <Rocket className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Real-Time Analytics</h3>
-                    <p className="text-gray-600 dark:text-gray-300">Get valuable insights into your customer feedback with detailed analytics and reporting features.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </section>
 
           <p className="text-gray-600 dark:text-gray-300 text-center">
