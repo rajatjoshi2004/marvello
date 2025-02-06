@@ -68,7 +68,8 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-4 text-primary">We're Here to Help!</h1>
           <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
-            Our dedicated support team is ready to help.
+            Have questions about Marvello or need assistance getting started?<br />
+            Our dedicated support team at Webbicles LLP is ready to help.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -94,7 +95,6 @@ export default function Contact() {
                 <div>
                   <h3 className="font-semibold mb-2">Address</h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Webbicles LLP<br />
                     Block C, Hari Mansion,<br />
                     Park Market Road, Hirapur,<br />
                     Dhanbad, Jharkhand 826001
