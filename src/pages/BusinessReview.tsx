@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { StarRating } from "@/components/StarRating";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
 
 export default function BusinessReview() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
@@ -125,6 +127,13 @@ export default function BusinessReview() {
     }
   };
 
+  const handleBack = () => {
+    if (showFeedbackForm) {
+      setShowFeedbackForm(false);
+      setSelectedRating(0);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center py-12">
@@ -176,7 +185,16 @@ export default function BusinessReview() {
             </div>
           </>
         ) : (
-          <FeedbackForm onSubmit={handleFeedbackSubmit} />
+          <div className="space-y-4">
+            <FeedbackForm onSubmit={handleFeedbackSubmit} />
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={handleBack}
+            >
+              Back to Rating
+            </Button>
+          </div>
         )}
 
         <div className="text-center text-sm text-muted-foreground mt-8">
