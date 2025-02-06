@@ -20,7 +20,7 @@ export default function BaseHeader({ rightContent }: BaseHeaderProps) {
             <h1 className="text-2xl font-bold text-primary">
               Marvello
             </h1>
-            <span className="text-[12px] text-gray-600 dark:text-gray-400 -mt-1 text-right font-bold">
+            <span className="text-xs text-gray-600 dark:text-gray-400 -mt-1 text-right">
               by webbicles
             </span>
           </div>
@@ -44,4 +44,3 @@ export default function BaseHeader({ rightContent }: BaseHeaderProps) {
     </header>
   );
 }
-
