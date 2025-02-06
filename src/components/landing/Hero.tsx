@@ -18,7 +18,7 @@ export default function Hero({ onGetStarted }: HeroProps) {
         <div className="space-y-4 animate-fade-in">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
             Grow Your Business with{" "}
-            <span className="text-brand-yellow inline-flex items-center rainbow-star">
+            <span className="text-brand-yellow inline-flex items-center">
               5⭐
             </span>{" "}
             <span className="text-primary">
@@ -39,22 +39,6 @@ export default function Hero({ onGetStarted }: HeroProps) {
           </Button>
         </div>
       </div>
-      <style>
-        {`
-          @keyframes rainbow {
-            0% { color: #F97316; }
-            20% { color: #8B5CF6; }
-            40% { color: #D946EF; }
-            60% { color: #0EA5E9; }
-            80% { color: #F97316; }
-            100% { color: #8B5CF6; }
-          }
-          
-          .rainbow-star {
-            animation: rainbow 10s linear infinite;
-          }
-        `}
-      </style>
     </section>
   );
 }
