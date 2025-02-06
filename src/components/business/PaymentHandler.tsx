@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { BusinessFormData } from "../business/BusinessRegistrationForm";
 
 const SUBSCRIPTION_AMOUNT = 499;
+const MIN_AMOUNT = 1; // Minimum amount for Razorpay
 
 interface UsePaymentHandlerProps {
   onSuccess: () => void;
@@ -114,8 +115,8 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
       discountedAmount = SUBSCRIPTION_AMOUNT - formData.appliedCoupon.discount_value;
     }
 
-    // Ensure amount is not negative
-    return Math.max(discountedAmount, 0);
+    // Ensure amount is not less than minimum required by Razorpay
+    return Math.max(discountedAmount, MIN_AMOUNT);
   };
 
   const handlePayment = async () => {
