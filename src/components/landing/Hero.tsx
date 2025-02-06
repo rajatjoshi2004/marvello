@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -16,7 +17,7 @@ export default function Hero({ onGetStarted }: HeroProps) {
       <div className="mx-auto max-w-4xl space-y-8 relative">
         <div className="space-y-4 animate-fade-in">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-            Boost Your Business Growth with{" "}
+            Grow Your Business with{" "}
             <span className="text-brand-yellow inline-flex items-center">
               5⭐
             </span>{" "}
