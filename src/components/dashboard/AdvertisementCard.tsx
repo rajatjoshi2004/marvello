@@ -6,9 +6,9 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCallback } from "react";
 
 interface Advertisement {
   id: string;
@@ -18,6 +18,17 @@ interface Advertisement {
 
 export default function AdvertisementCard() {
   const [ads, setAds] = useState<Advertisement[]>([]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+
+  const autoplay = useCallback(() => {
+    if (!emblaApi) return;
+    
+    const timer = setInterval(() => {
+      emblaApi.scrollNext();
+    }, 5000); // 5 seconds interval
+
+    return () => clearInterval(timer);
+  }, [emblaApi]);
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -36,6 +47,15 @@ export default function AdvertisementCard() {
 
     fetchAds();
   }, []);
+
+  useEffect(() => {
+    const autoplayStop = autoplay();
+    return () => {
+      if (autoplayStop) {
+        autoplayStop();
+      }
+    };
+  }, [autoplay]);
 
   if (ads.length === 0) return null;
 
@@ -69,7 +89,14 @@ export default function AdvertisementCard() {
 
   return (
     <Card className="hover:shadow-lg transition-all duration-300 min-h-[200px] relative">
-      <Carousel className="w-full">
+      <Carousel
+        ref={emblaRef}
+        className="w-full"
+        opts={{
+          loop: true,
+          align: "start",
+        }}
+      >
         <CarouselContent>
           {ads.map((ad) => (
             <CarouselItem key={ad.id}>
@@ -96,8 +123,6 @@ export default function AdvertisementCard() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-2" />
-        <CarouselNext className="right-2" />
       </Carousel>
     </Card>
   );
