@@ -18,6 +18,7 @@ export type Database = {
           mobile_number: string | null
           name: string
           owner_id: string
+          payment_id: string | null
           updated_at: string
         }
         Insert: {
@@ -28,6 +29,7 @@ export type Database = {
           mobile_number?: string | null
           name: string
           owner_id: string
+          payment_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -38,6 +40,7 @@ export type Database = {
           mobile_number?: string | null
           name?: string
           owner_id?: string
+          payment_id?: string | null
           updated_at?: string
         }
         Relationships: [

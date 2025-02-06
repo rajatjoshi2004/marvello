@@ -20,6 +20,14 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { Building2, Link, Phone } from "lucide-react";
 import { isMobileValid } from "@/utils/validation";
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+const SUBSCRIPTION_AMOUNT = 499; // ₹499
+
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Business name must be at least 2 characters.",
@@ -49,6 +57,16 @@ export default function NewBusiness() {
       }
     };
     checkAuth();
+
+    // Load Razorpay script
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, [navigate, toast]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,7 +83,72 @@ export default function NewBusiness() {
     navigate("/auth");
   };
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const handlePayment = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session?.user) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "You must be logged in to create a business.",
+        });
+        navigate("/auth");
+        return;
+      }
+
+      // Create Razorpay order
+      const response = await fetch(
+        "https://joxolpszmnvzflwdcfxy.supabase.co/functions/v1/create-razorpay-order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ amount: SUBSCRIPTION_AMOUNT }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to create order");
+      }
+
+      const order = await response.json();
+
+      // Initialize Razorpay payment
+      const options = {
+        key: "rzp_test_51Ix3kRujWtAGYz", // Replace with your Razorpay key ID
+        amount: order.amount,
+        currency: order.currency,
+        name: "Marvello",
+        description: "Business Registration",
+        order_id: order.id,
+        handler: async function (response: any) {
+          await createBusiness(values, response.razorpay_payment_id);
+        },
+        prefill: {
+          name: session.user.email,
+          contact: values.mobile_number,
+        },
+        theme: {
+          color: "#000000",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast({
+        variant: "destructive",
+        title: "Payment Error",
+        description: "Failed to process payment. Please try again.",
+      });
+    }
+  };
+
+  const createBusiness = async (values: z.infer<typeof formSchema>, paymentId: string) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
@@ -102,6 +185,7 @@ export default function NewBusiness() {
           google_review_url: values.google_review_url,
           mobile_number: values.mobile_number,
           owner_id: profile.id,
+          payment_id: paymentId,
         });
 
       if (error) {
@@ -127,7 +211,7 @@ export default function NewBusiness() {
         description: "An unexpected error occurred. Please try again.",
       });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -148,7 +232,7 @@ export default function NewBusiness() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="name"
@@ -226,7 +310,7 @@ export default function NewBusiness() {
                     type="submit"
                     className="px-8"
                   >
-                    Create Business
+                    Pay ₹{SUBSCRIPTION_AMOUNT} & Create Business
                   </Button>
                 </div>
               </form>
