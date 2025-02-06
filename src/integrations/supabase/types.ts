@@ -53,6 +53,42 @@ export type Database = {
           },
         ]
       }
+      coupons: {
+        Row: {
+          active: boolean | null
+          code: string
+          created_at: string
+          discount_type: Database["public"]["Enums"]["coupon_type"]
+          discount_value: number
+          expires_at: string | null
+          id: string
+          max_uses: number | null
+          used_count: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          code: string
+          created_at?: string
+          discount_type: Database["public"]["Enums"]["coupon_type"]
+          discount_value: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          used_count?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          code?: string
+          created_at?: string
+          discount_type?: Database["public"]["Enums"]["coupon_type"]
+          discount_value?: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          used_count?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -123,6 +159,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      coupon_type: "percentage" | "fixed"
       user_role: "admin" | "business_owner"
     }
     CompositeTypes: {
