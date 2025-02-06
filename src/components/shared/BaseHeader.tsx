@@ -17,7 +17,7 @@ export default function BaseHeader({ rightContent }: BaseHeaderProps) {
         <Link to="/" className="flex items-center gap-2">
           <img src="/logo-icon.svg" alt="Marvello Logo" className="w-8 h-8" />
           <div className="flex flex-col">
-            <h1 className="text-2xl font-bold text-primary">
+            <h1 className="text-2xl font-bold text-primary dark:text-white">
               Marvello
             </h1>
             <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 -mt-1 text-right">
