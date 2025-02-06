@@ -146,7 +146,7 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
       }
 
       const options: RazorpayOptions = {
-        key: order.key_id || "rzp_test_51Ix3kRujWtAGYz",
+        key: order.key_id || "rzp_test_51Ix3kRujWtAGYz", // Fallback to test key
         amount: order.amount,
         currency: order.currency,
         name: "Marvello",
