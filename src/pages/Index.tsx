@@ -15,7 +15,6 @@ import Footer from "@/components/shared/Footer";
 export default function Index() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [language, setLanguage] = useState<"en" | "hi">("en");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -35,15 +34,15 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      <Header onGetStarted={handleGetStarted} language={language} />
-      <Hero onGetStarted={handleGetStarted} language={language} />
-      <Benefits language={language} />
-      <Features language={language} />
-      <About language={language} />
-      <UseCases language={language} />
-      <HowItWorks language={language} />
-      <CallToAction onGetStarted={handleGetStarted} language={language} />
-      <Footer language={language} onLanguageChange={setLanguage} />
+      <Header onGetStarted={handleGetStarted} />
+      <Hero onGetStarted={handleGetStarted} />
+      <Benefits />
+      <Features />
+      <About />
+      <UseCases />
+      <HowItWorks />
+      <CallToAction onGetStarted={handleGetStarted} />
+      <Footer />
     </div>
   );
 }
