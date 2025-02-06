@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -10,6 +11,7 @@ import { BusinessHeader } from "@/components/business/BusinessHeader";
 import { ReviewsTable } from "@/components/business/ReviewsTable";
 import { UrlDialog } from "@/components/business/UrlDialog";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import Footer from "@/components/shared/Footer";
 
 export default function BusinessDetails() {
   const { id } = useParams<{ id: string }>();
@@ -220,6 +222,7 @@ export default function BusinessDetails() {
       <div className="min-h-screen flex flex-col bg-background">
         <DashboardHeader onSignOut={handleSignOut} />
         <div className="container py-8">Loading...</div>
+        <Footer />
       </div>
     );
   }
@@ -229,6 +232,7 @@ export default function BusinessDetails() {
       <div className="min-h-screen flex flex-col bg-background">
         <DashboardHeader onSignOut={handleSignOut} />
         <div className="container py-8">Business not found.</div>
+        <Footer />
       </div>
     );
   }
@@ -284,11 +288,7 @@ export default function BusinessDetails() {
         />
       </main>
 
-      <footer className="border-t py-4 bg-background">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Marvello. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
