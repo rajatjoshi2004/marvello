@@ -1,4 +1,5 @@
-import { Zap, Users, Target } from "lucide-react";
+
+import { Shield, ThumbsUp, Cog } from "lucide-react";
 
 export default function Features() {
   return (
@@ -13,19 +14,19 @@ export default function Features() {
         </h2>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <Zap className="mb-4 h-8 w-8 text-primary" />
-            <h3 className="mb-2 text-lg font-semibold dark:text-white">More Effective than Paid Ads</h3>
-            <p className="text-gray-600 dark:text-gray-300">Get better results without expensive advertising costs</p>
+            <Shield className="mb-4 h-8 w-8 text-primary" />
+            <h3 className="mb-2 text-lg font-semibold dark:text-white">Protect Your Online Reputation Effectively</h3>
+            <p className="text-gray-600 dark:text-gray-300">Handle negative feedback privately, build trust publicly</p>
           </div>
           <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <Users className="mb-4 h-8 w-8 text-brand-yellow" />
-            <h3 className="mb-2 text-lg font-semibold dark:text-white">Get New Customers Every Day</h3>
-            <p className="text-gray-600 dark:text-gray-300">Consistently grow your customer base</p>
+            <ThumbsUp className="mb-4 h-8 w-8 text-brand-yellow" />
+            <h3 className="mb-2 text-lg font-semibold dark:text-white">Attract More Positive Reviews Daily</h3>
+            <p className="text-gray-600 dark:text-gray-300">Boost rankings and brand credibility</p>
           </div>
           <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <Target className="mb-4 h-8 w-8 text-primary" />
-            <h3 className="mb-2 text-lg font-semibold dark:text-white">100% Automate Your Marketing</h3>
-            <p className="text-gray-600 dark:text-gray-300">Set it and forget it - we handle everything</p>
+            <Cog className="mb-4 h-8 w-8 text-primary" />
+            <h3 className="mb-2 text-lg font-semibold dark:text-white">Fully Automate Review Process</h3>
+            <p className="text-gray-600 dark:text-gray-300">Focus on business. We'll handle your entire feedback lifecycle</p>
           </div>
         </div>
       </div>
