@@ -10,6 +10,7 @@ import BusinessReview from "@/pages/BusinessReview";
 import NotFound from "@/pages/NotFound";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsAndConditions from "@/pages/TermsAndConditions";
+import CancellationPolicy from "@/pages/CancellationPolicy";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import LoadingScreen from "@/components/shared/LoadingScreen";
@@ -29,6 +30,7 @@ function App() {
             <Route path="/review/:id" element={<BusinessReview />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/cancellation-policy" element={<CancellationPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

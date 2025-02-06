@@ -28,7 +28,7 @@ export default function Footer() {
               <Link to="/terms-and-conditions" className="hover:text-primary">Terms & Conditions</Link>
             </li>
             <li>
-              <Link to="#" className="hover:text-primary">Cancellation/Refund Policy</Link>
+              <Link to="/cancellation-policy" className="hover:text-primary">Cancellation/Refund Policy</Link>
             </li>
           </ul>
         </nav>
