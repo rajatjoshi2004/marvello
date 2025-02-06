@@ -61,21 +61,25 @@ export default function About() {
             </div>
           </div>
 
-          <section className="mb-12 text-center">
-            <h2 className="text-3xl font-bold mb-6 text-primary">Our Story</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
-              We noticed a big gap in the market—collecting and managing customer reviews was time-consuming, often yielding limited results. Determined to provide a seamless, automated solution, our team at Marvello combined expertise in marketing, software development, and customer experience to create Marvello.
-            </p>
+          <section className="mb-12">
+            <div className="bg-gradient-to-br from-primary/5 via-primary/10 to-transparent p-8 rounded-2xl border border-primary/20 shadow-lg transition-all duration-300 hover:shadow-xl">
+              <h2 className="text-3xl font-bold mb-6 text-primary text-center">Our Story</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed text-center">
+                We noticed a big gap in the market—collecting and managing customer reviews was time-consuming, often yielding limited results. Determined to provide a seamless, automated solution, our team at Marvello combined expertise in marketing, software development, and customer experience to create Marvello.
+              </p>
+            </div>
           </section>
 
           <section className="mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-center text-primary">Our Vision</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
-              We believe every business, whether it's a cozy café or a large enterprise, should have the tools needed to excel in today's digital age. Positive customer reviews are crucial for building trust and credibility, and Marvello is designed to simplify and accelerate that process.
-            </p>
+            <div className="bg-gradient-to-bl from-primary/5 via-primary/10 to-transparent p-8 rounded-2xl border border-primary/20 shadow-lg transition-all duration-300 hover:shadow-xl">
+              <h2 className="text-3xl font-bold mb-6 text-primary text-center">Our Vision</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed text-center">
+                We believe every business, whether it's a cozy café or a large enterprise, should have the tools needed to excel in today's digital age. Positive customer reviews are crucial for building trust and credibility, and Marvello is designed to simplify and accelerate that process.
+              </p>
+            </div>
           </section>
 
-          <p className="text-gray-600 dark:text-gray-300 text-center">
+          <p className="text-gray-600 dark:text-gray-300 text-center text-lg">
             At Marvello, we're passionate about seeing our clients thrive. We're always innovating and adding new features to ensure you stay ahead of the competition in a fast-paced world.
           </p>
         </article>
