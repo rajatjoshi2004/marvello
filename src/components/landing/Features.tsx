@@ -15,7 +15,7 @@ export default function Features() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
             <Shield className="mb-4 h-8 w-8 text-primary" />
-            <h3 className="mb-2 text-lg font-semibold dark:text-white">Protect Your Online Reputation Effectively</h3>
+            <h3 className="mb-2 text-lg font-semibold dark:text-white">Protect Your Online Reputation</h3>
             <p className="text-gray-600 dark:text-gray-300">Handle negative feedback privately, build trust publicly</p>
           </div>
           <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
