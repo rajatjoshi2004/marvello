@@ -8,7 +8,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 interface Advertisement {
   id: string;
@@ -18,17 +18,11 @@ interface Advertisement {
 
 export default function AdvertisementCard() {
   const [ads, setAds] = useState<Advertisement[]>([]);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-
-  const autoplay = useCallback(() => {
-    if (!emblaApi) return;
-    
-    const timer = setInterval(() => {
-      emblaApi.scrollNext();
-    }, 5000); // 5 seconds interval
-
-    return () => clearInterval(timer);
-  }, [emblaApi]);
+  
+  // Initialize carousel with autoplay plugin
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  ]);
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -47,15 +41,6 @@ export default function AdvertisementCard() {
 
     fetchAds();
   }, []);
-
-  useEffect(() => {
-    const cleanup = autoplay();
-    return () => {
-      if (cleanup) {
-        cleanup();
-      }
-    };
-  }, [autoplay]);
 
   if (ads.length === 0) return null;
 
