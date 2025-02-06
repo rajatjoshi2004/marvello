@@ -1,4 +1,3 @@
-
 import { CheckCircle2 } from "lucide-react";
 
 export default function About() {
@@ -10,24 +9,24 @@ export default function About() {
         </h2>
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-12 text-lg text-gray-600 dark:text-gray-300">
-            Marvello is a review-collection platform that helps all types of businesses shine by managing feedback in a smarter way.
+            Marvello is an automation system that helps all types of businesses achieve success through automated marketing and customer engagement.
           </p>
           <div className="grid gap-6 text-left sm:grid-cols-2">
             <div className="flex items-start gap-3 p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-1" />
-              <span className="dark:text-gray-300">Gather and filter customer feedback</span>
+              <span className="dark:text-gray-300">Get new customers every day</span>
             </div>
             <div className="flex items-start gap-3 p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               <CheckCircle2 className="h-5 w-5 text-brand-yellow shrink-0 mt-1" />
-              <span className="dark:text-gray-300">Protect your online reputation and image</span>
+              <span className="dark:text-gray-300">Retain customers & get repeat purchases</span>
             </div>
             <div className="flex items-start gap-3 p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-1" />
-              <span className="dark:text-gray-300">Maximize positive reviews on Google</span>
+              <span className="dark:text-gray-300">Convert leads to sales faster</span>
             </div>
             <div className="flex items-start gap-3 p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               <CheckCircle2 className="h-5 w-5 text-brand-yellow shrink-0 mt-1" />
-              <span className="dark:text-gray-300">Address issues privately before they go public</span>
+              <span className="dark:text-gray-300">Build a great customer experience</span>
             </div>
           </div>
         </div>
