@@ -1,6 +1,5 @@
-
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import type { Business } from "@/types/business";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
@@ -75,16 +74,8 @@ export default function Dashboard() {
 
       {/* Footer */}
       <footer className="border-t py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Marvello. All rights reserved.
-          </div>
-          <div className="flex gap-4 text-sm text-muted-foreground">
-            <Link to="/about" className="hover:text-foreground">About Us</Link>
-            <Link to="/privacy" className="hover:text-foreground">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-foreground">Terms & Conditions</Link>
-            <Link to="/refund" className="hover:text-foreground">Refund Policy</Link>
-          </div>
+        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Marvello. All rights reserved.
         </div>
       </footer>
     </div>
