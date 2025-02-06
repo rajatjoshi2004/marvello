@@ -37,7 +37,7 @@ export default function About() {
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
         <article className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-8 text-primary">Welcome to Marvello</h1>
-          <p className="text-4xl text-black dark:text-gray-300 text-center mb-12">Your Ultimate Tool for Business Growth</p>
+          <p className="text-4xl font-bold text-center mb-12 text-black dark:text-gray-300">Your Ultimate Tool for Business Growth</p>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
