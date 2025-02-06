@@ -145,7 +145,7 @@ export default function PaymentHandler({ onSuccess, formData }: PaymentHandlerPr
         throw new Error("Payment system is not ready. Please refresh the page and try again.");
       }
 
-      const options = {
+      const options: RazorpayOptions = {
         key: order.key_id || "rzp_test_51Ix3kRujWtAGYz",
         amount: order.amount,
         currency: order.currency,
