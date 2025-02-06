@@ -105,7 +105,7 @@ export default function Pricing() {
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
             <h3 className="text-xl font-bold mb-4">Want to upgrade to Pro Plan?</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              No problem! Only pay the difference of INR 500 and enjoy the additional benefits of the physical QR stand.
+              No problem! Only pay the difference of INR 500 and enjoy the additional benefits of the physical NFC enabled QR stand.
             </p>
           </div>
         </div>
