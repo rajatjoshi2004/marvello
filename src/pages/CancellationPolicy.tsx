@@ -40,8 +40,8 @@ export default function CancellationPolicy() {
           
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">1. Lifetime Deal / No Refund Policy</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              All purchases (INR 499 Plan or INR 999 Plan) for Marvello services are considered lifetime deals. We do not offer refunds once payment has been completed. By making a purchase, you acknowledge and agree that all sales are final.
+            <p className="text-gray-600 dark:text-gray-400">
+              All plan purchases for Marvello (INR 499 or INR 999, both inclusive of 18% GST) are considered lifetime deals. No refunds are offered once payment has been successfully processed. By completing the purchase, you acknowledge and accept that all sales are final.
             </p>
           </section>
 
@@ -49,7 +49,7 @@ export default function CancellationPolicy() {
             <h2 className="text-2xl font-semibold mb-4">2. Order Cancellation</h2>
             <h3 className="text-xl font-medium mb-3">Pre-Dispatch Cancellation (INR 999 Plan):</h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
-              If you wish to cancel your order before the QR stand is dispatched, please contact us immediately. While no refund is available, we may offer store credit at our sole discretion.
+              If you wish to cancel your INR 999 Plan order before the product is dispatched, please contact us immediately at marvello@webbicles.com. While no refund is available due to our no-refund policy, we may offer store credit at our sole discretion.
             </p>
             <h3 className="text-xl font-medium mb-3">Post-Dispatch Cancellation (INR 999 Plan):</h3>
             <p className="text-gray-600 dark:text-gray-400">
@@ -60,21 +60,33 @@ export default function CancellationPolicy() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">3. Damaged or Defective Items (INR 999 Plan)</h2>
             <p className="text-gray-600 dark:text-gray-400">
-              If you receive a damaged or defective QR stand or NFC-enabled product, contact us within 48 hours of receipt with photo/video evidence. We will arrange for a replacement or repair at our discretion.
+              If you receive a damaged or defective QR stand or NFC component, contact us within 48 hours of delivery with photo or video evidence. We will replace or repair the item at our discretion, free of additional charge.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">4. Changes to This Policy</h2>
+            <h2 className="text-2xl font-semibold mb-4">4. Upgrades and Refunds</h2>
+            <h3 className="text-xl font-medium mb-3">Upgrading (From INR 499 to INR 999):</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              You can upgrade at any time by paying the balance amount (INR 500, inclusive of 18% GST, plus any delivery fees if applicable).
+            </p>
+            <h3 className="text-xl font-medium mb-3">No Partial Refunds:</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              We reserve the right to modify or update this Cancellation/Refund Policy at any time. Any changes will be posted on our website with an updated "Effective Date." Your continued use of Marvello indicates acceptance of any revisions.
+              We do not issue partial refunds for differences in plan pricing or for any unused portion of the Service.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">5. Contact Us</h2>
+            <h2 className="text-2xl font-semibold mb-4">5. Changes to This Policy</h2>
             <p className="text-gray-600 dark:text-gray-400">
-              If you have questions about our Cancellation/Refund Policy, please reach out to us at:
+              We reserve the right to amend this Cancellation/Refund Policy at any time. Changes will be posted on our website with an updated "Effective Date." Your continued use of Marvello indicates acceptance of these changes.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">6. Contact Us</h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              For any questions or concerns regarding our Cancellation/Refund Policy, please reach out to us at:
             </p>
             <p className="mt-2">
               <strong>Email:</strong> marvello@webbicles.com<br />
