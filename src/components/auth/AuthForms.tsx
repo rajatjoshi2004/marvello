@@ -12,6 +12,7 @@ export function SignInForm() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +43,59 @@ export function SignInForm() {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth?reset=true`,
+      });
+      if (error) throw error;
+      toast({
+        title: "Check your email",
+        description: "We've sent you a password reset link.",
+      });
+      setShowForgotPassword(false);
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (showForgotPassword) {
+    return (
+      <form onSubmit={handleForgotPassword} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="reset-email">Email</Label>
+          <Input
+            id="reset-email"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Sending..." : "Send Reset Link"}
+        </Button>
+        <Button
+          type="button"
+          variant="link"
+          className="w-full"
+          onClick={() => setShowForgotPassword(false)}
+        >
+          Back to Sign In
+        </Button>
+      </form>
+    );
+  }
+
   return (
     <form onSubmit={handleEmailSignIn} className="space-y-4">
       <div className="space-y-2">
@@ -68,6 +122,14 @@ export function SignInForm() {
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? "Signing in..." : "Sign In"}
+      </Button>
+      <Button
+        type="button"
+        variant="link"
+        className="w-full"
+        onClick={() => setShowForgotPassword(true)}
+      >
+        Forgot Password?
       </Button>
     </form>
   );
