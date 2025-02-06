@@ -28,7 +28,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to your support team
     const emailResponse = await resend.emails.send({
       from: "Marvello Support <onboarding@resend.dev>",
-      to: "marvello@webbicles.com",
+      to: "sauravmittal16@gmail.com",
       subject: "New Contact Form Submission",
       html: `
         <h2>New Contact Form Submission</h2>
@@ -61,3 +61,4 @@ const handler = async (req: Request): Promise<Response> => {
 };
 
 serve(handler);
+
