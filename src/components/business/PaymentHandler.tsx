@@ -108,10 +108,9 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
     if (!formData.appliedCoupon?.valid) return SUBSCRIPTION_AMOUNT;
 
     if (formData.appliedCoupon.discount_type === 'percentage') {
-      const discountedAmount = SUBSCRIPTION_AMOUNT - (SUBSCRIPTION_AMOUNT * formData.appliedCoupon.discount_value / 100);
-      return Math.max(0, discountedAmount); // Ensure amount doesn't go below 0
+      return SUBSCRIPTION_AMOUNT - (SUBSCRIPTION_AMOUNT * formData.appliedCoupon.discount_value / 100);
     }
-    return Math.max(0, SUBSCRIPTION_AMOUNT - formData.appliedCoupon.discount_value); // Ensure amount doesn't go below 0
+    return SUBSCRIPTION_AMOUNT - formData.appliedCoupon.discount_value;
   };
 
   const handlePayment = async () => {
