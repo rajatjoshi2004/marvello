@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/shared/Footer";
@@ -64,7 +63,7 @@ export default function About() {
           <section className="mb-12 text-center">
             <h2 className="text-3xl font-bold mb-6 text-primary">Our Story</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
-              We noticed a big gap in the market—collecting and managing customer reviews was time-consuming, often yielding limited results. Determined to provide a seamless, automated solution, our team at Webbicles LLP combined expertise in marketing, software development, and customer experience to create Marvello.
+              We noticed a big gap in the market—collecting and managing customer reviews was time-consuming, often yielding limited results. Determined to provide a seamless, automated solution, our team at Marvello combined expertise in marketing, software development, and customer experience to create Marvello.
             </p>
           </section>
 
@@ -130,7 +129,7 @@ export default function About() {
           </section>
 
           <p className="text-gray-600 dark:text-gray-300 text-center">
-            At Webbicles LLP, we're passionate about seeing our clients thrive. We're always innovating and adding new features to ensure you stay ahead of the competition in a fast-paced world.
+            At Marvello, we're passionate about seeing our clients thrive. We're always innovating and adding new features to ensure you stay ahead of the competition in a fast-paced world.
           </p>
         </article>
       </main>
