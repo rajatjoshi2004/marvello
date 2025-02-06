@@ -58,20 +58,32 @@ export default function NewBusiness() {
     };
     checkAuth();
 
-    // Load Razorpay script
-    const loadRazorpay = () => {
-      return new Promise((resolve) => {
-        const script = document.createElement("script");
-        script.src = "https://checkout.razorpay.com/v1/checkout.js";
-        script.async = true;
-        script.onload = () => {
-          resolve(true);
-        };
-        script.onerror = () => {
-          resolve(false);
-        };
-        document.body.appendChild(script);
-      });
+    // Load Razorpay script with improved error handling
+    const loadRazorpay = async () => {
+      try {
+        if (window.Razorpay) {
+          console.log("Razorpay already loaded");
+          return true;
+        }
+
+        return new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = "https://checkout.razorpay.com/v1/checkout.js";
+          script.async = true;
+          script.onload = () => {
+            console.log("Razorpay script loaded successfully");
+            resolve(true);
+          };
+          script.onerror = () => {
+            console.error("Failed to load Razorpay script");
+            resolve(false);
+          };
+          document.body.appendChild(script);
+        });
+      } catch (error) {
+        console.error("Error loading Razorpay:", error);
+        return false;
+      }
     };
 
     loadRazorpay();
@@ -112,7 +124,9 @@ export default function NewBusiness() {
         return;
       }
 
-      // Create Razorpay order
+      console.log("Creating Razorpay order...");
+      
+      // Create Razorpay order with improved error handling
       const response = await fetch(
         "https://joxolpszmnvzflwdcfxy.supabase.co/functions/v1/create-razorpay-order",
         {
@@ -121,45 +135,58 @@ export default function NewBusiness() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({ amount: SUBSCRIPTION_AMOUNT }),
+          body: JSON.stringify({ 
+            amount: SUBSCRIPTION_AMOUNT,
+            currency: "INR",
+            receipt: `receipt_${Date.now()}`,
+          }),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Failed to create order");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to create order");
       }
 
       const order = await response.json();
+      console.log("Order created successfully:", order);
 
       if (!window.Razorpay) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Payment system is not ready. Please try again in a few moments.",
-        });
-        return;
+        throw new Error("Payment system is not ready. Please refresh the page and try again.");
       }
 
-      // Initialize Razorpay payment
+      // Initialize Razorpay payment with improved configuration
       const options = {
-        key: "rzp_test_51Ix3kRujWtAGYz", // Your test key
+        key: "rzp_test_51Ix3kRujWtAGYz",
         amount: order.amount,
         currency: order.currency,
         name: "Marvello",
         description: "Business Registration",
         order_id: order.id,
         handler: async function (response: any) {
+          console.log("Payment successful:", response);
           await createBusiness(values, response.razorpay_payment_id);
         },
         prefill: {
           name: session.user.email,
+          email: session.user.email,
           contact: values.mobile_number,
         },
         theme: {
           color: "#000000",
         },
+        modal: {
+          ondismiss: function() {
+            console.log("Checkout form closed");
+            toast({
+              title: "Payment Cancelled",
+              description: "You can try again when you're ready.",
+            });
+          }
+        }
       };
 
+      console.log("Initializing Razorpay payment...");
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error: any) {
@@ -186,6 +213,8 @@ export default function NewBusiness() {
         return;
       }
 
+      console.log("Creating business with payment ID:", paymentId);
+
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("id")
@@ -193,12 +222,12 @@ export default function NewBusiness() {
         .single();
 
       if (profileError || !profile) {
+        console.error("Error fetching profile:", profileError);
         toast({
           variant: "destructive",
           title: "Error",
           description: "Could not find your profile. Please try logging in again.",
         });
-        console.error("Error fetching profile:", profileError);
         return;
       }
 
@@ -213,15 +242,16 @@ export default function NewBusiness() {
         });
 
       if (error) {
+        console.error("Error creating business:", error);
         toast({
           variant: "destructive",
           title: "Error",
           description: "Could not create business. Please try again.",
         });
-        console.error("Error creating business:", error);
         return;
       }
 
+      console.log("Business created successfully");
       toast({
         title: "Success",
         description: "Business created successfully!",
