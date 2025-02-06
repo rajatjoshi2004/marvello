@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -54,36 +55,26 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
           title: "Error",
           description: "You must be logged in to create a business.",
         });
-        return;
+        return false;
       }
 
-      console.log("Creating business with payment ID:", paymentId);
+      console.log("Creating business with data:", {
+        name: formData.name,
+        payment_id: paymentId,
+        owner_id: session.user.id
+      });
 
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("id", session.user.id)
-        .single();
-
-      if (profileError || !profile) {
-        console.error("Error fetching profile:", profileError);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Could not find your profile. Please try logging in again.",
-        });
-        return;
-      }
-
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("businesses")
         .insert({
           name: formData.name,
           google_review_url: formData.google_review_url,
           mobile_number: formData.mobile_number,
-          owner_id: profile.id,
+          owner_id: session.user.id,
           payment_id: paymentId,
-        });
+        })
+        .select()
+        .single();
 
       if (error) {
         console.error("Error creating business:", error);
@@ -92,15 +83,16 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
           title: "Error",
           description: "Could not create business. Please try again.",
         });
-        return;
+        return false;
       }
 
-      console.log("Business created successfully");
+      console.log("Business created successfully:", data);
       toast({
         title: "Success",
         description: "Business created successfully!",
       });
       onSuccess();
+      return true;
     } catch (error) {
       console.error("Unexpected error:", error);
       toast({
@@ -108,6 +100,7 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         title: "Error",
         description: "An unexpected error occurred. Please try again.",
       });
+      return false;
     }
   };
 
@@ -154,7 +147,10 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         order_id: order.id,
         handler: async function (response: any) {
           console.log("Payment successful:", response);
-          await createBusiness(response.razorpay_payment_id);
+          const success = await createBusiness(response.razorpay_payment_id);
+          if (success) {
+            onSuccess();
+          }
         },
         prefill: {
           name: session.user.email,
