@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import type { BusinessFormData } from "./BusinessRegistrationForm";
+import type { BusinessFormData } from "../business/BusinessRegistrationForm";
 
 const SUBSCRIPTION_AMOUNT = 499;
 
@@ -107,10 +107,15 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
   const calculateDiscountedAmount = () => {
     if (!formData.appliedCoupon?.valid) return SUBSCRIPTION_AMOUNT;
 
+    let discountedAmount = SUBSCRIPTION_AMOUNT;
     if (formData.appliedCoupon.discount_type === 'percentage') {
-      return SUBSCRIPTION_AMOUNT - (SUBSCRIPTION_AMOUNT * formData.appliedCoupon.discount_value / 100);
+      discountedAmount = SUBSCRIPTION_AMOUNT - (SUBSCRIPTION_AMOUNT * formData.appliedCoupon.discount_value / 100);
+    } else {
+      discountedAmount = SUBSCRIPTION_AMOUNT - formData.appliedCoupon.discount_value;
     }
-    return SUBSCRIPTION_AMOUNT - formData.appliedCoupon.discount_value;
+
+    // Ensure amount is not negative
+    return Math.max(discountedAmount, 0);
   };
 
   const handlePayment = async () => {
@@ -126,11 +131,12 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         return;
       }
 
-      console.log("Creating Razorpay order...");
+      const finalAmount = calculateDiscountedAmount();
+      console.log("Creating Razorpay order with amount:", finalAmount);
       
       const { data: order, error } = await supabase.functions.invoke('create-razorpay-order', {
         body: { 
-          amount: calculateDiscountedAmount(),
+          amount: finalAmount,
           currency: "INR",
           receipt: `receipt_${Date.now()}`,
         },
