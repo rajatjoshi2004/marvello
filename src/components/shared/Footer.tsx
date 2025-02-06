@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="flex flex-col-reverse space-y-6 space-y-reverse md:flex-row md:space-y-0 md:justify-between md:items-center">
           <div className="text-center md:text-left mt-6 md:mt-0">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              © {new Date().getFullYear()} Marvello by Webbicles. All rights reserved.
+              © {new Date().getFullYear()} Marvello by <a href="https://webbicles.com" target="_blank" rel="noopener noreferrer" className="no-underline hover:text-primary transition-colors">Webbicles</a>. All rights reserved.
             </p>
           </div>
           <nav className="w-full md:w-auto">
