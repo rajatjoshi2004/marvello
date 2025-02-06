@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatMobileNumber, isMobileValid } from "@/utils/validation";
+import { SimpleCaptcha } from "./SimpleCaptcha";
 
 interface FeedbackFormProps {
   onSubmit: (feedback: { name: string; mobile: string; message: string }) => void;
@@ -18,6 +20,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
   const [nameError, setNameError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [feedbackError, setFeedbackError] = useState("");
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
 
@@ -66,11 +69,21 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       return;
     }
 
+    if (!isCaptchaVerified) {
+      toast({
+        title: "CAPTCHA Required",
+        description: "Please complete the CAPTCHA verification.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     onSubmit({ name: name.trim(), mobile: mobile.trim(), message: feedback.trim() });
     
     setName("");
     setMobile("");
     setFeedback("");
+    setIsCaptchaVerified(false);
     
     if (!isMobile) {
       toast({
@@ -134,6 +147,8 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
           <p className="text-sm text-red-500">{feedbackError}</p>
         )}
       </div>
+
+      <SimpleCaptcha onVerify={setIsCaptchaVerified} />
 
       <Button type="submit" className="w-full">
         Submit Feedback
