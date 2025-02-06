@@ -6,6 +6,7 @@ import type { Business } from "@/types/business";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import BusinessCard from "@/components/dashboard/BusinessCard";
 import EmptyStateCard from "@/components/dashboard/EmptyStateCard";
+import AdvertisementCard from "@/components/dashboard/AdvertisementCard";
 import Footer from "@/components/shared/Footer";
 
 export default function Dashboard() {
@@ -63,6 +64,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="flex-1 container px-4 py-8">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AdvertisementCard />
           {businesses.map((business, index) => (
             <BusinessCard 
               key={business.id} 
