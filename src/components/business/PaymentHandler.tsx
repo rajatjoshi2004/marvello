@@ -5,12 +5,12 @@ import type { BusinessFormData } from "./BusinessRegistrationForm";
 
 const SUBSCRIPTION_AMOUNT = 499;
 
-interface PaymentHandlerProps {
+interface UsePaymentHandlerProps {
   onSuccess: () => void;
   formData: BusinessFormData;
 }
 
-export default function PaymentHandler({ onSuccess, formData }: PaymentHandlerProps) {
+export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProps) {
   const { toast } = useToast();
 
   useEffect(() => {

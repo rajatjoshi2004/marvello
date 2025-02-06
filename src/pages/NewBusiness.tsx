@@ -6,15 +6,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import BusinessRegistrationForm from "@/components/business/BusinessRegistrationForm";
-import PaymentHandler from "@/components/business/PaymentHandler";
+import { usePaymentHandler } from "@/components/business/PaymentHandler";
 import type { BusinessFormData } from "@/components/business/BusinessRegistrationForm";
 
 export default function NewBusiness() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { handlePayment } = PaymentHandler({ 
+  const [formData, setFormData] = useState<BusinessFormData>({} as BusinessFormData);
+  const { handlePayment } = usePaymentHandler({ 
     onSuccess: () => navigate("/dashboard"),
-    formData: {} as BusinessFormData // This will be updated when the form is submitted
+    formData
   });
 
   useEffect(() => {
@@ -38,11 +39,8 @@ export default function NewBusiness() {
   };
 
   const handleFormSubmit = async (values: BusinessFormData) => {
-    const paymentHandler = PaymentHandler({
-      onSuccess: () => navigate("/dashboard"),
-      formData: values
-    });
-    await paymentHandler.handlePayment();
+    setFormData(values);
+    await handlePayment();
   };
 
   return (

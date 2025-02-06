@@ -1,4 +1,4 @@
-interface RazorpayOptions {
+declare interface RazorpayOptions {
   key: string;
   amount: number;
   currency: string;
@@ -19,12 +19,12 @@ interface RazorpayOptions {
   };
 }
 
-interface Razorpay {
+declare interface Razorpay {
   new (options: RazorpayOptions): {
     open: () => void;
   };
 }
 
-interface Window {
+declare interface Window {
   Razorpay: Razorpay;
 }
