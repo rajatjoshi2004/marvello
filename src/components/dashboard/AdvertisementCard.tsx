@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -8,7 +8,6 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback } from "react";
 
 interface Advertisement {
   id: string;
@@ -19,16 +18,6 @@ interface Advertisement {
 export default function AdvertisementCard() {
   const [ads, setAds] = useState<Advertisement[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-
-  const autoplay = useCallback(() => {
-    if (!emblaApi) return;
-    
-    const timer = setInterval(() => {
-      emblaApi.scrollNext();
-    }, 5000); // 5 seconds interval
-
-    return () => clearInterval(timer);
-  }, [emblaApi]);
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -49,20 +38,28 @@ export default function AdvertisementCard() {
   }, []);
 
   useEffect(() => {
+    if (!emblaApi) return;
+
+    const autoplay = () => {
+      const intervalId = setInterval(() => {
+        emblaApi.scrollNext();
+      }, 5000);
+
+      return () => clearInterval(intervalId);
+    };
+
     const cleanup = autoplay();
     return () => {
-      if (cleanup) {
-        cleanup();
-      }
+      if (cleanup) cleanup();
     };
-  }, [autoplay]);
+  }, [emblaApi]);
 
   if (ads.length === 0) return null;
 
   if (ads.length === 1) {
     const ad = ads[0];
     return (
-      <Card className="hover:shadow-lg transition-all duration-300 min-h-[200px] relative overflow-hidden">
+      <Card className="hover:shadow-lg transition-all duration-300 h-[200px] relative overflow-hidden">
         {ad.link_url ? (
           <a 
             href={ad.link_url}
@@ -88,10 +85,10 @@ export default function AdvertisementCard() {
   }
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 min-h-[200px] relative">
+    <Card className="hover:shadow-lg transition-all duration-300 h-[200px] relative overflow-hidden">
       <Carousel
         ref={emblaRef}
-        className="w-full"
+        className="w-full h-full"
         opts={{
           loop: true,
           align: "start",
@@ -99,7 +96,7 @@ export default function AdvertisementCard() {
       >
         <CarouselContent>
           {ads.map((ad) => (
-            <CarouselItem key={ad.id}>
+            <CarouselItem key={ad.id} className="h-[200px]">
               {ad.link_url ? (
                 <a
                   href={ad.link_url}
@@ -110,14 +107,14 @@ export default function AdvertisementCard() {
                   <img
                     src={ad.image_url}
                     alt="Advertisement"
-                    className="w-full h-[200px] object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </a>
               ) : (
                 <img
                   src={ad.image_url}
                   alt="Advertisement"
-                  className="w-full h-[200px] object-cover"
+                  className="w-full h-full object-cover"
                 />
               )}
             </CarouselItem>
