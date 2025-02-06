@@ -66,7 +66,7 @@ export default function Contact() {
       
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-center mb-4 text-primary">We're Here to Help!</h1>
+          <h1 className="text-4xl font-bold text-center mb-4 text-brand-yellow">We're Here to Help!</h1>
           <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
             Have questions about Marvello or need assistance getting started? Our dedicated support team at Webbicles LLP is ready to help.
           </p>
@@ -74,25 +74,25 @@ export default function Contact() {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div className="space-y-8">
               <div className="flex items-start gap-4">
-                <Mail className="w-6 h-6 text-primary mt-1" />
+                <Mail className="w-6 h-6 text-brand-yellow mt-1" />
                 <div>
-                  <h3 className="font-semibold mb-2">Email</h3>
+                  <h3 className="font-semibold mb-2 text-brand-yellow">Email</h3>
                   <p className="text-gray-600 dark:text-gray-300">marvello@webbicles.com</p>
                 </div>
               </div>
               
               <div className="flex items-start gap-4">
-                <Phone className="w-6 h-6 text-primary mt-1" />
+                <Phone className="w-6 h-6 text-brand-yellow mt-1" />
                 <div>
-                  <h3 className="font-semibold mb-2">Phone</h3>
+                  <h3 className="font-semibold mb-2 text-brand-yellow">Phone</h3>
                   <p className="text-gray-600 dark:text-gray-300">+91 98 5252 5522</p>
                 </div>
               </div>
               
               <div className="flex items-start gap-4">
-                <MapPin className="w-6 h-6 text-primary mt-1" />
+                <MapPin className="w-6 h-6 text-brand-yellow mt-1" />
                 <div>
-                  <h3 className="font-semibold mb-2">Address</h3>
+                  <h3 className="font-semibold mb-2 text-brand-yellow">Address</h3>
                   <p className="text-gray-600 dark:text-gray-300">
                     Block C, Hari Mansion,<br />
                     Park Market Road, Hirapur,<br />
@@ -102,9 +102,9 @@ export default function Contact() {
               </div>
               
               <div className="flex items-start gap-4">
-                <Clock className="w-6 h-6 text-primary mt-1" />
+                <Clock className="w-6 h-6 text-brand-yellow mt-1" />
                 <div>
-                  <h3 className="font-semibold mb-2">Business Hours</h3>
+                  <h3 className="font-semibold mb-2 text-brand-yellow">Business Hours</h3>
                   <p className="text-gray-600 dark:text-gray-300">Monday – Friday: 9:00 AM – 6:00 PM (IST)</p>
                   <p className="text-gray-600 dark:text-gray-300">Saturday: 10:00 AM – 2:00 PM (IST)</p>
                   <p className="text-gray-600 dark:text-gray-300">Sunday: Closed</p>
@@ -114,7 +114,7 @@ export default function Contact() {
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Send us a Message</h3>
+              <h3 className="text-2xl font-semibold mb-6 text-brand-yellow">Send us a Message</h3>
               <FeedbackForm onSubmit={handleSubmit} />
             </div>
           </div>
