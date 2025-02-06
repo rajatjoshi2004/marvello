@@ -26,6 +26,7 @@ export function BusinessHeader({
             name={business.name}
             logoUrl={business.logo_url}
             onLogoUpload={onLogoUpload}
+            onUpdateBusiness={onUpdateBusiness}
             uploading={uploading}
           />
           <div className="space-y-2">
