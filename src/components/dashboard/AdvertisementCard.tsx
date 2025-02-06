@@ -19,24 +19,35 @@ interface Advertisement {
 export default function AdvertisementCard() {
   const [ads, setAds] = useState<Advertisement[]>([]);
   
+  // Initialize autoplay plugin with configuration
+  const autoplayOptions = {
+    delay: 4000,
+    rootNode: (emblaRoot: HTMLElement) => emblaRoot.parentElement,
+  };
+  
   // Initialize carousel with autoplay plugin
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnInteraction: false })
-  ]);
+  const [emblaRef] = useEmblaCarousel(
+    { loop: true, skipSnaps: false },
+    [Autoplay(autoplayOptions)]
+  );
 
   useEffect(() => {
     const fetchAds = async () => {
-      const { data, error } = await supabase
-        .from("advertisements")
-        .select("*")
-        .eq("active", true);
+      try {
+        const { data, error } = await supabase
+          .from("advertisements")
+          .select("*")
+          .eq("active", true);
 
-      if (error) {
-        console.error("Error fetching advertisements:", error);
-        return;
+        if (error) {
+          console.error("Error fetching advertisements:", error);
+          return;
+        }
+
+        setAds(data || []);
+      } catch (error) {
+        console.error("Error in fetchAds:", error);
       }
-
-      setAds(data || []);
     };
 
     fetchAds();
@@ -73,18 +84,14 @@ export default function AdvertisementCard() {
   }
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 min-h-[200px] relative rounded-lg">
+    <Card className="hover:shadow-lg transition-all duration-300 min-h-[200px] relative rounded-lg overflow-hidden">
       <Carousel
         ref={emblaRef}
         className="w-full"
-        opts={{
-          loop: true,
-          align: "start",
-        }}
       >
         <CarouselContent>
           {ads.map((ad) => (
-            <CarouselItem key={ad.id}>
+            <CarouselItem key={ad.id} className="min-w-0">
               {ad.link_url ? (
                 <a
                   href={ad.link_url}
