@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import Razorpay from "npm:razorpay"
 
@@ -16,11 +15,6 @@ serve(async (req) => {
   try {
     const { amount, currency = "INR", receipt } = await req.json()
     console.log("Creating Razorpay order with amount:", amount)
-
-    // Validate amount
-    if (!amount || amount <= 0) {
-      throw new Error("Invalid amount. Amount must be greater than 0")
-    }
 
     const key_id = Deno.env.get('RAZORPAY_KEY_ID')
     const key_secret = Deno.env.get('RAZORPAY_KEY_SECRET')
