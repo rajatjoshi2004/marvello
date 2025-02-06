@@ -1,11 +1,19 @@
 
+import Header from "@/components/landing/Header";
+import Footer from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Contact() {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  
+  const handleGetStarted = () => {
+    navigate('/auth');
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,8 +24,9 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header onGetStarted={handleGetStarted} />
+      <main className="container mx-auto px-4 py-16 flex-1">
         <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
         <div className="max-w-2xl">
           <p className="text-lg mb-8 text-muted-foreground">
@@ -40,6 +49,7 @@ export default function Contact() {
           </form>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

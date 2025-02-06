@@ -1,14 +1,21 @@
 
+import Header from "@/components/landing/Header";
+import Footer from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Pricing() {
   const navigate = useNavigate();
+  
+  const handleGetStarted = () => {
+    navigate('/auth');
+  };
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header onGetStarted={handleGetStarted} />
+      <main className="container mx-auto px-4 py-16 flex-1">
         <h1 className="text-4xl font-bold text-center mb-12">Simple, Transparent Pricing</h1>
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
           <div className="border rounded-lg p-8 bg-card">
@@ -28,7 +35,7 @@ export default function Pricing() {
                 <span>Basic analytics dashboard</span>
               </li>
             </ul>
-            <Button onClick={() => navigate("/business/new")} className="w-full">Get Started</Button>
+            <Button onClick={handleGetStarted} className="w-full">Get Started</Button>
           </div>
           <div className="border rounded-lg p-8 bg-card">
             <h3 className="text-2xl font-semibold mb-4">Enterprise Plan</h3>
@@ -51,10 +58,11 @@ export default function Pricing() {
                 <span>Custom integration options</span>
               </li>
             </ul>
-            <Button variant="outline" onClick={() => navigate("/contact")} className="w-full">Contact Sales</Button>
+            <Button variant="outline" onClick={handleGetStarted} className="w-full">Contact Sales</Button>
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -1,8 +1,19 @@
 
+import Header from "@/components/landing/Header";
+import Footer from "@/components/landing/Footer";
+import { useNavigate } from "react-router-dom";
+
 export default function Privacy() {
+  const navigate = useNavigate();
+  
+  const handleGetStarted = () => {
+    navigate('/auth');
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col">
+      <Header onGetStarted={handleGetStarted} />
+      <main className="container mx-auto px-4 py-16 flex-1">
         <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
         <div className="prose dark:prose-invert max-w-none">
           <p className="mb-6">Last updated: {new Date().toLocaleDateString()}</p>
@@ -28,6 +39,7 @@ export default function Privacy() {
           </p>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
