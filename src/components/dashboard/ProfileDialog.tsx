@@ -110,7 +110,7 @@ export default function ProfileDialog() {
           setIsEditingProfile(open);
         }}
       >
-        <DialogContent>
+        <DialogContent className="sm:max-w-[425px] p-6">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>

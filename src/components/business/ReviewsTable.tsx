@@ -20,6 +20,14 @@ interface ReviewsTableProps {
 export function ReviewsTable({ reviews, onDeleteReview }: ReviewsTableProps) {
   const isMobile = useIsMobile();
 
+  if (reviews.length === 0) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        No reviews yet.
+      </div>
+    );
+  }
+
   if (isMobile) {
     return (
       <div className="space-y-4">

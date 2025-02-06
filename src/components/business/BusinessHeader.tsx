@@ -6,6 +6,7 @@ import { Pencil, Phone } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Business } from "@/types/business";
 import { formatMobileNumber } from "@/utils/validation";
+import { useToast } from "@/hooks/use-toast";
 
 interface BusinessHeaderProps {
   business: Business;
@@ -25,6 +26,7 @@ export function BusinessHeader({
   const [newName, setNewName] = useState(business.name);
   const [newMobile, setNewMobile] = useState(business.mobile_number || '');
   const [mobileError, setMobileError] = useState('');
+  const { toast } = useToast();
 
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatMobileNumber(e.target.value);
@@ -39,6 +41,25 @@ export function BusinessHeader({
     }
     onUpdateBusiness('mobile_number', newMobile);
     setIsEditingMobile(false);
+  };
+
+  const handleLogoValidation = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+
+    const file = e.target.files[0];
+    const maxSize = 100 * 1024; // 100KB in bytes
+
+    if (file.size > maxSize) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Logo image must be less than 100KB",
+      });
+      e.target.value = ''; // Clear the input
+      return;
+    }
+
+    await onLogoUpload(e);
   };
 
   return (
@@ -60,7 +81,7 @@ export function BusinessHeader({
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={onLogoUpload}
+                onChange={handleLogoValidation}
                 disabled={uploading}
               />
             </label>
