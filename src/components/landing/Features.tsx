@@ -21,7 +21,7 @@ export default function Features() {
           <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
             <ThumbsUp className="mb-4 h-8 w-8 text-brand-yellow" />
             <h3 className="mb-2 text-lg font-semibold dark:text-white">Attract More Positive Reviews Daily</h3>
-            <p className="text-gray-600 dark:text-gray-300">Boost rankings and brand credibility</p>
+            <p className="text-gray-600 dark:text-gray-300">Boost online rankings and strengthen brand credibility</p>
           </div>
           <div className="rounded-2xl bg-white dark:bg-gray-700 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
             <Cog className="mb-4 h-8 w-8 text-primary" />
