@@ -80,10 +80,11 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
 
     onSubmit({ name: name.trim(), mobile: mobile.trim(), message: feedback.trim() });
     
+    // Reset form after successful submission
     setName("");
     setMobile("");
     setFeedback("");
-    setIsCaptchaVerified(false);
+    setIsCaptchaVerified(false); // Reset CAPTCHA verification after submission
     
     if (!isMobile) {
       toast({
@@ -148,7 +149,7 @@ export const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
         )}
       </div>
 
-      <SimpleCaptcha onVerify={setIsCaptchaVerified} />
+      <SimpleCaptcha onVerify={(isValid) => setIsCaptchaVerified(isValid)} />
 
       <Button type="submit" className="w-full">
         Submit Feedback
