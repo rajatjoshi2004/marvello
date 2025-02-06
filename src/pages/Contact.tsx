@@ -73,28 +73,32 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
-              <div className="flex items-start gap-4 mb-6">
-                <Clock className="w-6 h-6 text-primary mt-1" />
-                <div>
-                  <h3 className="font-semibold mb-4">Business Hours</h3>
-                  <div className="space-y-2 text-gray-600 dark:text-gray-300">
-                    <p className="flex justify-between">
-                      <span>Monday – Friday:</span>
-                      <span>9:00 AM – 6:00 PM (IST)</span>
-                    </p>
-                    <p className="flex justify-between">
-                      <span>Saturday:</span>
-                      <span>10:00 AM – 2:00 PM (IST)</span>
-                    </p>
-                    <p className="flex justify-between">
-                      <span>Sunday:</span>
-                      <span>Closed</span>
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <Clock className="w-6 h-6 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Business Hours</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                      <span className="text-gray-600 dark:text-gray-300">Monday – Friday</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">9:00 AM – 6:00 PM (IST)</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                      <span className="text-gray-600 dark:text-gray-300">Saturday</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">10:00 AM – 2:00 PM (IST)</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-gray-600 dark:text-gray-300">Sunday</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">Closed</span>
+                    </div>
+                  </div>
+                  <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                      Closed on Public Holidays
                     </p>
                   </div>
-                  <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                    Closed on Public Holidays
-                  </p>
                 </div>
               </div>
             </div>
