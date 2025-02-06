@@ -13,13 +13,13 @@ export default function Footer() {
         <nav>
           <ul className="flex flex-wrap justify-center md:justify-end gap-4 text-sm text-gray-600 dark:text-gray-400">
             <li>
-              <Link to="#" className="hover:text-primary">About Us</Link>
+              <Link to="/about" className="hover:text-primary">About Us</Link>
             </li>
             <li>
-              <Link to="#" className="hover:text-primary">Contact Us</Link>
+              <Link to="/contact" className="hover:text-primary">Contact Us</Link>
             </li>
             <li>
-              <Link to="#" className="hover:text-primary">Pricing</Link>
+              <Link to="/pricing" className="hover:text-primary">Pricing</Link>
             </li>
             <li>
               <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
