@@ -45,7 +45,7 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
     loadRazorpay();
   }, []);
 
-  const createBusiness = async (paymentId: string) => {
+  const createBusiness = async (paymentId: string | null = null) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
@@ -132,6 +132,15 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
       }
 
       const finalAmount = calculateDiscountedAmount();
+      console.log("Calculated final amount:", finalAmount);
+      
+      // If amount is 0, create business directly without payment
+      if (finalAmount === 0) {
+        console.log("Amount is 0, creating business without payment");
+        await createBusiness(null);
+        return;
+      }
+
       console.log("Creating Razorpay order with amount:", finalAmount);
       
       const { data: order, error } = await supabase.functions.invoke('create-razorpay-order', {
