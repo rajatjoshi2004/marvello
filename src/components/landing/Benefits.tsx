@@ -1,3 +1,4 @@
+
 import { Star, CheckCircle2, Gift } from "lucide-react";
 
 export default function Benefits() {
@@ -10,15 +11,15 @@ export default function Benefits() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col items-center p-8 text-center hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-700 rounded-2xl shadow-xl hover:shadow-2xl">
             <Star className="mb-4 h-12 w-12 text-brand-yellow" />
-            <h3 className="mb-2 text-xl font-semibold dark:text-white">1000X Frequency of Positive Reviews</h3>
+            <h3 className="mb-2 text-xl font-semibold dark:text-white">Multiply your positive reviews</h3>
           </div>
           <div className="flex flex-col items-center p-8 text-center hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-700 rounded-2xl shadow-xl hover:shadow-2xl">
             <CheckCircle2 className="mb-4 h-12 w-12 text-primary" />
-            <h3 className="mb-2 text-xl font-semibold dark:text-white">Reduce 98% of Negative Reviews</h3>
+            <h3 className="mb-2 text-xl font-semibold dark:text-white">Minimize your negative feedback</h3>
           </div>
           <div className="flex flex-col items-center p-8 text-center hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-700 rounded-2xl shadow-xl hover:shadow-2xl">
             <Gift className="mb-4 h-12 w-12 text-brand-yellow" />
-            <h3 className="mb-2 text-xl font-semibold dark:text-white">Lifetime Deal</h3>
+            <h3 className="mb-2 text-xl font-semibold dark:text-white">Pay once, no monthly fees</h3>
           </div>
         </div>
       </div>
