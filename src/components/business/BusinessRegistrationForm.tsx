@@ -61,12 +61,7 @@ export default function BusinessRegistrationForm({ onSubmit }: BusinessRegistrat
   const handleApplyCoupon = async () => {
     const couponCode = form.getValues("coupon_code");
     if (!couponCode) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please enter a coupon code",
-      });
-      return;
+      return; // Don't show any error, just return silently as coupon is optional
     }
 
     setIsApplyingCoupon(true);
@@ -185,13 +180,13 @@ export default function BusinessRegistrationForm({ onSubmit }: BusinessRegistrat
           name="coupon_code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base">Coupon Code</FormLabel>
+              <FormLabel className="text-base">Have a coupon? (Optional)</FormLabel>
               <div className="flex gap-2">
                 <FormControl>
                   <div className="relative flex-1">
                     <Tag className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                     <Input 
-                      placeholder="Enter coupon code" 
+                      placeholder="Enter coupon code (optional)" 
                       className="pl-10 bg-background"
                       {...field} 
                     />
