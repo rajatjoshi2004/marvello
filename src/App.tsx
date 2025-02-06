@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense } from "react";
 import Index from "@/pages/Index";
@@ -7,6 +8,7 @@ import NewBusiness from "@/pages/NewBusiness";
 import BusinessDetails from "@/pages/BusinessDetails";
 import BusinessReview from "@/pages/BusinessReview";
 import NotFound from "@/pages/NotFound";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import LoadingScreen from "@/components/shared/LoadingScreen";
@@ -24,6 +26,7 @@ function App() {
             <Route path="/business/new" element={<NewBusiness />} />
             <Route path="/business/:id" element={<BusinessDetails />} />
             <Route path="/review/:id" element={<BusinessReview />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

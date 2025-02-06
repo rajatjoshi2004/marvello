@@ -22,7 +22,7 @@ export default function Footer() {
               <Link to="#" className="hover:text-primary">Pricing</Link>
             </li>
             <li>
-              <Link to="#" className="hover:text-primary">Privacy Policy</Link>
+              <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
             </li>
             <li>
               <Link to="#" className="hover:text-primary">Terms & Conditions</Link>
