@@ -104,6 +104,15 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
     }
   };
 
+  const calculateDiscountedAmount = () => {
+    if (!formData.appliedCoupon?.valid) return SUBSCRIPTION_AMOUNT;
+
+    if (formData.appliedCoupon.discount_type === 'percentage') {
+      return SUBSCRIPTION_AMOUNT - (SUBSCRIPTION_AMOUNT * formData.appliedCoupon.discount_value / 100);
+    }
+    return SUBSCRIPTION_AMOUNT - formData.appliedCoupon.discount_value;
+  };
+
   const handlePayment = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -121,7 +130,7 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
       
       const { data: order, error } = await supabase.functions.invoke('create-razorpay-order', {
         body: { 
-          amount: SUBSCRIPTION_AMOUNT,
+          amount: calculateDiscountedAmount(),
           currency: "INR",
           receipt: `receipt_${Date.now()}`,
         },
