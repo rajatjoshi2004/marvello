@@ -56,7 +56,7 @@ export default function AdvertisementCard() {
   if (ads.length === 1) {
     const ad = ads[0];
     return (
-      <Card className="hover:shadow-lg transition-all duration-300 min-h-[200px] relative overflow-hidden rounded-lg">
+      <Card className="hover:shadow-lg transition-all duration-300 h-[200px] relative overflow-hidden rounded-lg">
         {ad.link_url ? (
           <a 
             href={ad.link_url}
@@ -67,18 +67,18 @@ export default function AdvertisementCard() {
             <img
               src={ad.image_url}
               alt="Advertisement"
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover"
             />
             <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
               Ad
             </span>
           </a>
         ) : (
-          <div className="relative">
+          <div className="relative w-full h-full">
             <img
               src={ad.image_url}
               alt="Advertisement"
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover"
             />
             <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
               Ad
@@ -90,14 +90,14 @@ export default function AdvertisementCard() {
   }
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 min-h-[200px] relative rounded-lg overflow-hidden">
+    <Card className="hover:shadow-lg transition-all duration-300 h-[200px] relative rounded-lg overflow-hidden">
       <Carousel
         ref={emblaRef}
-        className="w-full"
+        className="w-full h-full"
       >
         <CarouselContent>
           {ads.map((ad) => (
-            <CarouselItem key={ad.id} className="min-w-0">
+            <CarouselItem key={ad.id} className="h-full">
               {ad.link_url ? (
                 <a
                   href={ad.link_url}
@@ -108,18 +108,18 @@ export default function AdvertisementCard() {
                   <img
                     src={ad.image_url}
                     alt="Advertisement"
-                    className="w-full h-[200px] object-cover rounded-lg"
+                    className="w-full h-full object-cover"
                   />
                   <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                     Ad
                   </span>
                 </a>
               ) : (
-                <div className="relative">
+                <div className="relative w-full h-full">
                   <img
                     src={ad.image_url}
                     alt="Advertisement"
-                    className="w-full h-[200px] object-cover rounded-lg"
+                    className="w-full h-full object-cover"
                   />
                   <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                     Ad
