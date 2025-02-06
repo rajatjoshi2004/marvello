@@ -40,7 +40,7 @@ export default function Pricing() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-4 text-primary">Transparent. Flexible. Hassle-Free.</h1>
           <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
-            We keep our pricing straightforward, so you know exactly what you're getting. All prices are inclusive—no hidden fees or surprises.
+            We keep our pricing straightforward, so you know exactly what you're getting. All prices are inclusive, no hidden fees or surprises.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
