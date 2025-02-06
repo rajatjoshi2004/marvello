@@ -39,21 +39,25 @@ export default function Pricing() {
       <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-4 text-primary">Transparent. Flexible. Hassle-Free.</h1>
-          <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
-            We keep our pricing straightforward, so you know exactly what you're getting. All prices are inclusive of 18% GST—no hidden fees or surprises.
+          <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-4">
+            All prices are inclusive, no hidden fees or surprises.
           </p>
+          <div className="text-center text-gray-600 dark:text-gray-300 mb-12">
+            <p>Our dedicated support team is ready to help.</p>
+            <p>Webbicles LLP</p>
+            <p>Block C, Hari Mansion</p>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Basic Plan */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Digital Plan</h2>
+                <h2 className="text-2xl font-bold">Basic Plan</h2>
                 <div className="flex items-center">
                   <IndianRupee className="w-5 h-5" />
                   <span className="text-3xl font-bold">499</span>
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">Ideal for those who want a quick, budget-friendly way to start collecting and managing Google reviews.</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
@@ -71,16 +75,15 @@ export default function Pricing() {
               <Button className="w-full" onClick={handleGetStarted}>Get Started</Button>
             </div>
 
-            {/* Premium Plan */}
+            {/* Pro Plan */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border-2 border-primary">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Physical Plan</h2>
+                <h2 className="text-2xl font-bold">Pro Plan</h2>
                 <div className="flex items-center">
                   <IndianRupee className="w-5 h-5" />
                   <span className="text-3xl font-bold">999</span>
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">Perfect for businesses wanting a polished, hands-free way to invite reviews and elevate customer engagement.</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
@@ -104,9 +107,9 @@ export default function Pricing() {
           </div>
 
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
-            <h3 className="text-xl font-bold mb-4">Upgrading from 499 to 999?</h3>
+            <h3 className="text-xl font-bold mb-4">Upgrading from Basic Plan to Pro Plan?</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              No problem! Only pay the difference of INR 500 (plus any applicable delivery charges) and enjoy the additional benefits of the physical QR stand.
+              No problem! Only pay the difference of INR 500 and enjoy the additional benefits of the physical QR stand.
             </p>
           </div>
         </div>
