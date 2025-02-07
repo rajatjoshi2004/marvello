@@ -71,13 +71,9 @@ export default function About() {
           <section className="mb-12">
             <h2 className="text-3xl font-bold mb-6 text-center text-primary">Our Vision</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
-              We believe that any enterprise, be it a local café or a growing startup, deserves access to the tools needed to thrive in the digital age. Customer reviews have become essential to building trust and credibility, so we've made it our mission to simplify and speed up that process. At Webbicles, we're dedicated to continuous innovation and providing solutions that help our clients stay ahead in an ever-evolving marketplace.
+              We believe that any enterprise, be it a local café or a growing startup, deserves access to the tools needed to thrive in the digital age. Customer reviews have become essential to building trust and credibility, so we've made it our mission to simplify and speed up that process. At Webbicles, we're dedicated to continuous innovation and providing solutions that help our clients stay ahead in an ever-evolving marketplace. At Webbicles, we're passionate about seeing our clients thrive. We're always innovating and adding new features to ensure you stay ahead of the competition in a fast-paced world.
             </p>
           </section>
-
-          <p className="text-gray-600 dark:text-gray-300 text-center">
-            At Marvello, we're passionate about seeing our clients thrive. We're always innovating and adding new features to ensure you stay ahead of the competition in a fast-paced world.
-          </p>
         </article>
       </main>
 
