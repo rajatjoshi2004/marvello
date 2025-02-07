@@ -17,7 +17,7 @@ const mergeImages = async (qrDataUrl: string): Promise<string> => {
       
       qrImage.onload = () => {
         // Position QR code in the designated white space
-        const qrSize = Math.min(canvas.width * 0.8, canvas.height * 0.5); // Make QR code proportional
+        const qrSize = Math.min(canvas.width * 0.6, canvas.height * 0.4); // Reduced QR code size
         const x = (canvas.width - qrSize) / 2;
         const y = ((canvas.height - qrSize) / 2) + 100; // Shifted down slightly to align with template
         
