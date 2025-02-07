@@ -1,3 +1,4 @@
+
 import QRCode from 'qrcode';
 
 const mergeImages = async (qrDataUrl: string): Promise<string> => {
@@ -7,18 +8,18 @@ const mergeImages = async (qrDataUrl: string): Promise<string> => {
     const bgImage = new Image();
     const qrImage = new Image();
 
-    // Set canvas size to match template
-    canvas.width = 800;
-    canvas.height = 1000;
+    // Set canvas size to 6:4 ratio (600x400)
+    canvas.width = 400;
+    canvas.height = 600;
 
     bgImage.onload = () => {
       ctx?.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
       
       qrImage.onload = () => {
         // Position QR code in the designated white space
-        const qrSize = 400;
+        const qrSize = Math.min(canvas.width * 0.8, canvas.height * 0.5); // Make QR code proportional
         const x = (canvas.width - qrSize) / 2;
-        const y = ((canvas.height - qrSize) / 2) + 100; // Shifted down to align with the template
+        const y = ((canvas.height - qrSize) / 2) + 50; // Shifted down slightly to align with template
         
         ctx?.drawImage(qrImage, x, y, qrSize, qrSize);
         resolve(canvas.toDataURL('image/png'));
