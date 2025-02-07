@@ -75,7 +75,7 @@ export default function About() {
             </p>
 
             <p className="text-gray-600 dark:text-gray-300 mb-4 text-center">
-            At Webbicles, we're passionate about seeing our clients thrive. We're always innovating and adding new features to ensure you stay ahead of the competition in a fast-paced world.
+              At Webbicles, we're passionate about seeing our clients thrive. We're always innovating and adding new features to ensure you stay ahead of the competition in a fast-paced world.
             </p>
           </section>
         </article>
