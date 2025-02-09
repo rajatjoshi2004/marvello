@@ -15,7 +15,6 @@ export default function NewBusiness() {
   const [formData, setFormData] = useState<BusinessFormData>({} as BusinessFormData);
   const { handlePayment } = usePaymentHandler({ 
     onSuccess: () => navigate("/dashboard"),
-    formData
   });
 
   useEffect(() => {
@@ -40,7 +39,7 @@ export default function NewBusiness() {
 
   const handleFormSubmit = async (values: BusinessFormData) => {
     setFormData(values);
-    await handlePayment();
+    await handlePayment(values); // Pass form data directly
   };
 
   return (

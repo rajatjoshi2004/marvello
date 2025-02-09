@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,10 +7,9 @@ const SUBSCRIPTION_AMOUNT = 499;
 
 interface UsePaymentHandlerProps {
   onSuccess: () => void;
-  formData: BusinessFormData;
 }
 
-export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProps) {
+export function usePaymentHandler({ onSuccess }: UsePaymentHandlerProps) {
   const { toast } = useToast();
 
   useEffect(() => {
@@ -45,10 +43,18 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
     loadRazorpay();
   }, []);
 
-  const createBusiness = async (paymentId: string | null = null) => {
+  const createBusiness = async (data: BusinessFormData, paymentId: string | null = null) => {
     try {
+      if (!data || Object.keys(data).length === 0) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Form data is missing. Please try again.",
+        });
+        return false;
+      }
+
       const { data: { session } } = await supabase.auth.getSession();
-      
       if (!session?.user) {
         toast({
           variant: "destructive",
@@ -58,18 +64,12 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         return false;
       }
 
-      console.log("Creating business with data:", {
-        name: formData.name,
-        payment_id: paymentId,
-        owner_id: session.user.id
-      });
-
-      const { data, error } = await supabase
+      const { data: insertedData, error } = await supabase
         .from("businesses")
         .insert({
-          name: formData.name,
-          google_review_url: formData.google_review_url,
-          mobile_number: formData.mobile_number,
+          name: data.name,
+          google_review_url: data.google_review_url,
+          mobile_number: data.mobile_number,
           owner_id: session.user.id,
           payment_id: paymentId,
         })
@@ -86,7 +86,6 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         return false;
       }
 
-      console.log("Business created successfully:", data);
       toast({
         title: "Success",
         description: "Business created successfully!",
@@ -104,24 +103,23 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
     }
   };
 
-  const calculateDiscountedAmount = () => {
-    if (!formData.appliedCoupon?.valid) return SUBSCRIPTION_AMOUNT;
+  const calculateDiscountedAmount = (data: BusinessFormData) => {
+    if (!data.appliedCoupon?.valid) return SUBSCRIPTION_AMOUNT;
 
     let discountedAmount = SUBSCRIPTION_AMOUNT;
-    if (formData.appliedCoupon.discount_type === 'percentage') {
-      discountedAmount = SUBSCRIPTION_AMOUNT - (SUBSCRIPTION_AMOUNT * formData.appliedCoupon.discount_value / 100);
+    if (data.appliedCoupon.discount_type === 'percentage') {
+      discountedAmount = SUBSCRIPTION_AMOUNT - (SUBSCRIPTION_AMOUNT * data.appliedCoupon.discount_value / 100);
     } else {
-      discountedAmount = SUBSCRIPTION_AMOUNT - formData.appliedCoupon.discount_value;
+      discountedAmount = SUBSCRIPTION_AMOUNT - data.appliedCoupon.discount_value;
     }
 
-    // Ensure amount is not negative
     return Math.max(discountedAmount, 0);
   };
 
-  const handlePayment = async () => {
+  const handlePayment = async (data: BusinessFormData) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      
+
       if (!session?.user) {
         toast({
           variant: "destructive",
@@ -131,18 +129,12 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         return;
       }
 
-      const finalAmount = calculateDiscountedAmount();
-      console.log("Calculated final amount:", finalAmount);
-      
-      // If amount is 0, create business directly without payment
+      const finalAmount = calculateDiscountedAmount(data);
       if (finalAmount === 0) {
-        console.log("Amount is 0, creating business without payment");
-        await createBusiness(null);
+        await createBusiness(data, null);
         return;
       }
 
-      console.log("Creating Razorpay order with amount:", finalAmount);
-      
       const { data: order, error } = await supabase.functions.invoke('create-razorpay-order', {
         body: { 
           amount: finalAmount,
@@ -156,8 +148,6 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         throw new Error(error?.message || "Failed to create order");
       }
 
-      console.log("Order created successfully:", order);
-
       if (!window.Razorpay) {
         throw new Error("Payment system is not ready. Please refresh the page and try again.");
       }
@@ -170,23 +160,21 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         description: "Business Registration",
         order_id: order.id,
         handler: async function (response: any) {
-          console.log("Payment successful:", response);
-          const success = await createBusiness(response.razorpay_payment_id);
+          const success = await createBusiness(data, response.razorpay_payment_id);
           if (success) {
             onSuccess();
           }
         },
         prefill: {
-          name: session.user.email,
+          name: session.user.user_metadata.name,
           email: session.user.email,
-          contact: formData.mobile_number,
+          contact: data.mobile_number,
         },
         theme: {
           color: "#000000",
         },
         modal: {
-          ondismiss: function() {
-            console.log("Checkout form closed");
+          ondismiss: function () {
             toast({
               title: "Payment Cancelled",
               description: "You can try again when you're ready.",
@@ -195,7 +183,6 @@ export function usePaymentHandler({ onSuccess, formData }: UsePaymentHandlerProp
         }
       };
 
-      console.log("Initializing Razorpay payment...");
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error: any) {

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
@@ -108,7 +107,7 @@ export default function AdvertisementCard() {
                   <img
                     src={ad.image_url}
                     alt="Advertisement"
-                    className="w-full h-[200px] object-cover rounded-lg"
+                    className="w-full h-full object-cover rounded-lg"
                   />
                   <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                     Ad
@@ -119,7 +118,7 @@ export default function AdvertisementCard() {
                   <img
                     src={ad.image_url}
                     alt="Advertisement"
-                    className="w-full h-[200px] object-cover rounded-lg"
+                    className="w-full h-full object-cover rounded-lg"
                   />
                   <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                     Ad
